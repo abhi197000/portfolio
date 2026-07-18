@@ -134,3 +134,15 @@ export const projects = [
   { title: "Vendor-to-Store Module", description: "End-to-end product development delivering 95% demand forecast accuracy and 20% less excess inventory.", tags: ["Forecasting", "Product Management"], url: "" },
   { title: "Quantitative Trading Strategies", description: "Python algorithms using moving averages and Bollinger Bands to generate trading signals and grow a portfolio 20% in six months.", tags: ["Python", "Quant Finance"], url: "" },
 ];
+
+export const agents = [
+  {
+    id: "schema-compare",
+    title: "Schema Comparison Agent",
+    subtitle: "BigQuery Schema Analyzer",
+    description:
+      "Compare BigQuery table schemas across multiple GCP projects and datasets. Instantly spot column mismatches, type differences, and missing fields to maintain consistency across client deployments or environments.",
+    tags: ["BigQuery", "Schema Analysis", "GCP", "Data Quality"],
+    status: "live",
+  },
+];

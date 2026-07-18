@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   profile,
   achievements,
@@ -6,6 +7,7 @@ import {
   languages,
   milestones,
   projects,
+  agents,
 } from "../data/profile";
 
 function Nav() {
@@ -21,6 +23,7 @@ function Nav() {
           <a href="#achievements">Achievements</a>
           <a href="#milestones">Milestones</a>
           <a href="#projects">Projects</a>
+          <a href="#agents">AI Agents</a>
           <a href="#contact">Contact</a>
         </div>
       </div>
@@ -194,9 +197,43 @@ function Projects() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  View project →
+                  View project &rarr;
                 </a>
               )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Agents() {
+  if (!agents.length) return null;
+  return (
+    <section id="agents">
+      <div className="container">
+        <h2 className="section-title">
+          AI <span>Agents</span>
+        </h2>
+        <p className="agents-intro">
+          Interactive AI tools I&apos;ve built for real-world data and analytics workflows. Try them live.
+        </p>
+        <div className="card-grid">
+          {agents.map((agent) => (
+            <div key={agent.id} className="card agent-card">
+              <span className="agent-status">{agent.status}</span>
+              <h3>{agent.title}</h3>
+              <p className="agent-subtitle">{agent.subtitle}</p>
+              <p>{agent.description}</p>
+              <div className="tags">
+                {agent.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+              <Link className="agent-cta" href={`/agents/${agent.id}`}>
+                Try it live &rarr;
+              </Link>
             </div>
           ))}
         </div>
@@ -234,7 +271,7 @@ function Footer() {
   return (
     <footer>
       <div className="container">
-        © {new Date().getFullYear()} {profile.name}. Built with Next.js.
+        &copy; {new Date().getFullYear()} {profile.name}. Built with Next.js.
       </div>
     </footer>
   );
@@ -251,6 +288,7 @@ export default function Home() {
       <Milestones />
       <Education />
       <Projects />
+      <Agents />
       <Contact />
       <Footer />
     </>
