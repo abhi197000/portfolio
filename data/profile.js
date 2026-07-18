@@ -154,4 +154,22 @@ export const agents = [
     tags: ["BigQuery", "Data Quality", "SQL Debugging", "GCP"],
     status: "live",
   },
+  {
+    id: "jira-command-center",
+    title: "Jira Command Center",
+    subtitle: "AI-Powered Jira Operations Hub",
+    description:
+      "Natural-language Jira operations hub powered by Gemini LLM. Create, edit, clone, and transition tickets through an AI agent, run sprint analytics with per-assignee performance scoring, and generate automated daily reports — all from a single command interface.",
+    tags: ["Jira", "Agentic AI", "LLM", "Sprint Analytics"],
+    status: "live",
+  },
+  {
+    id: "product-usage-dashboard",
+    title: "Product Usage Dashboard",
+    subtitle: "OMS Usage Intelligence Platform",
+    description:
+      "Multi-client analytics dashboard that queries BigQuery to surface order metrics, category breakdowns, module-action trends, and growth funnels across retail clients. Includes period-over-period comparison, per-user drill-down, and automated email reporting.",
+    tags: ["BigQuery", "Analytics", "Dashboarding", "Retail"],
+    status: "live",
+  },
 ];
