@@ -145,4 +145,13 @@ export const agents = [
     tags: ["BigQuery", "Schema Analysis", "GCP", "Data Quality"],
     status: "live",
   },
+  {
+    id: "bq-duplicate-checker",
+    title: "BQ Duplicate Checker",
+    subtitle: "BigQuery Duplicate Row Detector",
+    description:
+      "Point at any BigQuery table, pick the columns that define a unique row, and instantly find duplicates. Includes a CTE-by-CTE SQL debugger to pinpoint exactly where in your query duplicates are introduced.",
+    tags: ["BigQuery", "Data Quality", "SQL Debugging", "GCP"],
+    status: "live",
+  },
 ];
