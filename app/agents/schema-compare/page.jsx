@@ -3,6 +3,53 @@ import { useState } from "react";
 import Link from "next/link";
 import "./schema-compare.css";
 
+const DEMO_SOURCES = [
+  { name: "Client Alpha", projectId: "alpha-prod-2024", datasetId: "alpha_ingestion" },
+  { name: "Client Beta", projectId: "beta-prod-2024", datasetId: "beta_ingestion" },
+  { name: "Client Gamma", projectId: "gamma-staging", datasetId: "gamma_ingestion" },
+];
+
+const DEMO_RESULTS = {
+  results: [
+    {
+      tableName: "oms_central_table",
+      sources: ["Client Alpha", "Client Beta", "Client Gamma"],
+      rows: [
+        { column: "sku_id", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "STRING", isMismatch: false, details: [] },
+        { column: "store_id", "Client Alpha": "INTEGER", "Client Beta": "INTEGER", "Client Gamma": "INTEGER", isMismatch: false, details: [] },
+        { column: "demand_forecast", "Client Alpha": "FLOAT", "Client Beta": "FLOAT", "Client Gamma": "NUMERIC", isMismatch: true, details: [{ type: "type_diff", sources: ["Client Gamma"], expected: "FLOAT", actual: "NUMERIC" }] },
+        { column: "safety_stock", "Client Alpha": "FLOAT", "Client Beta": "FLOAT", "Client Gamma": "FLOAT", isMismatch: false, details: [] },
+        { column: "reorder_point", "Client Alpha": "INTEGER", "Client Beta": "INTEGER", "Client Gamma": "INTEGER", isMismatch: false, details: [] },
+        { column: "lead_time_days", "Client Alpha": "INTEGER", "Client Beta": "FLOAT", "Client Gamma": "INTEGER", isMismatch: true, details: [{ type: "type_diff", sources: ["Client Beta"], expected: "INTEGER", actual: "FLOAT" }] },
+        { column: "last_updated", "Client Alpha": "TIMESTAMP", "Client Beta": "TIMESTAMP", "Client Gamma": "DATE", isMismatch: true, details: [{ type: "type_diff", sources: ["Client Gamma"], expected: "TIMESTAMP", actual: "DATE" }] },
+        { column: "vendor_code", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "—", isMismatch: true, details: [{ type: "missing", sources: ["Client Gamma"] }] },
+        { column: "category", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "STRING", isMismatch: false, details: [] },
+        { column: "is_active", "Client Alpha": "BOOLEAN", "Client Beta": "BOOLEAN", "Client Gamma": "BOOLEAN", isMismatch: false, details: [] },
+      ],
+      allColumns: ["sku_id", "store_id", "demand_forecast", "safety_stock", "reorder_point", "lead_time_days", "last_updated", "vendor_code", "category", "is_active"],
+      errors: [],
+      status: "ok",
+    },
+    {
+      tableName: "oms_constraints_order_policy",
+      sources: ["Client Alpha", "Client Beta", "Client Gamma"],
+      rows: [
+        { column: "policy_id", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "STRING", isMismatch: false, details: [] },
+        { column: "vendor_id", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "STRING", isMismatch: false, details: [] },
+        { column: "min_order_qty", "Client Alpha": "INTEGER", "Client Beta": "INTEGER", "Client Gamma": "INTEGER", isMismatch: false, details: [] },
+        { column: "max_order_qty", "Client Alpha": "INTEGER", "Client Beta": "INTEGER", "Client Gamma": "—", isMismatch: true, details: [{ type: "missing", sources: ["Client Gamma"] }] },
+        { column: "order_multiple", "Client Alpha": "INTEGER", "Client Beta": "FLOAT", "Client Gamma": "INTEGER", isMismatch: true, details: [{ type: "type_diff", sources: ["Client Beta"], expected: "INTEGER", actual: "FLOAT" }] },
+        { column: "effective_date", "Client Alpha": "DATE", "Client Beta": "DATE", "Client Gamma": "DATE", isMismatch: false, details: [] },
+        { column: "expiry_date", "Client Alpha": "DATE", "Client Beta": "DATE", "Client Gamma": "DATE", isMismatch: false, details: [] },
+        { column: "currency", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "STRING", isMismatch: false, details: [] },
+      ],
+      allColumns: ["policy_id", "vendor_id", "min_order_qty", "max_order_qty", "order_multiple", "effective_date", "expiry_date", "currency"],
+      errors: [],
+      status: "ok",
+    },
+  ],
+};
+
 export default function SchemaComparePage() {
   const [token, setToken] = useState("");
   const [showToken, setShowToken] = useState(false);
@@ -19,6 +66,29 @@ export default function SchemaComparePage() {
   const [error, setError] = useState("");
   const [expandedTables, setExpandedTables] = useState(new Set());
   const [showInstructions, setShowInstructions] = useState(false);
+  const [demoMode, setDemoMode] = useState(false);
+
+  function loadDemo() {
+    setSources(DEMO_SOURCES);
+    setSelectedSources(new Set(DEMO_SOURCES.map((s) => s.name)));
+    setTableInput("oms_central_table, oms_constraints_order_policy");
+    setToken("demo-token");
+    setResults(DEMO_RESULTS);
+    setExpandedTables(new Set([0]));
+    setDemoMode(true);
+    setError("");
+  }
+
+  function exitDemo() {
+    setSources([]);
+    setSelectedSources(new Set());
+    setTableInput("");
+    setToken("");
+    setResults(null);
+    setExpandedTables(new Set());
+    setDemoMode(false);
+    setError("");
+  }
 
   function addSource() {
     const { name, projectId, datasetId } = newSource;
@@ -87,6 +157,7 @@ export default function SchemaComparePage() {
     setLoading(true);
     setError("");
     setResults(null);
+    setDemoMode(false);
 
     try {
       const res = await fetch("/api/schema/compare", {
@@ -207,19 +278,13 @@ export default function SchemaComparePage() {
                     {s}
                   </span>
                 ))}
-                <span
-                  style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}
-                >
+                <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>
                   has
                 </span>
-                <code
-                  style={{ color: "#ef4444", fontWeight: 700, fontSize: "0.82rem" }}
-                >
+                <code style={{ color: "#ef4444", fontWeight: 700, fontSize: "0.82rem" }}>
                   {d.actual}
                 </code>
-                <span
-                  style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}
-                >
+                <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>
                   (expected{" "}
                   <code style={{ color: "var(--text)", fontWeight: 600 }}>
                     {d.expected}
@@ -240,13 +305,7 @@ export default function SchemaComparePage() {
                   gap: 4,
                 }}
               >
-                <span
-                  style={{
-                    color: "#fbbf24",
-                    fontSize: "0.78rem",
-                    fontWeight: 600,
-                  }}
-                >
+                <span style={{ color: "#fbbf24", fontSize: "0.78rem", fontWeight: 600 }}>
                   Missing in
                 </span>
                 {d.sources.map((s) => (
@@ -285,9 +344,52 @@ export default function SchemaComparePage() {
           &mdash; essential for teams maintaining schema consistency across
           client deployments, environments, or data pipelines.
         </p>
+        <div style={{ display: "flex", gap: 12, marginTop: 24, flexWrap: "wrap" }}>
+          {!demoMode && (
+            <button className="sc-btn sc-btn-primary" onClick={loadDemo}>
+              Try Demo
+            </button>
+          )}
+          <Link
+            href="/agents/schema-compare/guide"
+            className="sc-btn sc-btn-secondary"
+            style={{ textDecoration: "none" }}
+          >
+            Setup Guide &rarr;
+          </Link>
+        </div>
       </div>
 
       <main className="sc-main">
+        {/* Demo Banner */}
+        {demoMode && (
+          <div
+            style={{
+              padding: "12px 20px",
+              background: "rgba(56, 189, 248, 0.1)",
+              border: "1px solid rgba(56, 189, 248, 0.25)",
+              borderRadius: 8,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+              gap: 12,
+            }}
+          >
+            <p style={{ color: "var(--accent)", fontSize: "0.88rem", fontWeight: 600 }}>
+              Demo Mode &mdash; showing sample data from 3 fictional clients
+              across 2 supply-chain tables.
+            </p>
+            <button
+              className="sc-btn sc-btn-secondary"
+              style={{ fontSize: "0.78rem", padding: "6px 14px" }}
+              onClick={exitDemo}
+            >
+              Exit Demo
+            </button>
+          </div>
+        )}
+
         {/* Access Token */}
         <div className="sc-card">
           <div className="sc-card-header">
@@ -310,7 +412,7 @@ export default function SchemaComparePage() {
                 className="sc-input"
                 placeholder="Paste your access token here"
                 value={token}
-                onChange={(e) => setToken(e.target.value)}
+                onChange={(e) => { setToken(e.target.value); if (demoMode) setDemoMode(false); }}
               />
               <button
                 className="sc-btn sc-btn-secondary"
@@ -565,10 +667,7 @@ export default function SchemaComparePage() {
                 <div className="sc-stat-label">Tables</div>
               </div>
               <div className="sc-stat">
-                <div
-                  className="sc-stat-value"
-                  style={{ color: "var(--accent)" }}
-                >
+                <div className="sc-stat-value" style={{ color: "var(--accent)" }}>
                   {stats.totalCols}
                 </div>
                 <div className="sc-stat-label">Columns</div>
@@ -588,12 +687,9 @@ export default function SchemaComparePage() {
             </div>
 
             {results.results.map((result, idx) => {
-              const mismatches = result.rows.filter(
-                (r) => r.isMismatch,
-              ).length;
+              const mismatches = result.rows.filter((r) => r.isMismatch).length;
               const isExpanded = expandedTables.has(idx);
-              const isError =
-                result.status === "error" && !result.rows.length;
+              const isError = result.status === "error" && !result.rows.length;
 
               return (
                 <div key={idx} className="sc-card">
@@ -606,9 +702,7 @@ export default function SchemaComparePage() {
                         style={{
                           transition: "transform 0.2s",
                           display: "inline-block",
-                          transform: isExpanded
-                            ? "rotate(90deg)"
-                            : "rotate(0)",
+                          transform: isExpanded ? "rotate(90deg)" : "rotate(0)",
                           fontSize: "0.75rem",
                         }}
                       >
@@ -619,34 +713,19 @@ export default function SchemaComparePage() {
                         <span className="sc-badge sc-badge-error">Error</span>
                       ) : mismatches > 0 ? (
                         <span className="sc-badge sc-badge-warn">
-                          {mismatches} mismatch
-                          {mismatches > 1 ? "es" : ""}
+                          {mismatches} mismatch{mismatches > 1 ? "es" : ""}
                         </span>
                       ) : (
-                        <span className="sc-badge sc-badge-ok">
-                          All consistent
-                        </span>
+                        <span className="sc-badge sc-badge-ok">All consistent</span>
                       )}
-                      <span
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--text-muted)",
-                        }}
-                      >
-                        {result.rows.length} columns &middot;{" "}
-                        {result.sources.length} sources
+                      <span style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
+                        {result.rows.length} columns &middot; {result.sources.length} sources
                       </span>
                     </div>
                     <div className="sc-result-stats">
-                      <span style={{ color: "var(--accent)" }}>
-                        {result.rows.length} cols
-                      </span>
-                      <span style={{ color: "#34d399" }}>
-                        {result.rows.length - mismatches} ok
-                      </span>
-                      <span style={{ color: "#ef4444" }}>
-                        {mismatches} diff
-                      </span>
+                      <span style={{ color: "var(--accent)" }}>{result.rows.length} cols</span>
+                      <span style={{ color: "#34d399" }}>{result.rows.length - mismatches} ok</span>
+                      <span style={{ color: "#ef4444" }}>{mismatches} diff</span>
                     </div>
                   </div>
 
@@ -666,9 +745,7 @@ export default function SchemaComparePage() {
                               <tr>
                                 <th style={{ minWidth: 180 }}>Column</th>
                                 {result.sources.map((s) => (
-                                  <th key={s} style={{ minWidth: 140 }}>
-                                    {s}
-                                  </th>
+                                  <th key={s} style={{ minWidth: 140 }}>{s}</th>
                                 ))}
                                 <th style={{ minWidth: 240 }}>Details</th>
                               </tr>
@@ -677,33 +754,24 @@ export default function SchemaComparePage() {
                               {result.rows.map((row) => (
                                 <tr
                                   key={row.column}
-                                  className={
-                                    row.isMismatch ? "sc-row-mismatch" : ""
-                                  }
+                                  className={row.isMismatch ? "sc-row-mismatch" : ""}
                                 >
                                   <td className="sc-col-name">
                                     {row.column}
                                     {row.isMismatch && (
-                                      <span className="sc-badge-mismatch">
-                                        mismatch
-                                      </span>
+                                      <span className="sc-badge-mismatch">mismatch</span>
                                     )}
                                   </td>
                                   {result.sources.map((s) => {
                                     const val = row[s] || "—";
-                                    const blank =
-                                      val === "—" || val === "N/A";
+                                    const blank = val === "—" || val === "N/A";
                                     return (
                                       <td
                                         key={s}
                                         className="sc-col-type"
                                         style={
                                           blank
-                                            ? {
-                                                color: "var(--text-muted)",
-                                                opacity: 0.4,
-                                                fontStyle: "italic",
-                                              }
+                                            ? { color: "var(--text-muted)", opacity: 0.4, fontStyle: "italic" }
                                             : {}
                                         }
                                       >
