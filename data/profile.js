@@ -172,4 +172,13 @@ export const agents = [
     tags: ["BigQuery", "Analytics", "Dashboarding", "Retail"],
     status: "live",
   },
+  {
+    id: "competitor-analysis",
+    title: "Competitor Analysis Agent",
+    subtitle: "AI-Powered Market Intelligence",
+    description:
+      "Enter your industry type and get an instant competitive landscape report — top players, market positioning, emerging trends, opportunities, and strategic recommendations powered by real-time AI web search and analysis.",
+    tags: ["Agentic AI", "Market Research", "Competitive Intelligence", "LLM"],
+    status: "live",
+  },
 ];
