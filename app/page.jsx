@@ -1,5 +1,12 @@
 import Link from "next/link";
 import {
+  Tilt,
+  Reveal,
+  ParticleField,
+  HeroPortrait,
+  Typewriter,
+} from "../components/Effects";
+import {
   profile,
   achievements,
   experience,
@@ -37,17 +44,19 @@ function Experience() {
       <div className="container">
         <h2 className="section-title">Professional <span>Experience</span></h2>
         <div className="experience-list">
-          {experience.map((item) => (
-            <article key={`${item.company}-${item.role}`} className="experience-card">
-              <div className="experience-meta">
-                <p className="year">{item.period}</p>
-                <p>{item.company}</p>
-              </div>
-              <div>
-                <h3>{item.role}</h3>
-                <ul>{item.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>
-              </div>
-            </article>
+          {experience.map((item, i) => (
+            <Reveal key={`${item.company}-${item.role}`} delay={i * 90}>
+              <article className="experience-card">
+                <div className="experience-meta">
+                  <p className="year">{item.period}</p>
+                  <p>{item.company}</p>
+                </div>
+                <div>
+                  <h3>{item.role}</h3>
+                  <ul>{item.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>
+                </div>
+              </article>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -58,19 +67,46 @@ function Experience() {
 function Hero() {
   return (
     <header className="hero">
+      <ParticleField />
+      <div className="orb orb-1" aria-hidden="true" />
+      <div className="orb orb-2" aria-hidden="true" />
       <div className="container">
-        <h1>
-          Hi, I&apos;m <span>{profile.name}</span>
-        </h1>
-        <p className="role">{profile.role}</p>
-        <p className="tagline">{profile.tagline}</p>
-        <div className="hero-cta">
-          <a href="#contact" className="btn btn-primary">
-            Get in touch
-          </a>
-          <a href="#about" className="btn btn-outline">
-            Learn more
-          </a>
+        <div className="hero-grid">
+          <div>
+            <Reveal direction="left">
+              <h1>
+                Hi, I&apos;m <span>{profile.name}</span>
+              </h1>
+            </Reveal>
+            <Reveal direction="left" delay={120}>
+              <p className="role">
+                <Typewriter
+                  words={[
+                    profile.role,
+                    "Agentic AI Builder",
+                    "Product Analytics Expert",
+                    "Problem Solver",
+                  ]}
+                />
+              </p>
+            </Reveal>
+            <Reveal direction="left" delay={220}>
+              <p className="tagline">{profile.tagline}</p>
+            </Reveal>
+            <Reveal direction="left" delay={320}>
+              <div className="hero-cta">
+                <a href="#contact" className="btn btn-primary">
+                  Get in touch
+                </a>
+                <a href="#agents" className="btn btn-outline">
+                  Try my AI agents
+                </a>
+              </div>
+            </Reveal>
+          </div>
+          <Reveal direction="right" delay={200}>
+            <HeroPortrait src="/profile-photo.jpeg" alt={`${profile.name} — ${profile.role}`} />
+          </Reveal>
         </div>
       </div>
     </header>
@@ -114,12 +150,16 @@ function Achievements() {
           <span>Achievements</span>
         </h2>
         <div className="card-grid">
-          {achievements.map((item) => (
-            <div key={item.title} className="card">
-              <div className="year">{item.year}</div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </div>
+          {achievements.map((item, i) => (
+            <Reveal key={item.title} delay={i * 100} direction="scale">
+              <Tilt max={7} className="card-tilt">
+                <div className="card">
+                  <div className="year">{item.year}</div>
+                  <h3>{item.title}</h3>
+                  <p>{item.description}</p>
+                </div>
+              </Tilt>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -135,12 +175,14 @@ function Milestones() {
           My <span>Journey</span>
         </h2>
         <div className="timeline">
-          {milestones.map((item) => (
-            <div key={item.year + item.title} className="timeline-item">
-              <div className="year">{item.year}</div>
-              <h3>{item.title}</h3>
-              <p>{item.description}</p>
-            </div>
+          {milestones.map((item, i) => (
+            <Reveal key={item.year + item.title} delay={i * 80} direction="left">
+              <div className="timeline-item">
+                <div className="year">{item.year}</div>
+                <h3>{item.title}</h3>
+                <p>{item.description}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -181,8 +223,10 @@ function Projects() {
           Notable <span>Work</span>
         </h2>
         <div className="card-grid">
-          {projects.map((item) => (
-            <div key={item.title} className="card">
+          {projects.map((item, i) => (
+            <Reveal key={item.title} delay={i * 100} direction="scale">
+            <Tilt max={7} className="card-tilt">
+            <div className="card">
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               <div className="tags">
@@ -201,6 +245,8 @@ function Projects() {
                 </a>
               )}
             </div>
+            </Tilt>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -220,21 +266,25 @@ function Agents() {
           Interactive AI tools I&apos;ve built for real-world data and analytics workflows. Try them live.
         </p>
         <div className="card-grid">
-          {agents.map((agent) => (
-            <div key={agent.id} className="card agent-card">
-              <span className="agent-status">{agent.status}</span>
-              <h3>{agent.title}</h3>
-              <p className="agent-subtitle">{agent.subtitle}</p>
-              <p>{agent.description}</p>
-              <div className="tags">
-                {agent.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
-                ))}
-              </div>
-              <Link className="agent-cta" href={`/agents/${agent.id}`}>
-                Try it live &rarr;
-              </Link>
-            </div>
+          {agents.map((agent, i) => (
+            <Reveal key={agent.id} delay={i * 100} direction="scale">
+              <Tilt max={7} className="card-tilt">
+                <div className="card agent-card">
+                  <span className="agent-status">{agent.status}</span>
+                  <h3>{agent.title}</h3>
+                  <p className="agent-subtitle">{agent.subtitle}</p>
+                  <p>{agent.description}</p>
+                  <div className="tags">
+                    {agent.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                  <Link className="agent-cta" href={`/agents/${agent.id}`}>
+                    Try it live &rarr;
+                  </Link>
+                </div>
+              </Tilt>
+            </Reveal>
           ))}
         </div>
       </div>

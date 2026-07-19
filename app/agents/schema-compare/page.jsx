@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import GuidedTour from "../../../components/GuidedTour";
 import "./schema-compare.css";
 
 const DEMO_SOURCES = [
@@ -231,6 +232,70 @@ export default function SchemaComparePage() {
     URL.revokeObjectURL(url);
   }
 
+  const tourSteps = [
+    {
+      target: "[data-tour='sc-hero']",
+      title: "Welcome",
+      text: "Hi! I'm your demo guide. This agent compares BigQuery table schemas across multiple GCP projects and instantly spots mismatches. Let me walk you through a full run — sit back, I'll drive.",
+      action: () => exitDemo(),
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='sc-token']",
+      title: "Authentication",
+      text: "First, you'd paste a GCP access token here (from `gcloud auth print-access-token`). It's used only for the request, never stored. For this demo I'll use a sample token.",
+      action: () => setToken("demo-token"),
+      wait: 3000,
+    },
+    {
+      target: "[data-tour='sc-sources']",
+      title: "Data sources",
+      text: "Next, you add the project + dataset pairs you want to compare. Watch — I'm adding three fictional client environments: Alpha, Beta, and Gamma.",
+      action: () => {
+        setSources(DEMO_SOURCES);
+        setSelectedSources(new Set(DEMO_SOURCES.map((s) => s.name)));
+      },
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='sc-compare']",
+      title: "Pick tables",
+      text: "Now I type the table names to compare — central_table and order_policy. You can list as many tables as you like, comma-separated or one per line.",
+      action: () => setTableInput("central_table, order_policy"),
+      wait: 3000,
+    },
+    {
+      target: "[data-tour='sc-run']",
+      title: "Run comparison",
+      text: "Time to hit Compare Schemas! The agent fetches every schema in parallel from the BigQuery API and lines the columns up side by side…",
+      action: () => {
+        setResults(DEMO_RESULTS);
+        setExpandedTables(new Set([0]));
+        setDemoMode(true);
+        setError("");
+      },
+      wait: 2600,
+    },
+    {
+      target: "[data-tour='sc-stats']",
+      title: "Summary stats",
+      text: "Done in seconds! The summary shows 2 tables and 18 columns scanned — 13 are consistent, but 5 mismatches need attention. Let's zoom into the details.",
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='sc-result-0']",
+      title: "Mismatch details",
+      text: "Here's central_table. Notice demand_forecast is NUMERIC in Client Gamma but FLOAT elsewhere, and vendor_code is missing entirely in Gamma — exactly the drift that silently breaks pipelines.",
+      wait: 4200,
+    },
+    {
+      target: "[data-tour='sc-export']",
+      title: "Export",
+      text: "Finally, you can export the full comparison as CSV to share with your team. That's the whole flow — now try it yourself, or hit Exit Demo and connect your own GCP projects!",
+      wait: 3800,
+    },
+  ];
+
   const stats = results?.results
     ? (() => {
         const tables = results.results.filter((r) => r.status === "ok").length;
@@ -333,7 +398,9 @@ export default function SchemaComparePage() {
         </div>
       </nav>
 
-      <div className="sc-hero">
+      <GuidedTour steps={tourSteps} agentName="Schema Agent Guide" />
+
+      <div className="sc-hero" data-tour="sc-hero">
         <h1>
           Schema <span>Comparison Agent</span>
         </h1>
@@ -391,7 +458,7 @@ export default function SchemaComparePage() {
         )}
 
         {/* Access Token */}
-        <div className="sc-card">
+        <div className="sc-card" data-tour="sc-token">
           <div className="sc-card-header">
             <div>
               <h2>Access Token</h2>
@@ -464,7 +531,7 @@ export default function SchemaComparePage() {
         </div>
 
         {/* Data Sources */}
-        <div className="sc-card">
+        <div className="sc-card" data-tour="sc-sources">
           <div className="sc-card-header">
             <div>
               <h2>Data Sources</h2>
@@ -552,7 +619,7 @@ export default function SchemaComparePage() {
 
         {/* Compare Section */}
         {sources.length > 0 && (
-          <div className="sc-card">
+          <div className="sc-card" data-tour="sc-compare">
             <div className="sc-card-header">
               <div>
                 <h2>Compare</h2>
@@ -618,6 +685,7 @@ export default function SchemaComparePage() {
               >
                 <button
                   className="sc-btn sc-btn-primary"
+                  data-tour="sc-run"
                   onClick={runComparison}
                   disabled={loading}
                 >
@@ -654,12 +722,12 @@ export default function SchemaComparePage() {
               }}
             >
               <h2 style={{ fontSize: "1.3rem", fontWeight: 700 }}>Results</h2>
-              <button className="sc-btn sc-btn-success" onClick={exportCSV}>
+              <button className="sc-btn sc-btn-success" data-tour="sc-export" onClick={exportCSV}>
                 Export CSV
               </button>
             </div>
 
-            <div className="sc-stats">
+            <div className="sc-stats" data-tour="sc-stats">
               <div className="sc-stat">
                 <div className="sc-stat-value" style={{ color: "var(--text)" }}>
                   {stats.tables}
@@ -692,7 +760,7 @@ export default function SchemaComparePage() {
               const isError = result.status === "error" && !result.rows.length;
 
               return (
-                <div key={idx} className="sc-card">
+                <div key={idx} className="sc-card" data-tour={`sc-result-${idx}`}>
                   <div
                     className="sc-result-header"
                     onClick={() => toggleTableExpand(idx)}

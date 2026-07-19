@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import GuidedTour from "../../../components/GuidedTour";
 import "../schema-compare/schema-compare.css";
 
 /* ------------------------------------------------------------------ */
@@ -138,6 +139,58 @@ export default function ProductUsageDashboardPage() {
     { key: "modules",   label: "Module Actions" },
   ];
 
+  const tourSteps = [
+    {
+      target: "[data-tour='pud-hero']",
+      title: "Welcome",
+      text: "Hello! I'm your demo guide for the Product Usage Dashboard — a multi-client BigQuery analytics hub for order management. I'll walk you through every module with sample retail data.",
+      action: () => exitDemo(),
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='pud-clients']",
+      title: "Pick a client",
+      text: "Each client has their own BigQuery dataset. One click switches the entire dashboard to that client's data. Let me select Aurora, a fictional jewellery retailer.",
+      action: () => loadDemo(),
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='pud-overview']",
+      title: "Order overview",
+      text: "The Overview shows the week's order pipeline: 5,274 recommended orders worth $3.6M, of which 4,218 were approved and 3,910 reconciled into POs — an 80% approval rate at a glance.",
+      action: () => setActiveSection("overview"),
+      wait: 3800,
+    },
+    {
+      target: "[data-tour='pud-tabs']",
+      title: "Growth & funnel",
+      text: "Switching to Growth & Funnel — six months of trend data with growth badges, plus a funnel showing 65.7% of orders get approved without any human edits. That's the AI recommendation engine earning trust.",
+      action: () => setActiveSection("growth"),
+      wait: 4000,
+    },
+    {
+      target: "[data-tour='pud-tabs']",
+      title: "Category breakdown",
+      text: "The Category Breakdown slices quantities by country, channel, brand, and department — Australia Retail Earrings leads with 42K units and a 88% fill rate.",
+      action: () => setActiveSection("breakdown"),
+      wait: 3600,
+    },
+    {
+      target: "[data-tour='pud-tabs']",
+      title: "Module actions",
+      text: "Finally, Module Actions tracks who actually uses the product — per-user views, edits, and approvals across each OMS module. Perfect for adoption tracking and QBRs.",
+      action: () => setActiveSection("modules"),
+      wait: 3600,
+    },
+    {
+      target: "[data-tour='pud-clients']",
+      title: "Your turn",
+      text: "That's the tour! Click Meridian or Summit to see how the dashboard instantly re-scopes to another client, or open the Setup Guide to wire it to your own BigQuery.",
+      action: () => setActiveSection("overview"),
+      wait: 3600,
+    },
+  ];
+
   /* ================================================================ */
   /*  Render                                                          */
   /* ================================================================ */
@@ -151,8 +204,10 @@ export default function ProductUsageDashboardPage() {
         </div>
       </nav>
 
+      <GuidedTour steps={tourSteps} agentName="Dashboard Guide" />
+
       {/* Hero */}
-      <div className="sc-hero">
+      <div className="sc-hero" data-tour="pud-hero">
         <h1>Product Usage <span>Dashboard</span></h1>
         <p className="sc-hero-subtitle">Order Management Analytics &amp; Insights</p>
         <p className="sc-hero-desc">
@@ -196,7 +251,7 @@ export default function ProductUsageDashboardPage() {
         )}
 
         {/* Client Selector */}
-        <div className="sc-card">
+        <div className="sc-card" data-tour="pud-clients">
           <div className="sc-card-header">
             <div>
               <h2>Select Client</h2>
@@ -308,7 +363,7 @@ export default function ProductUsageDashboardPage() {
             </div>
 
             {/* Tabs */}
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <div data-tour="pud-tabs" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {sections.map((s) => (
                 <button
                   key={s.key}
@@ -322,7 +377,7 @@ export default function ProductUsageDashboardPage() {
             {activeSection === "overview" && (
               <>
                 {/* Metric tiles */}
-                <div className="sc-stats" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>
+                <div className="sc-stats" data-tour="pud-overview" style={{ gridTemplateColumns: "repeat(5, 1fr)" }}>
                   {Object.entries(DEMO_SUMMARY).map(([key, m]) => (
                     <div className="sc-stat" key={key}>
                       <div className="sc-stat-value" style={{ color: "var(--accent)", fontSize: "1.5rem" }}>

@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import GuidedTour from "../../../components/GuidedTour";
 import "../schema-compare/schema-compare.css";
 
 const DEMO_RESULT = {
@@ -175,6 +176,67 @@ export default function CompetitorAnalysisPage() {
     URL.revokeObjectURL(url);
   }
 
+  const tourSteps = [
+    {
+      target: "[data-tour='ca-hero']",
+      title: "Welcome",
+      text: "Hi there! I'm your demo guide for the Competitor Analysis Agent. Give it an industry and it researches the live market with AI web search, then returns a full competitive landscape report. Let me run one for you.",
+      action: () => exitDemo(),
+      wait: 3400,
+    },
+    {
+      target: "[data-tour='ca-input']",
+      title: "Pick an industry",
+      text: "You just type an industry — or tap one of these chips. You can optionally add your company name and a region to focus the analysis. I'll pick Nutraceuticals, Global.",
+      action: () => {
+        setIndustry("Nutraceuticals");
+        setRegion("Global");
+      },
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='ca-run']",
+      title: "Run the analysis",
+      text: "Hitting Run Analysis — in live mode the agent queries Perplexity AI with real-time web search and takes about 20 seconds. For the demo, here's a pre-generated report…",
+      action: () => {
+        setResult(DEMO_RESULT);
+        setDemoMode(true);
+        setError("");
+      },
+      wait: 3000,
+    },
+    {
+      target: "[data-tour='ca-stats']",
+      title: "Market snapshot",
+      text: "The headline numbers land first: a $382B global market growing at 9.4% CAGR, with 6 major competitors mapped.",
+      wait: 3000,
+    },
+    {
+      target: "[data-tour='ca-competitors']",
+      title: "Competitor deep-dive",
+      text: "Each competitor comes with market share, headquarters, and a strengths-versus-weaknesses breakdown — Amway's distribution muscle, Abbott's clinical credibility, Herbalife's regulatory risk, and so on.",
+      wait: 3800,
+    },
+    {
+      target: "[data-tour='ca-positioning']",
+      title: "Positioning map",
+      text: "The positioning section groups the market into strategic clusters — clinical nutrition, ayurvedic, sports, D2C digital — so you instantly see where the white space is.",
+      wait: 3400,
+    },
+    {
+      target: "[data-tour='ca-swot']",
+      title: "Opportunities & threats",
+      text: "Then a SWOT-style view: gut health growing 15%+ a year and wearables integration on the opportunity side; counterfeits and private-label pressure on the threat side.",
+      wait: 3400,
+    },
+    {
+      target: "[data-tour='ca-recs']",
+      title: "Strategy",
+      text: "It closes with numbered strategic recommendations — start niche, build clinical credibility, go subscription D2C. Export the whole report as JSON with one click. Now try your own industry!",
+      wait: 4000,
+    },
+  ];
+
   return (
     <div className="sc-page">
       <nav className="sc-nav">
@@ -184,7 +246,9 @@ export default function CompetitorAnalysisPage() {
         </div>
       </nav>
 
-      <div className="sc-hero">
+      <GuidedTour steps={tourSteps} agentName="Market Intel Guide" />
+
+      <div className="sc-hero" data-tour="ca-hero">
         <h1>Competitor Analysis <span>Agent</span></h1>
         <p className="sc-hero-subtitle">AI-Powered Market Intelligence</p>
         <p className="sc-hero-desc">
@@ -228,7 +292,7 @@ export default function CompetitorAnalysisPage() {
         )}
 
         {/* Input Card */}
-        <div className="sc-card">
+        <div className="sc-card" data-tour="ca-input">
           <div className="sc-card-header">
             <div>
               <h2>Industry & Market</h2>
@@ -279,6 +343,7 @@ export default function CompetitorAnalysisPage() {
             <div style={{ display: "flex", justifyContent: "flex-end" }}>
               <button
                 className="sc-btn sc-btn-primary"
+                data-tour="ca-run"
                 onClick={runAnalysis}
                 disabled={loading || demoMode || !industry.trim()}
               >
@@ -312,7 +377,7 @@ export default function CompetitorAnalysisPage() {
             </div>
 
             {/* Market Overview Stats */}
-            <div className="sc-stats" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+            <div className="sc-stats" data-tour="ca-stats" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
               <div className="sc-stat">
                 <div className="sc-stat-value" style={{ color: "var(--accent)", fontSize: "1.1rem" }}>
                   {result.marketSize}
@@ -347,7 +412,7 @@ export default function CompetitorAnalysisPage() {
             </div>
 
             {/* Competitors Table */}
-            <div className="sc-card">
+            <div className="sc-card" data-tour="ca-competitors">
               <div className="sc-card-header">
                 <div>
                   <h2>Top Competitors</h2>
@@ -389,7 +454,7 @@ export default function CompetitorAnalysisPage() {
             </div>
 
             {/* Competitive Positioning */}
-            <div className="sc-card">
+            <div className="sc-card" data-tour="ca-positioning">
               <div className="sc-card-header">
                 <div>
                   <h2>Competitive Positioning</h2>
@@ -433,7 +498,7 @@ export default function CompetitorAnalysisPage() {
             </div>
 
             {/* Opportunities & Threats */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+            <div data-tour="ca-swot" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
               <div className="sc-card">
                 <div className="sc-card-header">
                   <div>
@@ -465,7 +530,7 @@ export default function CompetitorAnalysisPage() {
             </div>
 
             {/* Recommendations */}
-            <div className="sc-card">
+            <div className="sc-card" data-tour="ca-recs">
               <div className="sc-card-header">
                 <div>
                   <h2>Strategic Recommendations</h2>

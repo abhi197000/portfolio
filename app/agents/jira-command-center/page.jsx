@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import GuidedTour from "../../../components/GuidedTour";
 import "../schema-compare/schema-compare.css";
 
 /* ------------------------------------------------------------------ */
@@ -195,6 +196,77 @@ export default function JiraCommandCenterPage() {
     });
   }
 
+  const tourSteps = [
+    {
+      target: "[data-tour='jira-hero']",
+      title: "Welcome",
+      text: "Hey! I'm your demo guide for the Jira Command Center — an AI hub that turns plain English into JQL, scores sprint performance, and automates ticket operations. Let me run the whole thing for you.",
+      action: () => exitDemo(),
+      wait: 3400,
+    },
+    {
+      target: "[data-tour='jira-config']",
+      title: "Connect Jira",
+      text: "First you'd connect your Jira Cloud instance — URL, project key, email, and an API token. I'll fill in a fictional inventory project called INV at acme-corp.",
+      action: () => setConfig({ ...DEMO_CONFIG, apiToken: "demo-token" }),
+      wait: 3000,
+    },
+    {
+      target: "[data-tour='jira-tabs']",
+      title: "Command deck",
+      text: "Connected! The agent unlocks four modules: Sprint Analytics, natural-language JQL, Team Summary, and ticket Operations. Let's tour each one.",
+      action: () => {
+        loadDemo();
+        setActiveTab("sprint");
+      },
+      wait: 3000,
+    },
+    {
+      target: "[data-tour='jira-sprint-stats']",
+      title: "Sprint analytics",
+      text: "The sprint dashboard shows 24 stories at 72.4% completion, 7 bugs, and 3 spillovers — pulled live from the Jira API and computed automatically.",
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='jira-performance']",
+      title: "Assignee scoring",
+      text: "Every team member gets a performance score from completion rate and story points delivered. Alex M. leads this sprint with a 92 — great for retros and 1:1s.",
+      wait: 3400,
+    },
+    {
+      target: "[data-tour='jira-nl']",
+      title: "Plain English → JQL",
+      text: "Here's the magic: type a question in plain English and the LLM writes the JQL for you. Watch me ask about Morgan's open bugs…",
+      action: () => {
+        setActiveTab("nlquery");
+        setNlInput(DEMO_NL_QUERIES[0].input);
+        setNlResult(DEMO_NL_QUERIES[0]);
+      },
+      wait: 3600,
+    },
+    {
+      target: "[data-tour='jira-team']",
+      title: "Team summary",
+      text: "The Team Summary gives an instant health check — status distribution, per-owner workload, the bug tracker, and feature delivery, all in one view.",
+      action: () => setActiveTab("team"),
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='jira-ops']",
+      title: "Ticket operations",
+      text: "Finally, Operations: the agent can create, edit, clone across multiple client projects, and transition tickets — no clicking through Jira screens.",
+      action: () => setActiveTab("operations"),
+      wait: 3400,
+    },
+    {
+      target: "[data-tour='jira-tabs']",
+      title: "Your turn",
+      text: "That's the Jira Command Center! Feel free to click through the tabs yourself, or check the Setup Guide to connect it to your own Jira instance.",
+      action: () => setActiveTab("sprint"),
+      wait: 3400,
+    },
+  ];
+
   const tabs = [
     { key: "sprint", label: "Sprint Analytics" },
     { key: "nlquery", label: "NL → JQL" },
@@ -220,8 +292,10 @@ export default function JiraCommandCenterPage() {
         </div>
       </nav>
 
+      <GuidedTour steps={tourSteps} agentName="Jira Agent Guide" />
+
       {/* Hero */}
-      <div className="sc-hero">
+      <div className="sc-hero" data-tour="jira-hero">
         <h1>Jira Command <span>Center</span></h1>
         <p className="sc-hero-subtitle">AI-Powered Jira Operations Hub</p>
         <p className="sc-hero-desc">
@@ -268,7 +342,7 @@ export default function JiraCommandCenterPage() {
 
         {/* Connection Config (shown when NOT in demo) */}
         {!demoMode && (
-          <div className="sc-card">
+          <div className="sc-card" data-tour="jira-config">
             <div className="sc-card-header">
               <div>
                 <h2>Jira Connection</h2>
@@ -328,7 +402,7 @@ export default function JiraCommandCenterPage() {
         {/* Tab Selector */}
         {demoMode && (
           <>
-            <div style={{
+            <div data-tour="jira-tabs" style={{
               display: "flex", gap: 8, flexWrap: "wrap",
               padding: "4px", background: "var(--bg-card)",
               border: "1px solid var(--border)", borderRadius: 10,
@@ -360,7 +434,7 @@ export default function JiraCommandCenterPage() {
                 </div>
 
                 {/* Stats cards */}
-                <div className="sc-stats" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
+                <div className="sc-stats" data-tour="jira-sprint-stats" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
                   <div className="sc-stat">
                     <div className="sc-stat-value" style={{ color: "var(--accent)" }}>{sprintData.totals.totalStories}</div>
                     <div className="sc-stat-label">Total Stories</div>
@@ -436,7 +510,7 @@ export default function JiraCommandCenterPage() {
                 </div>
 
                 {/* Per-assignee performance */}
-                <div className="sc-card">
+                <div className="sc-card" data-tour="jira-performance">
                   <div className="sc-card-header">
                     <div>
                       <h2>Assignee Performance</h2>
@@ -505,7 +579,7 @@ export default function JiraCommandCenterPage() {
             {activeTab === "nlquery" && (
               <>
                 {/* Input area */}
-                <div className="sc-card">
+                <div className="sc-card" data-tour="jira-nl">
                   <div className="sc-card-header">
                     <div>
                       <h2>Natural Language Query</h2>
@@ -586,7 +660,7 @@ export default function JiraCommandCenterPage() {
             {activeTab === "team" && teamSummary && (
               <>
                 {/* Status breakdown */}
-                <div className="sc-card">
+                <div className="sc-card" data-tour="jira-team">
                   <div className="sc-card-header">
                     <div>
                       <h2>Status Breakdown</h2>
@@ -746,7 +820,7 @@ export default function JiraCommandCenterPage() {
             {/* ======================== Operations Tab ======================== */}
             {activeTab === "operations" && ticketOps && (
               <>
-                <div className="sc-card">
+                <div className="sc-card" data-tour="jira-ops">
                   <div className="sc-card-header">
                     <div>
                       <h2>Ticket Operations</h2>

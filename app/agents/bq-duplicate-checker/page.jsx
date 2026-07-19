@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import GuidedTour from "../../../components/GuidedTour";
 import "../schema-compare/schema-compare.css";
 
 /* ------------------------------------------------------------------ */
@@ -350,6 +351,74 @@ export default function DuplicateCheckerPage() {
       })()
     : "";
 
+  const tourSteps = [
+    {
+      target: "[data-tour='dup-hero']",
+      title: "Welcome",
+      text: "Hi! I'm your demo guide. This agent finds duplicate rows in any BigQuery table, then debugs your SQL CTE-by-CTE to pinpoint exactly where the duplicates creep in. Let me show you a full run.",
+      action: () => exitDemo(),
+      wait: 3400,
+    },
+    {
+      target: "[data-tour='dup-token']",
+      title: "Authentication",
+      text: "You start with a GCP access token — one gcloud command gets you a temporary one. It's only used for the request, never stored. I'll drop in a demo token.",
+      action: () => setToken("demo-token"),
+      wait: 3000,
+    },
+    {
+      target: "[data-tour='dup-conn']",
+      title: "Point at a table",
+      text: "Next, point the agent at a table. I'm filling in a fictional retail warehouse: analytics-prod-2024.retail_warehouse.sales_transactions.",
+      action: () => setConn(DEMO_CONNECTION),
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='dup-grain']",
+      title: "Define the grain",
+      text: "After fetching the schema, you pick the columns that should make a row unique — the 'grain'. I've selected order_id + line_item_id + store_id from the 12 available columns.",
+      action: () => {
+        setColumns(DEMO_COLUMNS);
+        setSelectedCols(DEMO_GRAIN);
+      },
+      wait: 3600,
+    },
+    {
+      target: "[data-tour='dup-stats']",
+      title: "Run the check",
+      text: "Running the duplicate check… and we have findings! 8 duplicate groups, 15 extra rows, and one combination appearing 5 times. The GROUP BY + HAVING query did all the work.",
+      action: () => {
+        setResults(DEMO_RESULTS);
+        setDemoMode(true);
+        setError("");
+      },
+      wait: 3600,
+    },
+    {
+      target: "[data-tour='dup-rows']",
+      title: "The offenders",
+      text: "Here's every duplicate combination sorted worst-first. ORD-2024-88431 at store STR-045 appears 5 times — a clear data-quality incident.",
+      wait: 3200,
+    },
+    {
+      target: "[data-tour='dup-cte']",
+      title: "CTE debugger",
+      text: "Now the best part: paste the SQL that builds this table and the agent tests each CTE separately. See the traffic lights? raw_orders and enriched_products are clean, but joined_inventory turns red — the inventory join is fanning out rows!",
+      action: () => {
+        setSqlInput(DEMO_CTE_SQL);
+        setParsedCTEs(parseCTEs(DEMO_CTE_SQL));
+        setCteResults(DEMO_CTE_RESULTS);
+      },
+      wait: 4600,
+    },
+    {
+      target: "[data-tour='dup-cte']",
+      title: "Your turn",
+      text: "That's how you go from 'we have duplicates' to 'this exact JOIN causes them' in minutes. Try it on your own tables — the Setup Guide has everything you need!",
+      wait: 3600,
+    },
+  ];
+
   /* ================================================================ */
   /*  Render                                                          */
   /* ================================================================ */
@@ -363,8 +432,10 @@ export default function DuplicateCheckerPage() {
         </div>
       </nav>
 
+      <GuidedTour steps={tourSteps} agentName="Duplicate Checker Guide" />
+
       {/* Hero */}
-      <div className="sc-hero">
+      <div className="sc-hero" data-tour="dup-hero">
         <h1>BQ Duplicate <span>Checker</span></h1>
         <p className="sc-hero-subtitle">BigQuery Duplicate Row Detector</p>
         <p className="sc-hero-desc">
@@ -408,7 +479,7 @@ export default function DuplicateCheckerPage() {
         )}
 
         {/* Access Token */}
-        <div className="sc-card">
+        <div className="sc-card" data-tour="dup-token">
           <div className="sc-card-header">
             <div>
               <h2>Access Token</h2>
@@ -459,7 +530,7 @@ export default function DuplicateCheckerPage() {
         </div>
 
         {/* Connection */}
-        <div className="sc-card">
+        <div className="sc-card" data-tour="dup-conn">
           <div className="sc-card-header">
             <div>
               <h2>Table Connection</h2>
@@ -535,7 +606,7 @@ export default function DuplicateCheckerPage() {
 
         {/* Grain Selection */}
         {columns.length > 0 && (
-          <div className="sc-card">
+          <div className="sc-card" data-tour="dup-grain">
             <div className="sc-card-header">
               <div>
                 <h2>Define the Grain</h2>
@@ -609,7 +680,7 @@ export default function DuplicateCheckerPage() {
               </div>
             ) : (
               <>
-                <div className="sc-stats" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+                <div className="sc-stats" data-tour="dup-stats" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
                   <div className="sc-stat">
                     <div className="sc-stat-value" style={{ color: "#ef4444" }}>{stats.groups}</div>
                     <div className="sc-stat-label">Duplicate Groups</div>
@@ -625,7 +696,7 @@ export default function DuplicateCheckerPage() {
                 </div>
 
                 {/* Duplicate rows table */}
-                <div className="sc-card">
+                <div className="sc-card" data-tour="dup-rows">
                   <div className="sc-card-header">
                     <div>
                       <h2>Duplicate Rows</h2>
@@ -683,7 +754,7 @@ export default function DuplicateCheckerPage() {
                 )}
 
                 {/* CTE Debugger */}
-                <div className="sc-card">
+                <div className="sc-card" data-tour="dup-cte">
                   <div className="sc-card-header">
                     <div>
                       <h2>CTE Debugger</h2>
