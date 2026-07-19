@@ -28,26 +28,26 @@ const DEMO_SPRINT_SUMMARY = {
     bugsResolved: 5,
   },
   storyOverview: [
-    { key: "INV-1201", summary: "Implement multi-warehouse stock sync", assignee: "Abhimanyu S.", points: 5, status: "Done" },
-    { key: "INV-1202", summary: "Add real-time inventory threshold alerts", assignee: "Suhani S.", points: 3, status: "Done" },
-    { key: "INV-1203", summary: "Build CSV bulk-upload for SKU catalog", assignee: "Sai R.", points: 5, status: "Done" },
-    { key: "INV-1204", summary: "Order splitting logic for backorders", assignee: "Abhimanyu S.", points: 8, status: "Done" },
-    { key: "INV-1205", summary: "Dashboard widget: stock-out risk heatmap", assignee: "Priya K.", points: 3, status: "In Progress" },
-    { key: "INV-1206", summary: "Integrate Shopify webhook for order ingest", assignee: "Sai R.", points: 5, status: "Done" },
-    { key: "INV-1207", summary: "Reorder-point calculation engine", assignee: "Suhani S.", points: 8, status: "Spillover" },
-    { key: "INV-1208", summary: "API rate-limiter for vendor endpoints", assignee: "Abhimanyu S.", points: 3, status: "Done" },
-    { key: "INV-1209", summary: "Fix negative-stock edge case on returns", assignee: "Priya K.", points: 2, status: "Done" },
-    { key: "INV-1210", summary: "Warehouse transfer request workflow", assignee: "Sai R.", points: 5, status: "In Progress" },
-    { key: "INV-1211", summary: "Add barcode scanning to receiving flow", assignee: "Suhani S.", points: 3, status: "Done" },
-    { key: "INV-1212", summary: "Reporting: monthly inventory turnover", assignee: "Priya K.", points: 5, status: "Spillover" },
+    { key: "INV-1201", summary: "Implement multi-warehouse stock sync", assignee: "Alex M.", points: 5, status: "Done" },
+    { key: "INV-1202", summary: "Add real-time inventory threshold alerts", assignee: "Jordan P.", points: 3, status: "Done" },
+    { key: "INV-1203", summary: "Build CSV bulk-upload for SKU catalog", assignee: "Morgan R.", points: 5, status: "Done" },
+    { key: "INV-1204", summary: "Order splitting logic for backorders", assignee: "Alex M.", points: 8, status: "Done" },
+    { key: "INV-1205", summary: "Dashboard widget: stock-out risk heatmap", assignee: "Casey K.", points: 3, status: "In Progress" },
+    { key: "INV-1206", summary: "Integrate Shopify webhook for order ingest", assignee: "Morgan R.", points: 5, status: "Done" },
+    { key: "INV-1207", summary: "Reorder-point calculation engine", assignee: "Jordan P.", points: 8, status: "Spillover" },
+    { key: "INV-1208", summary: "API rate-limiter for vendor endpoints", assignee: "Alex M.", points: 3, status: "Done" },
+    { key: "INV-1209", summary: "Fix negative-stock edge case on returns", assignee: "Casey K.", points: 2, status: "Done" },
+    { key: "INV-1210", summary: "Warehouse transfer request workflow", assignee: "Morgan R.", points: 5, status: "In Progress" },
+    { key: "INV-1211", summary: "Add barcode scanning to receiving flow", assignee: "Jordan P.", points: 3, status: "Done" },
+    { key: "INV-1212", summary: "Reporting: monthly inventory turnover", assignee: "Casey K.", points: 5, status: "Spillover" },
   ],
   assigneePerformance: [
-    { name: "Abhimanyu S.", assigned: 7, completed: 6, points: 19, completedPoints: 16, score: 92 },
-    { name: "Suhani S.", assigned: 6, completed: 4, points: 17, completedPoints: 9, score: 71 },
-    { name: "Sai R.", assigned: 6, completed: 5, points: 18, completedPoints: 13, score: 85 },
-    { name: "Priya K.", assigned: 5, completed: 3, points: 13, completedPoints: 7, score: 64 },
+    { name: "Alex M.", assigned: 7, completed: 6, points: 19, completedPoints: 16, score: 92 },
+    { name: "Jordan P.", assigned: 6, completed: 4, points: 17, completedPoints: 9, score: 71 },
+    { name: "Morgan R.", assigned: 6, completed: 5, points: 18, completedPoints: 13, score: 85 },
+    { name: "Casey K.", assigned: 5, completed: 3, points: 13, completedPoints: 7, score: 64 },
   ],
-  bestPerformer: { name: "Abhimanyu S.", score: 92 },
+  bestPerformer: { name: "Alex M.", score: 92 },
   spilloverBuckets: [
     { bucket: "Carryover (prev sprint)", count: 1 },
     { bucket: "Scope creep (added mid-sprint)", count: 1 },
@@ -57,9 +57,9 @@ const DEMO_SPRINT_SUMMARY = {
 
 const DEMO_NL_QUERIES = [
   {
-    input: "Show me all open bugs assigned to Sai in the current sprint",
-    jql: 'project = INV AND issuetype = Bug AND assignee = "Sai R." AND sprint in openSprints() AND status != Done',
-    explanation: "Filters for bugs in the active sprint assigned to Sai R. that are not yet resolved.",
+    input: "Show me all open bugs assigned to Morgan in the current sprint",
+    jql: 'project = INV AND issuetype = Bug AND assignee = "Morgan R." AND sprint in openSprints() AND status != Done',
+    explanation: "Filters for bugs in the active sprint assigned to Morgan R. that are not yet resolved.",
   },
   {
     input: "Find tickets updated in the last 3 days with more than 5 story points",
@@ -92,10 +92,10 @@ const DEMO_TEAM_SUMMARY = {
     { status: "To Do", count: 4, color: "#6b7280" },
   ],
   ownerBreakdown: [
-    { owner: "Abhimanyu S.", total: 7, done: 6, inProgress: 1 },
-    { owner: "Suhani S.", total: 6, done: 4, inProgress: 1 },
-    { owner: "Sai R.", total: 6, done: 5, inProgress: 1 },
-    { owner: "Priya K.", total: 5, done: 3, inProgress: 0 },
+    { owner: "Alex M.", total: 7, done: 6, inProgress: 1 },
+    { owner: "Jordan P.", total: 6, done: 4, inProgress: 1 },
+    { owner: "Morgan R.", total: 6, done: 5, inProgress: 1 },
+    { owner: "Casey K.", total: 5, done: 3, inProgress: 0 },
     { owner: "Unassigned", total: 6, done: 0, inProgress: 0 },
   ],
   bugs: [
@@ -118,7 +118,7 @@ const DEMO_TEAM_SUMMARY = {
 const DEMO_TICKET_OPS = {
   create: {
     action: "CREATE",
-    input: { summary: "Add purchase order approval workflow", type: "Story", assignee: "Suhani S.", points: 5 },
+    input: { summary: "Add purchase order approval workflow", type: "Story", assignee: "Jordan P.", points: 5 },
     result: { key: "INV-1230", status: "To Do", message: "Ticket created successfully." },
   },
   edit: {
@@ -516,7 +516,7 @@ export default function JiraCommandCenterPage() {
                     <div style={{ display: "flex", gap: 8 }}>
                       <input
                         className="sc-input"
-                        placeholder="e.g. Show me all open bugs assigned to Sai"
+                        placeholder="e.g. Show me all open bugs assigned to Morgan"
                         value={nlInput}
                         onChange={(e) => setNlInput(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") handleNlSubmit(); }}

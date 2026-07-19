@@ -95,21 +95,21 @@ app = Flask(__name__)
 # Client mapping - add your clients here
 # ---------------------------------------------------------------------------
 CLIENTS = {
-    "Lovisa": {
-        "project_id": "lovisa-09012025",
-        "dataset": "lovisa-09012025.lovisa_ingestion_prod",
+    "Aurora": {
+        "project_id": "aurora-retail-2025",
+        "dataset": "aurora-retail-2025.aurora_ingestion_prod",
     },
-    "Carter's": {
-        "project_id": "carters-15032025",
-        "dataset": "carters-15032025.carters_ingestion_prod",
+    "Meridian": {
+        "project_id": "meridian-retail-2025",
+        "dataset": "meridian-retail-2025.meridian_ingestion_prod",
     },
-    "Cracker Barrel": {
-        "project_id": "crackerbarrel-22042025",
-        "dataset": "crackerbarrel-22042025.cb_ingestion_prod",
+    "Summit": {
+        "project_id": "summit-retail-2025",
+        "dataset": "summit-retail-2025.summit_ingestion_prod",
     },
 }
 
-BILLING_PROJECT = "primark-demo-data-scan"
+BILLING_PROJECT = "retail-demo-data-scan"
 
 # ---------------------------------------------------------------------------
 # BigQuery helper
@@ -310,7 +310,7 @@ export default function GuidePage() {
               <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: 12 }}>
                 Set up application-default credentials and configure the billing quota project:
               </p>
-              <CodeBlock code={`gcloud auth application-default login\ngcloud auth application-default set-quota-project primark-demo-data-scan`} />
+              <CodeBlock code={`gcloud auth application-default login\ngcloud auth application-default set-quota-project retail-demo-data-scan`} />
             </div>
 
             <div style={{ marginBottom: 32 }}>
@@ -322,7 +322,7 @@ export default function GuidePage() {
                 Edit the <code style={codeStyle}>CLIENTS</code> dictionary in{" "}
                 <code style={codeStyle}>app.py</code> to point to your BigQuery projects and datasets:
               </p>
-              <CodeBlock code={`CLIENTS = {\n    "Lovisa": {\n        "project_id": "lovisa-09012025",\n        "dataset": "lovisa-09012025.lovisa_ingestion_prod",\n    },\n    "Carter's": {\n        "project_id": "carters-15032025",\n        "dataset": "carters-15032025.carters_ingestion_prod",\n    },\n    # Add more clients here...\n}`} />
+              <CodeBlock code={`CLIENTS = {\n    "Aurora": {\n        "project_id": "aurora-retail-2025",\n        "dataset": "aurora-retail-2025.aurora_ingestion_prod",\n    },\n    "Meridian": {\n        "project_id": "meridian-retail-2025",\n        "dataset": "meridian-retail-2025.meridian_ingestion_prod",\n    },\n    # Add more clients here...\n}`} />
             </div>
 
             <div>

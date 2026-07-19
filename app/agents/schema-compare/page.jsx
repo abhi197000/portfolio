@@ -12,7 +12,7 @@ const DEMO_SOURCES = [
 const DEMO_RESULTS = {
   results: [
     {
-      tableName: "oms_central_table",
+      tableName: "central_table",
       sources: ["Client Alpha", "Client Beta", "Client Gamma"],
       rows: [
         { column: "sku_id", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "STRING", isMismatch: false, details: [] },
@@ -31,7 +31,7 @@ const DEMO_RESULTS = {
       status: "ok",
     },
     {
-      tableName: "oms_constraints_order_policy",
+      tableName: "order_policy",
       sources: ["Client Alpha", "Client Beta", "Client Gamma"],
       rows: [
         { column: "policy_id", "Client Alpha": "STRING", "Client Beta": "STRING", "Client Gamma": "STRING", isMismatch: false, details: [] },
@@ -71,7 +71,7 @@ export default function SchemaComparePage() {
   function loadDemo() {
     setSources(DEMO_SOURCES);
     setSelectedSources(new Set(DEMO_SOURCES.map((s) => s.name)));
-    setTableInput("oms_central_table, oms_constraints_order_policy");
+    setTableInput("central_table, order_policy");
     setToken("demo-token");
     setResults(DEMO_RESULTS);
     setExpandedTables(new Set([0]));

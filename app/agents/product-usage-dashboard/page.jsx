@@ -7,9 +7,9 @@ import "../schema-compare/schema-compare.css";
 /*  Demo data                                                         */
 /* ------------------------------------------------------------------ */
 const DEMO_CLIENTS = [
-  { name: "Lovisa", projectId: "lovisa-09012025", dataset: "lovisa-09012025.lovisa_ingestion_prod", icon: "💎" },
-  { name: "Carter's", projectId: "carters-15032025", dataset: "carters-15032025.carters_ingestion_prod", icon: "👶" },
-  { name: "Cracker Barrel", projectId: "crackerbarrel-22042025", dataset: "crackerbarrel-22042025.cb_ingestion_prod", icon: "🍽" },
+  { name: "Aurora", projectId: "aurora-retail-2025", dataset: "aurora-retail-2025.aurora_ingestion_prod", icon: "💎" },
+  { name: "Meridian", projectId: "meridian-retail-2025", dataset: "meridian-retail-2025.meridian_ingestion_prod", icon: "👜" },
+  { name: "Summit", projectId: "summit-retail-2025", dataset: "summit-retail-2025.summit_ingestion_prod", icon: "🏔" },
 ];
 
 const DEMO_WEEK = {
@@ -27,14 +27,14 @@ const DEMO_SUMMARY = {
 };
 
 const DEMO_BREAKDOWN = [
-  { country: "Australia",  channel: "Retail",    brand: "Lovisa",       sbu: "Jewellery",  department: "Earrings",   collection: "Summer 25",   rec_qty: 42150, approved_qty: 38920, reconciled_qty: 37100 },
-  { country: "Australia",  channel: "Ecommerce", brand: "Lovisa",       sbu: "Jewellery",  department: "Necklaces",  collection: "Summer 25",   rec_qty: 28300, approved_qty: 26810, reconciled_qty: 25600 },
-  { country: "USA",        channel: "Retail",    brand: "Lovisa",       sbu: "Jewellery",  department: "Rings",      collection: "Core Range",  rec_qty: 35200, approved_qty: 33400, reconciled_qty: 31850 },
-  { country: "USA",        channel: "Wholesale", brand: "Lovisa",       sbu: "Accessories", department: "Hair",      collection: "Core Range",  rec_qty: 18900, approved_qty: 17650, reconciled_qty: 16800 },
-  { country: "UK",         channel: "Retail",    brand: "Lovisa",       sbu: "Jewellery",  department: "Bracelets",  collection: "Winter 25",   rec_qty: 22400, approved_qty: 21100, reconciled_qty: 20300 },
-  { country: "Singapore",  channel: "Ecommerce", brand: "Lovisa",       sbu: "Jewellery",  department: "Earrings",   collection: "Festive 25",  rec_qty: 15800, approved_qty: 14900, reconciled_qty: 14200 },
-  { country: "Malaysia",   channel: "Retail",    brand: "Lovisa",       sbu: "Accessories", department: "Bags",      collection: "Summer 25",   rec_qty: 12400, approved_qty: 11800, reconciled_qty: 11350 },
-  { country: "NZ",         channel: "Retail",    brand: "Lovisa",       sbu: "Jewellery",  department: "Watches",    collection: "Core Range",  rec_qty: 8700,  approved_qty: 8200,  reconciled_qty: 7900  },
+  { country: "Australia",  channel: "Retail",    brand: "Aurora",       sbu: "Jewellery",  department: "Earrings",   collection: "Summer 25",   rec_qty: 42150, approved_qty: 38920, reconciled_qty: 37100 },
+  { country: "Australia",  channel: "Ecommerce", brand: "Aurora",       sbu: "Jewellery",  department: "Necklaces",  collection: "Summer 25",   rec_qty: 28300, approved_qty: 26810, reconciled_qty: 25600 },
+  { country: "USA",        channel: "Retail",    brand: "Aurora",       sbu: "Jewellery",  department: "Rings",      collection: "Core Range",  rec_qty: 35200, approved_qty: 33400, reconciled_qty: 31850 },
+  { country: "USA",        channel: "Wholesale", brand: "Aurora",       sbu: "Accessories", department: "Hair",      collection: "Core Range",  rec_qty: 18900, approved_qty: 17650, reconciled_qty: 16800 },
+  { country: "UK",         channel: "Retail",    brand: "Aurora",       sbu: "Jewellery",  department: "Bracelets",  collection: "Winter 25",   rec_qty: 22400, approved_qty: 21100, reconciled_qty: 20300 },
+  { country: "Singapore",  channel: "Ecommerce", brand: "Aurora",       sbu: "Jewellery",  department: "Earrings",   collection: "Festive 25",  rec_qty: 15800, approved_qty: 14900, reconciled_qty: 14200 },
+  { country: "Malaysia",   channel: "Retail",    brand: "Aurora",       sbu: "Accessories", department: "Bags",      collection: "Summer 25",   rec_qty: 12400, approved_qty: 11800, reconciled_qty: 11350 },
+  { country: "NZ",         channel: "Retail",    brand: "Aurora",       sbu: "Jewellery",  department: "Watches",    collection: "Core Range",  rec_qty: 8700,  approved_qty: 8200,  reconciled_qty: 7900  },
 ];
 
 const DEMO_GROWTH = {
@@ -72,27 +72,27 @@ const DEMO_MODULE_ACTIONS = [
     module: "Replenishment Status",
     total_actions: 12840,
     users: [
-      { name: "sarah.chen@lovisa.com",   views: 320, edits: 185, approvals: 142 },
-      { name: "mike.patel@lovisa.com",   views: 285, edits: 160, approvals: 128 },
-      { name: "jane.wu@lovisa.com",      views: 250, edits: 120, approvals: 98  },
+      { name: "sarah.chen@auroraretail.com",   views: 320, edits: 185, approvals: 142 },
+      { name: "mike.patel@auroraretail.com",   views: 285, edits: 160, approvals: 128 },
+      { name: "jane.wu@auroraretail.com",      views: 250, edits: 120, approvals: 98  },
     ],
   },
   {
     module: "Vendor DC Policy",
     total_actions: 8450,
     users: [
-      { name: "sarah.chen@lovisa.com",   views: 210, edits: 95,  approvals: 78  },
-      { name: "alex.kumar@lovisa.com",   views: 195, edits: 88,  approvals: 65  },
-      { name: "lisa.nguyen@lovisa.com",   views: 180, edits: 72,  approvals: 55  },
+      { name: "sarah.chen@auroraretail.com",   views: 210, edits: 95,  approvals: 78  },
+      { name: "alex.kumar@auroraretail.com",   views: 195, edits: 88,  approvals: 65  },
+      { name: "lisa.nguyen@auroraretail.com",   views: 180, edits: 72,  approvals: 55  },
     ],
   },
   {
     module: "Target Inventory Levels",
     total_actions: 6720,
     users: [
-      { name: "mike.patel@lovisa.com",   views: 175, edits: 110, approvals: 85  },
-      { name: "jane.wu@lovisa.com",      views: 160, edits: 95,  approvals: 72  },
-      { name: "alex.kumar@lovisa.com",   views: 140, edits: 80,  approvals: 60  },
+      { name: "mike.patel@auroraretail.com",   views: 175, edits: 110, approvals: 85  },
+      { name: "jane.wu@auroraretail.com",      views: 160, edits: 95,  approvals: 72  },
+      { name: "alex.kumar@auroraretail.com",   views: 140, edits: 80,  approvals: 60  },
     ],
   },
 ];
@@ -185,7 +185,7 @@ export default function ProductUsageDashboardPage() {
             flexWrap: "wrap", gap: 12,
           }}>
             <p style={{ color: "var(--accent)", fontSize: "0.88rem", fontWeight: 600 }}>
-              Demo Mode &mdash; showing sample OMS data for {selectedClient?.name || "Lovisa"} (fictional dataset).
+              Demo Mode &mdash; showing sample OMS data for {selectedClient?.name || "Aurora"} (fictional dataset).
             </p>
             <button
               className="sc-btn sc-btn-secondary"
@@ -257,7 +257,7 @@ export default function ProductUsageDashboardPage() {
                   <label className="sc-label">Billing Project</label>
                   <input
                     className="sc-input"
-                    placeholder="e.g. primark-demo-data-scan"
+                    placeholder="e.g. retail-demo-data-scan"
                     value={billingProject}
                     onChange={(e) => setBillingProject(e.target.value)}
                   />
@@ -276,7 +276,7 @@ export default function ProductUsageDashboardPage() {
               <div className="sc-instructions">
                 <p>To connect to live BigQuery data, authenticate via gcloud:</p>
                 <p style={{ margin: "8px 0" }}><code>gcloud auth application-default login</code></p>
-                <p style={{ margin: "8px 0" }}><code>gcloud auth application-default set-quota-project primark-demo-data-scan</code></p>
+                <p style={{ margin: "8px 0" }}><code>gcloud auth application-default set-quota-project retail-demo-data-scan</code></p>
                 <p>Then run the Flask app locally with <code>python app.py</code>.</p>
               </div>
             </div>
