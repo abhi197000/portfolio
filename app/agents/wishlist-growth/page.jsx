@@ -90,6 +90,11 @@ export default function WishlistGrowthPage() {
           ))}
         </div>
 
+        <div className="wg-deckbar" style={{ marginTop: 28 }}>
+          <p><b>Help the research</b> — a 2-minute anonymous survey that quantifies which doubt (fit / quality / styling / price) stalls people most. Open to all, no sign-in.</p>
+          <a className="wg-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSchB-vz62DCvYCx6eexT72Wgc4jPpVhGcqMnKFOKeohN4HhHg/viewform" target="_blank" rel="noopener noreferrer">Take the 2-min survey &rarr;</a>
+        </div>
+
         <h2 className="wg-section-title">How the thinking evolved</h2>
         <p className="wg-section-sub">Business metric → product outcomes → AI discovery → primary research → problem → MVP.</p>
         <div className="wg-think">
