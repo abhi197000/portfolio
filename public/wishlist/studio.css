@@ -1,0 +1,200 @@
+/* ============================================================
+   Wishlist Growth Studio — immersive twilight layer
+   Loaded on every tool tab. Re-skins the tools to a dusk palette
+   (middle of light & dark), adds a 3D ambient scene, a journey bar,
+   and a guided "next step" beacon. All additive.
+   ============================================================ */
+
+/* ---- twilight token override (covers every tool's variable names) ---- */
+:root {
+  --bg: transparent !important;
+  --app: rgba(28, 24, 58, 0.62) !important;
+  --panel: rgba(30, 26, 62, 0.58) !important;
+  --panel-2: rgba(42, 36, 78, 0.55) !important;
+  --panel2: rgba(42, 36, 78, 0.55) !important;
+  --field: rgba(18, 15, 40, 0.55) !important;
+  --ink: #ECE9FF !important;
+  --ink-soft: #B6AFDB !important;
+  --ink-faint: #8B84B4 !important;
+  --soft: #B6AFDB !important;
+  --soft2: rgba(42, 36, 78, 0.55) !important;
+  --softl: #9A93C2 !important;
+  --line: rgba(180, 160, 255, 0.16) !important;
+  --line-2: rgba(180, 160, 255, 0.24) !important;
+  --line2: rgba(180, 160, 255, 0.24) !important;
+  --line-strong: rgba(180, 160, 255, 0.32) !important;
+  --chip: rgba(64, 54, 104, 0.55) !important;
+  --accent: #A78BFA !important;
+  --accent-ink: #CDBBFF !important;
+  --accentink: #CDBBFF !important;
+  --accent-soft: rgba(139, 124, 246, 0.20) !important;
+  --soft-a: rgba(139, 124, 246, 0.20) !important;
+  --pink: #F472B6 !important;
+  --pink-ink: #FBA6D3 !important;
+  --pink-soft: rgba(244, 114, 182, 0.18) !important;
+  --teal: #34E0B0 !important;
+  --teal-soft: rgba(52, 224, 176, 0.16) !important;
+  --teal-ink: #7CEBCB !important;
+  --tealink: #7CEBCB !important;
+  --amber: #F5B454 !important;
+  --amber-soft: rgba(245, 180, 84, 0.16) !important;
+  --warn: #F5B454 !important;
+  --good: #34E0B0 !important;
+  --muted: #8B84B4 !important;
+  --pos: #7CC4FF !important;
+  --neg: #F5B454 !important;
+  --navy: #8B7CF6 !important;
+  --blue: #7CC4FF !important;
+  --blue-soft: rgba(124, 196, 255, 0.16) !important;
+  --c1: #7CC4FF !important;
+  --c2: #34E0B0 !important;
+  --c3: #F5B454 !important;
+  --c4: #A78BFA !important;
+  --c5: #F472B6 !important;
+  --c6: #9A93C2 !important;
+  --shadow: 0 10px 44px rgba(8, 6, 26, 0.55) !important;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: transparent !important;
+  color: var(--ink);
+}
+
+/* ambient scene sits behind everything */
+#wl-sky, #wl-veil {
+  position: fixed; inset: 0; z-index: -2; pointer-events: none;
+}
+#wl-veil {
+  z-index: -1;
+  background:
+    radial-gradient(1100px 620px at 50% -10%, rgba(150, 120, 255, 0.30), transparent 60%),
+    radial-gradient(900px 700px at 85% 110%, rgba(244, 114, 182, 0.20), transparent 55%),
+    radial-gradient(900px 700px at 10% 100%, rgba(80, 200, 220, 0.18), transparent 55%),
+    linear-gradient(180deg, #14152e 0%, #1d1b3f 42%, #2a2154 74%, #3a2a58 100%);
+}
+/* soft vignette + top glow so text stays readable over the scene */
+#wl-veil::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(120% 80% at 50% 40%, transparent 50%, rgba(8, 6, 24, 0.45) 100%);
+}
+
+/* glass treatment for the tools' existing panels */
+.card, .kpi, .pcard, .rcard, .sheet, .q, .look, .ph, .nudge, .callout,
+.confhead, .verdict, .result, .out, textarea, select, input {
+  backdrop-filter: blur(10px) saturate(1.15);
+  -webkit-backdrop-filter: blur(10px) saturate(1.15);
+}
+.card, .kpi, .pcard, .rcard {
+  transition: transform .22s cubic-bezier(.2,.7,.2,1), box-shadow .22s, border-color .22s;
+  transform-style: preserve-3d;
+}
+.card:hover, .pcard:hover, .kpi:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 50px rgba(8, 6, 30, 0.6), 0 0 0 1px rgba(167, 139, 250, 0.35);
+}
+
+/* ---------- journey bar (top, sticky) ---------- */
+#wl-journey {
+  position: sticky; top: 0; z-index: 9000;
+  width: 100%; box-sizing: border-box;
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 18px;
+  background: rgba(18, 16, 40, 0.72);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid rgba(167, 139, 250, 0.22);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+#wl-journey .wl-home {
+  color: #CDBBFF; font-weight: 700; font-size: 13px; text-decoration: none;
+  white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+#wl-journey .wl-home:hover { color: #fff; }
+.wl-path { display: flex; align-items: center; gap: 0; flex: 1; min-width: 0; overflow-x: auto; }
+.wl-path::-webkit-scrollbar { height: 0; }
+.wl-node {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
+  padding: 5px 12px; border-radius: 999px; white-space: nowrap;
+  color: #B6AFDB; font-size: 12.5px; font-weight: 600;
+  border: 1px solid transparent; transition: .18s;
+}
+.wl-node .wl-dot {
+  width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 11px; font-weight: 800; color: #0f0c22;
+  background: rgba(182, 175, 219, 0.5);
+}
+.wl-node:hover { color: #fff; background: rgba(167, 139, 250, 0.12); }
+.wl-node.done { color: #9DF0D0; }
+.wl-node.done .wl-dot { background: #34E0B0; }
+.wl-node.active {
+  color: #fff; border-color: rgba(167, 139, 250, 0.55);
+  background: rgba(167, 139, 250, 0.18);
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.3), 0 0 22px rgba(167, 139, 250, 0.35);
+}
+.wl-node.active .wl-dot { background: linear-gradient(135deg, #A78BFA, #F472B6); color: #fff; }
+.wl-link {
+  width: 26px; height: 2px; flex: none; position: relative; overflow: hidden;
+  background: rgba(182, 175, 219, 0.25); border-radius: 2px;
+}
+.wl-link i {
+  position: absolute; top: 0; left: -40%; width: 40%; height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #A78BFA, transparent);
+  animation: wl-travel 2.4s linear infinite;
+}
+@keyframes wl-travel { to { left: 120%; } }
+
+/* ---------- guided "next" beacon ---------- */
+#wl-next {
+  position: fixed; right: 22px; bottom: 22px; z-index: 9000;
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 18px; border-radius: 16px; text-decoration: none;
+  color: #fff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: linear-gradient(120deg, rgba(139, 124, 246, 0.95), rgba(244, 114, 182, 0.92));
+  box-shadow: 0 12px 40px rgba(139, 124, 246, 0.45);
+  animation: wl-bob 3.4s ease-in-out infinite;
+}
+#wl-next::before {
+  content: ""; position: absolute; inset: -3px; border-radius: 19px; z-index: -1;
+  background: linear-gradient(120deg, #8B7CF6, #F472B6);
+  filter: blur(14px); opacity: .55; animation: wl-glow 3.4s ease-in-out infinite;
+}
+#wl-next .wl-next-lbl { display: flex; flex-direction: column; line-height: 1.15; }
+#wl-next .wl-next-lbl small { font-size: 10.5px; opacity: .85; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+#wl-next .wl-next-lbl b { font-size: 14.5px; font-weight: 700; }
+#wl-next .wl-arrow { font-size: 20px; animation: wl-nudge 1.5s ease-in-out infinite; }
+@keyframes wl-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes wl-glow { 0%,100% { opacity: .4; } 50% { opacity: .7; } }
+@keyframes wl-nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+
+/* ---------- guidance hint ---------- */
+#wl-hint {
+  position: fixed; left: 22px; bottom: 22px; z-index: 9000; max-width: 340px;
+  padding: 14px 16px 14px 16px; border-radius: 14px;
+  background: rgba(20, 17, 44, 0.86);
+  border: 1px solid rgba(167, 139, 250, 0.35);
+  backdrop-filter: blur(14px);
+  color: #ECE9FF; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 12px 40px rgba(8, 6, 26, 0.6);
+  animation: wl-rise .5s cubic-bezier(.2,.8,.2,1) both;
+}
+#wl-hint .wl-hint-step { font-size: 11px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: #CDBBFF; }
+#wl-hint p { margin: 6px 0 0; font-size: 13px; line-height: 1.45; }
+#wl-hint .wl-x {
+  position: absolute; top: 8px; right: 10px; cursor: pointer; color: #9A93C2;
+  font-size: 15px; line-height: 1; background: none; border: none;
+}
+#wl-hint .wl-x:hover { color: #fff; }
+@keyframes wl-rise { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* entrance choreography for content */
+@keyframes wl-fadeup { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+body > .wrap, body > .phone, body > .tagline, .sc-page, .wg-page { animation: wl-fadeup .6s cubic-bezier(.2,.8,.2,1) both; }
+
+/* respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #wl-sky { display: none; }
+  #wl-next, #wl-next::before, #wl-next .wl-arrow, .wl-link i,
+  body > .wrap, body > .phone, body > .tagline { animation: none !important; }
+  html { scroll-behavior: auto; }
+}

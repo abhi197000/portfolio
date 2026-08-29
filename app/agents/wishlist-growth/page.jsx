@@ -70,6 +70,9 @@ export default function WishlistGrowthPage() {
           <span className="wg-step"><b>3</b> Validate with users</span>
           <span className="wg-step"><b>4</b> Ship the MVP</span>
         </div>
+        <a className="wg-cta-begin" href="/wishlist/scraper.html">
+          <span>Begin the journey · Collect</span><span className="a">&rarr;</span>
+        </a>
       </header>
 
       <main className="wg-main">
