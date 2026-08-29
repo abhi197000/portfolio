@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="wl-backbar" style="position:sticky;top:0;z-index:99999;background:#0a0e17;border-bottom:1px solid #1f2a40;padding:9px 18px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;display:flex;gap:10px;align-items:center">
+<a href="/agents/wishlist-growth" style="color:#38bdf8;text-decoration:none;font-weight:600">&larr; Wishlist Growth Studio</a>
+<span style="color:#64748b">Myntra &middot; wishlist &rarr; purchase</span></div>
+<title>Wishlist Confidence Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#EDE7EC; --app:#FFFFFF; --ink:#282C3F; --ink-soft:#6B6E7E; --ink-faint:#94969F;
+  --line:#EDECEE; --line-2:#E2E0E6; --field:#F7F6F9;
+  --pink:#FF3E6C; --pink-ink:#D5285A; --pink-soft:#FFECF1;
+  --teal:#03A685; --teal-soft:#E4F7F2; --amber:#FF905A; --amber-soft:#FFEEE3;
+  --blue:#2E6BE6; --blue-soft:#E7EEFC;
+  --good:#03A685; --warn:#FF905A;
+  --shadow:0 2px 8px rgba(40,44,63,.08); --shadow-lg:0 12px 40px rgba(40,44,63,.18);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F0D12; --app:#17141B; --ink:#F1ECF2; --ink-soft:#ABA3B4; --ink-faint:#7C7488;
+  --line:#241F29; --line-2:#2E2833; --field:#211C26;
+  --pink:#FF5C82; --pink-ink:#FF95AE; --pink-soft:#33202A;
+  --teal:#2FD2AE; --teal-soft:#16302B; --amber:#FFA26B; --amber-soft:#33241B;
+  --blue:#6FA0FF; --blue-soft:#1B2740; --good:#2FD2AE; --warn:#FFA26B;
+  --shadow:0 2px 8px rgba(0,0,0,.4); --shadow-lg:0 16px 44px rgba(0,0,0,.55);
+}}
+:root[data-theme="dark"]{
+  --bg:#0F0D12; --app:#17141B; --ink:#F1ECF2; --ink-soft:#ABA3B4; --ink-faint:#7C7488;
+  --line:#241F29; --line-2:#2E2833; --field:#211C26;
+  --pink:#FF5C82; --pink-ink:#FF95AE; --pink-soft:#33202A;
+  --teal:#2FD2AE; --teal-soft:#16302B; --amber:#FFA26B; --amber-soft:#33241B;
+  --blue:#6FA0FF; --blue-soft:#1B2740; --good:#2FD2AE; --warn:#FFA26B;
+  --shadow:0 2px 8px rgba(0,0,0,.4); --shadow-lg:0 16px 44px rgba(0,0,0,.55);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Instrument Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 14px 40px}
+.tagline{max-width:400px;text-align:center;margin:0 0 16px;color:var(--ink-soft);font-size:13.5px;line-height:1.5}
+.tagline b{color:var(--ink)}
+.tagline .k{font-family:"Fraunces",serif;font-weight:600;color:var(--pink-ink)}
+
+/* phone */
+.phone{width:400px;max-width:100%;height:812px;max-height:calc(100vh - 90px);background:var(--app);
+  border-radius:30px;box-shadow:var(--shadow-lg);overflow:hidden;position:relative;display:flex;flex-direction:column;
+  border:1px solid var(--line-2)}
+.statusbar{height:26px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 18px;font-size:11px;color:var(--ink-soft);font-weight:600}
+.appbar{flex:none;padding:8px 16px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.appbar .logo{font-family:"Fraunces",serif;font-weight:700;font-size:20px;color:var(--pink);letter-spacing:-.02em}
+.appbar .ttl{font-weight:700;font-size:15px}
+.appbar .cnt{margin-left:auto;font-size:12px;color:var(--ink-faint)}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{width:0}
+
+/* nudge banner */
+.nudge{margin:12px;padding:12px 13px;background:linear-gradient(100deg,var(--pink-soft),var(--blue-soft));
+  border:1px solid var(--line-2);border-radius:14px;display:flex;gap:11px;align-items:center}
+.nudge .spark{width:34px;height:34px;flex:none;border-radius:10px;background:var(--pink);color:#fff;display:grid;place-items:center;font-size:17px}
+.nudge p{margin:0;font-size:12.5px;line-height:1.4;color:var(--ink)}
+.nudge b{color:var(--pink-ink)}
+
+/* product grid */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:4px 12px 20px}
+.pcard{background:var(--app);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .12s,box-shadow .15s;position:relative}
+.pcard:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.pcard:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+.thumb{aspect-ratio:3/4;display:grid;place-items:center;position:relative}
+.thumb svg{width:74%;height:74%}
+.pcard .info{padding:8px 10px 11px}
+.pcard .brand{font-weight:700;font-size:12.5px}
+.pcard .name{font-size:11.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin:1px 0 5px}
+.pcard .price{font-size:12.5px;font-weight:700}
+.pcard .price s{color:var(--ink-faint);font-weight:400;margin-left:4px;font-size:11px}
+.confchip{position:absolute;top:8px;left:8px;background:rgba(255,255,255,.94);color:var(--ink);border:1px solid var(--line-2);
+  border-radius:999px;font-size:10px;font-weight:700;padding:3px 8px;display:flex;align-items:center;gap:4px;backdrop-filter:blur(4px)}
+[data-theme="dark"] .confchip,@media (prefers-color-scheme:dark){.confchip{background:rgba(23,20,27,.9)}}
+.confchip .d{width:6px;height:6px;border-radius:50%}
+.saved{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;color:var(--pink);font-size:13px}
+[data-theme="dark"] .saved,@media (prefers-color-scheme:dark){.saved{background:rgba(23,20,27,.9)}}
+
+/* sheet */
+.scrim{position:absolute;inset:0;background:rgba(20,16,24,.5);opacity:0;pointer-events:none;transition:opacity .25s;z-index:5}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;height:94%;background:var(--app);border-radius:22px 22px 0 0;
+  transform:translateY(102%);transition:transform .32s cubic-bezier(.2,.8,.2,1);z-index:6;display:flex;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.2)}
+.sheet.on{transform:translateY(0)}
+.sheet .grab{width:38px;height:4px;background:var(--line-2);border-radius:3px;margin:9px auto 4px;flex:none}
+.sheet .shead{display:flex;gap:12px;align-items:center;padding:6px 16px 12px;border-bottom:1px solid var(--line);flex:none}
+.sheet .shead .mini{width:46px;height:58px;border-radius:8px;display:grid;place-items:center;flex:none}
+.sheet .shead .mini svg{width:78%;height:78%}
+.sheet .shead .b{font-weight:700;font-size:14px}
+.sheet .shead .n{font-size:12px;color:var(--ink-soft)}
+.sheet .shead .close{margin-left:auto;background:var(--field);border:none;width:30px;height:30px;border-radius:50%;font-size:16px;color:var(--ink-soft);cursor:pointer}
+.sbody{flex:1;overflow-y:auto;padding:14px 16px 8px}
+.sbody::-webkit-scrollbar{width:0}
+
+/* confidence ring */
+.confhead{display:flex;gap:14px;align-items:center;background:var(--field);border:1px solid var(--line);border-radius:16px;padding:13px 14px;margin-bottom:8px}
+.ring{width:66px;height:66px;flex:none;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;font-family:"Fraunces",serif;font-weight:700;font-size:17px}
+.confhead .ctxt h4{margin:0;font-size:14px;font-family:"Fraunces",serif;font-weight:600}
+.confhead .ctxt p{margin:3px 0 0;font-size:12px;color:var(--ink-soft);line-height:1.4}
+.aihint{font-size:11px;color:var(--pink-ink);font-weight:600;display:flex;align-items:center;gap:5px;margin:14px 2px 8px}
+
+/* resolve cards */
+.rcard{border:1px solid var(--line-2);border-radius:14px;margin-bottom:10px;overflow:hidden;background:var(--app)}
+.rcard .rhead{display:flex;align-items:center;gap:11px;padding:13px 14px;cursor:pointer;user-select:none}
+.rcard .ricon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex:none}
+.rcard .rt{font-weight:600;font-size:13.5px}
+.rcard .rs{font-size:11.5px;color:var(--ink-faint);margin-top:1px}
+.rcard .rstatus{margin-left:auto;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--field);color:var(--ink-soft);white-space:nowrap}
+.rcard .rstatus.done{background:var(--teal-soft);color:var(--teal)}
+.rbody{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 14px}
+.rcard.open .rbody{max-height:640px;padding:2px 14px 15px}
+.rcard.open .chev{transform:rotate(180deg)}
+.chev{transition:transform .25s;color:var(--ink-faint);font-size:12px}
+
+label.fld{display:block;font-size:11.5px;font-weight:600;color:var(--ink-soft);margin:11px 0 5px}
+select,.chips{width:100%}
+select{padding:10px;border:1px solid var(--line-2);border-radius:9px;background:var(--field);color:var(--ink);font:inherit;font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--line-2);background:var(--field);color:var(--ink);border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:.12s}
+.chip[aria-pressed="true"]{background:var(--pink);color:#fff;border-color:var(--pink)}
+.act{width:100%;margin-top:13px;padding:11px;border:none;border-radius:10px;background:var(--ink);color:var(--app);font:inherit;font-weight:700;font-size:13.5px;cursor:pointer}
+.act.pink{background:var(--pink);color:#fff}
+.result{margin-top:12px;background:var(--teal-soft);border:1px solid var(--teal);border-radius:12px;padding:12px 13px;display:none}
+.result.show{display:block;animation:pop .3s}
+@keyframes pop{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+.result .big{font-family:"Fraunces",serif;font-weight:700;font-size:16px;color:var(--teal)}
+.result p{margin:5px 0 0;font-size:12px;color:var(--ink);line-height:1.45}
+.riskrow{display:flex;gap:8px;align-items:center;margin-top:8px;font-size:11.5px;font-weight:700}
+.pill{padding:2px 8px;border-radius:6px;font-size:11px}
+.pill.low{background:var(--teal-soft);color:var(--teal)} .pill.med{background:var(--amber-soft);color:var(--warn)}
+
+/* quality verdict */
+.qtags{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.qtag{display:flex;align-items:center;gap:9px;font-size:12px}
+.qtag .bar{flex:1;height:7px;background:var(--field);border-radius:5px;overflow:hidden}
+.qtag .bar i{display:block;height:100%;border-radius:5px}
+.qtag .pct{font-weight:700;font-size:11.5px;min-width:34px;text-align:right;font-variant-numeric:tabular-nums}
+.qtag .lab{min-width:118px}
+.photos{display:flex;gap:7px;margin-top:11px}
+.photos .ph{width:44px;height:56px;border-radius:7px;display:grid;place-items:center;border:1px solid var(--line-2)}
+.photos .ph svg{width:70%;height:70%}
+.src{font-size:10.5px;color:var(--ink-faint);margin-top:9px}
+
+/* styling */
+.looks{display:flex;gap:9px;margin-top:11px}
+.look{flex:1;border:1px solid var(--line-2);border-radius:10px;padding:9px;text-align:center}
+.look .lsw{height:44px;border-radius:7px;margin-bottom:6px;display:grid;place-items:center;font-size:18px}
+.look .lt{font-size:10.5px;color:var(--ink-soft);font-weight:600}
+
+/* verdict + cta */
+.verdict{border-radius:16px;padding:15px;margin:6px 0 4px;background:linear-gradient(120deg,var(--pink-soft),var(--teal-soft));border:1px solid var(--line-2);display:none}
+.verdict.show{display:block;animation:pop .35s}
+.verdict h4{margin:0;font-family:"Fraunces",serif;font-size:16px}
+.verdict p{margin:5px 0 0;font-size:12.5px;color:var(--ink-soft)}
+.foot{flex:none;padding:11px 16px 16px;border-top:1px solid var(--line);background:var(--app)}
+.addbag{width:100%;padding:14px;border:none;border-radius:12px;background:var(--pink);color:#fff;font:inherit;font-weight:700;font-size:15px;cursor:pointer;transition:.15s;opacity:.5;pointer-events:none}
+.addbag.ready{opacity:1;pointer-events:auto;box-shadow:0 6px 18px rgba(255,62,108,.4)}
+.addbag.ready:hover{filter:brightness(1.05)}
+.nofee{text-align:center;font-size:11px;color:var(--ink-faint);margin-top:8px}
+
+/* toast */
+.toast{position:absolute;left:16px;right:16px;bottom:20px;background:var(--ink);color:var(--app);border-radius:13px;padding:13px 15px;font-size:13px;font-weight:600;z-index:9;transform:translateY(140%);transition:transform .3s;display:flex;gap:10px;align-items:center}
+.toast.on{transform:translateY(0)}
+.toast .ok{width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;flex:none}
+.legend{max-width:400px;font-size:11px;color:var(--ink-faint);text-align:center;margin-top:14px;line-height:1.5}
+</style>
+
+<p class="tagline">MVP prototype · <b>Myntra Wishlist Confidence Assistant</b><br>Resolves <span class="k">will it fit · is it good quality · will it suit me</span> inside the app, so high-intent saved items convert — <b>with no discount</b>. Tap any saved item.</p>
+
+<div class="phone">
+  <div class="statusbar"><span>9:41</span><span>Wishlist ▾ · ●●●● 🔋</span></div>
+  <div class="appbar"><span class="logo">Myntra</span><span class="ttl">Wishlist</span><span class="cnt" id="cnt">24 items</span></div>
+  <div class="scroll">
+    <div class="nudge">
+      <div class="spark">✨</div>
+      <p>You've saved <b>24 items</b> but bought none this month. <b>3 are ready to decide</b> — tap to clear what's holding you back.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet">
+    <div class="grab"></div>
+    <div class="shead">
+      <div class="mini" id="sMini"></div>
+      <div><div class="b" id="sBrand"></div><div class="n" id="sName"></div></div>
+      <button class="close" id="close" aria-label="close">✕</button>
+    </div>
+    <div class="sbody" id="sbody"></div>
+    <div class="foot">
+      <button class="addbag" id="addbag">Add to Bag</button>
+      <div class="nofee" id="nofee">Decide with confidence — no coupon required</div>
+    </div>
+    <div class="toast" id="toast"><span class="ok">✓</span><span id="toastMsg">Added to bag — decided with confidence.</span></div>
+  </div>
+</div>
+
+<p class="legend">Interactive prototype. The fit-finder computes a real recommendation from brand sizing bias; quality &amp; styling verdicts are synthesized from (illustrative) real-buyer review signals. No external data leaves your browser.</p>
+
+<script>
+/* ---------- garment SVGs ---------- */
+const G={
+ kurta:c=>`<svg viewBox="0 0 100 120"><path d="M35 8 L28 16 L14 26 L20 40 L30 34 L30 112 L70 112 L70 34 L80 40 L86 26 L72 16 L65 8 Q50 20 35 8Z" fill="${c}" stroke="rgba(0,0,0,.12)"/><line x1="50" y1="14" x2="50" y2="108" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-dasharray="3 3"/></svg>`,
+ dress:c=>`<svg viewBox="0 0 100 120"><path d="M38 8 L30 18 L22 30 L30 42 L34 40 L22 108 L78 108 L66 40 L70 42 L78 30 L70 18 L62 8 Q50 18 38 8Z" fill="${c}" stroke="rgba(0,0,0,.12)"/></svg>`,
+ shirt:c=>`<svg viewBox="0 0 100 120"><path d="M35 10 L26 18 L12 30 L20 44 L30 38 L30 110 L70 110 L70 38 L80 44 L88 30 L74 18 L65 10 L58 18 L50 22 L42 18Z" fill="${c}" stroke="rgba(0,0,0,.12)"/><circle cx="50" cy="40" r="1.6" fill="rgba(0,0,0,.25)"/><circle cx="50" cy="55" r="1.6" fill="rgba(0,0,0,.25)"/><circle cx="50" cy="70" r="1.6" fill="rgba(0,0,0,.25)"/></svg>`,
+ shoe:c=>`<svg viewBox="0 0 120 90"><path d="M14 40 Q16 30 26 32 L54 44 Q70 44 92 54 Q106 58 106 68 L106 74 L16 74 Q10 74 10 66 Z" fill="${c}" stroke="rgba(0,0,0,.12)"/><path d="M10 72 L106 72 L106 78 L10 78 Z" fill="rgba(0,0,0,.25)"/></svg>`
+};
+const SW={teal:"var(--teal-soft)",pink:"var(--pink-soft)",blue:"var(--blue-soft)",amber:"var(--amber-soft)"};
+
+/* ---------- fit engine ---------- */
+const SIZES=["XS","S","M","L","XL","XXL"];
+/* bias: higher = garment runs LARGER than standard label */
+const BRAND_BIAS={"H&M":-1,"Zara":-1,"Roadster":0,"HERE&NOW":0,"Levis":0,"Sangria":-1,"Libas":1,"Anouk":0,"Nike":0,"Puma":1,"US Polo":1,"Mango":-1,"Biba":1};
+
+function recommendSize(refBrand,refSize,targetBrand,targetBias,bodyFit){
+  const refB = BRAND_BIAS[refBrand] ?? 0;
+  const refIdx = SIZES.indexOf(refSize);
+  // shift up when target runs smaller than reference
+  let shift = refB - targetBias;
+  let idx = refIdx + shift;
+  let note=[];
+  if(shift>0) note.push("this brand runs small vs your usual");
+  else if(shift<0) note.push("this brand runs large vs your usual");
+  else note.push("this brand fits close to your usual");
+  if(bodyFit==="between"){idx+=1;note.push("you're between sizes, so we rounded up");}
+  if(bodyFit==="fitted"&&idx<SIZES.length-1){/* keep */}
+  idx=Math.max(0,Math.min(SIZES.length-1,idx));
+  const risk = Math.abs(shift)>=2?"med":"low";
+  return {size:SIZES[idx],note:note.join("; "),risk};
+}
+
+/* ---------- items ---------- */
+const ITEMS=[
+ {id:"k1",brand:"Libas",name:"Floral Anarkali Kurta",price:1299,mrp:2599,g:"kurta",sw:"pink",chip:"3 to check",chipc:"var(--amber)",
+  targetBias:1,fitReviews:1240,
+  quality:[["Fabric matches photos",88,"var(--teal)"],["True to size",76,"var(--teal)"],["Colour as shown",81,"var(--teal)"],["Slightly sheer — layer it",18,"var(--amber)"]],
+  photoCount:214,
+  styling:{occasions:["Festive","Daytime","Casual"],best:"daytime festive & family functions",looks:["👖","🧥","👡"],lookLabels:["+ leggings","+ jacket","+ juttis"],lookCount:37}},
+ {id:"d1",brand:"Sangria",name:"A-Line Midi Dress",price:1099,mrp:1999,g:"dress",sw:"teal",chip:"2 to check",chipc:"var(--blue)",
+  targetBias:-1,fitReviews:860,
+  quality:[["Fabric matches photos",79,"var(--teal)"],["True to size",64,"var(--amber)"],["Holds shape after wash",72,"var(--teal)"],["Runs small — size up",41,"var(--amber)"]],
+  photoCount:132,
+  styling:{occasions:["Office","Brunch","Date"],best:"office-to-brunch & date evenings",looks:["🧥","👠","👜"],lookLabels:["+ blazer","+ heels","+ tote"],lookCount:21}},
+ {id:"s1",brand:"Puma",name:"Retro Running Sneakers",price:2799,mrp:4499,g:"shoe",sw:"blue",chip:"2 to check",chipc:"var(--blue)",
+  targetBias:1,fitReviews:2030,
+  quality:[["True to size",84,"var(--teal)"],["Comfortable cushioning",90,"var(--teal)"],["Durable build",77,"var(--teal)"],["Slightly wide fit",22,"var(--amber)"]],
+  photoCount:389,
+  styling:{occasions:["Casual","Gym","Weekend"],best:"everyday casual & light workouts",looks:["👖","🧦","🧢"],lookLabels:["+ joggers","+ crew socks","+ cap"],lookCount:52}}
+];
+
+const REF_BRANDS=Object.keys(BRAND_BIAS);
+const $=s=>document.querySelector(s), ce=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e;};
+let cur=null, state={};
+
+/* build grid */
+$("#grid").innerHTML=ITEMS.map(it=>`
+ <div class="pcard" tabindex="0" data-id="${it.id}" role="button">
+   <div class="thumb" style="background:${SW[it.sw]}">
+     <span class="confchip"><span class="d" style="background:${it.chipc}"></span>${it.chip}</span>
+     <span class="saved">♥</span>
+     ${G[it.g]("var(--"+(it.sw==='pink'?'pink':it.sw)+")")}
+   </div>
+   <div class="info"><div class="brand">${it.brand}</div><div class="name">${it.name}</div>
+   <div class="price">₹${it.price}<s>₹${it.mrp}</s></div></div>
+ </div>`).join("");
+document.querySelectorAll(".pcard").forEach(c=>{
+  c.onclick=()=>open(c.dataset.id);
+  c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();open(c.dataset.id);}};
+});
+
+function ring(pct){const r=26,c=2*Math.PI*r,off=c*(1-pct/100);
+ return `<svg width="66" height="66"><circle cx="33" cy="33" r="${r}" fill="none" stroke="var(--line-2)" stroke-width="6"/>
+ <circle cx="33" cy="33" r="${r}" fill="none" stroke="var(--pink)" stroke-width="6" stroke-linecap="round"
+ stroke-dasharray="${c}" stroke-dashoffset="${off}" style="transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)"/></svg>`;}
+
+function conf(){ // 35 base + up to 65 across 3
+ let p=35; if(state.fit)p+=25; if(state.quality)p+=22; if(state.style)p+=18; return Math.min(100,p);}
+
+function updateRing(){const p=conf();
+ $("#confRing").innerHTML=ring(p); $("#confVal").textContent=p+"%";
+ const done=[state.fit,state.quality,state.style].filter(Boolean).length;
+ $("#confMsg").textContent = done===0?"Let's clear the 3 things holding you back.":done<3?`${3-done} question${done<2?'s':''} left. Getting clearer…`:"All clear — you know what you're getting.";
+ const v=$("#verdict");
+ if(done===3){v.classList.add("show");$("#addbag").classList.add("ready");}
+}
+
+function open(id){
+ cur=ITEMS.find(i=>i.id===id); state={};
+ $("#sBrand").textContent=cur.brand; $("#sName").textContent=cur.name;
+ $("#sMini").style.background=SW[cur.sw]; $("#sMini").innerHTML=G[cur.g]("var(--"+(cur.sw==='pink'?'pink':cur.sw)+")");
+ $("#sbody").innerHTML=body(cur);
+ $("#addbag").classList.remove("ready");
+ $("#addbag").textContent="Add to Bag";
+ wire();
+ updateRing();
+ $("#scrim").classList.add("on"); $("#sheet").classList.add("on");
+}
+function close(){$("#scrim").classList.remove("on");$("#sheet").classList.remove("on");$("#toast").classList.remove("on");}
+$("#close").onclick=close; $("#scrim").onclick=close;
+
+function body(it){
+ return `
+ <div class="confhead">
+   <div class="ring" id="confRing">${ring(35)}</div>
+   <div class="ctxt"><h4>Purchase confidence <span id="confVal" style="color:var(--pink-ink)">35%</span></h4>
+   <p id="confMsg">Let's clear the 3 things holding you back.</p></div>
+ </div>
+ <div class="aihint">✦ AI Confidence Assistant · grounded in real-buyer data</div>
+
+ <!-- FIT -->
+ <div class="rcard" id="cardFit">
+   <div class="rhead" data-t="Fit"><div class="ricon" style="background:var(--blue-soft)">📏</div>
+     <div><div class="rt">Will it fit me?</div><div class="rs">Sizing varies by brand — let's get yours right</div></div>
+     <span class="rstatus" id="stFit">Open</span><span class="chev">▾</span></div>
+   <div class="rbody">
+     <label class="fld">A brand &amp; size that already fits you well</label>
+     <div style="display:flex;gap:8px">
+       <select id="refBrand" style="flex:1.4">${REF_BRANDS.map(b=>`<option>${b}</option>`).join("")}</select>
+       <select id="refSize" style="flex:1">${SIZES.map(s=>`<option ${s==='M'?'selected':''}>${s}</option>`).join("")}</select>
+     </div>
+     <label class="fld">How do you like your fit?</label>
+     <div class="chips" id="bodyChips">
+       <button class="chip" data-v="regular" aria-pressed="true">Regular</button>
+       <button class="chip" data-v="fitted" aria-pressed="false">Fitted</button>
+       <button class="chip" data-v="between" aria-pressed="false">Between sizes</button>
+     </div>
+     <button class="act pink" id="findSize">Find my size in this ${it.g==='shoe'?'pair':'style'}</button>
+     <div class="result" id="fitRes"></div>
+   </div>
+ </div>
+
+ <!-- QUALITY -->
+ <div class="rcard" id="cardQual">
+   <div class="rhead" data-t="Quality"><div class="ricon" style="background:var(--teal-soft)">🔍</div>
+     <div><div class="rt">Is the quality good?</div><div class="rs">What buyers actually say — not just stars</div></div>
+     <span class="rstatus" id="stQual">Open</span><span class="chev">▾</span></div>
+   <div class="rbody">
+     <div class="qtags">${it.quality.map(q=>`<div class="qtag"><span class="lab">${q[0]}</span><span class="bar"><i style="width:${q[1]}%;background:${q[2]}"></i></span><span class="pct">${q[1]}%</span></div>`).join("")}</div>
+     <div class="photos">${Array.from({length:4}).map(()=>`<div class="ph" style="background:${SW[it.sw]}">${G[it.g]("var(--"+(it.sw==='pink'?'pink':it.sw)+")")}</div>`).join("")}<div class="ph" style="background:var(--field);font-size:10px;color:var(--ink-faint);font-weight:700">+${it.photoCount}</div></div>
+     <div class="src">Synthesised from ${it.photoCount} buyer photos &amp; verified reviews · tap any tag to read sources</div>
+     <button class="act" id="qualOk">This answers it →</button>
+   </div>
+ </div>
+
+ <!-- STYLING -->
+ <div class="rcard" id="cardStyle">
+   <div class="rhead" data-t="Style"><div class="ricon" style="background:var(--pink-soft)">✨</div>
+     <div><div class="rt">Will it suit me &amp; the occasion?</div><div class="rs">Where it works and how buyers styled it</div></div>
+     <span class="rstatus" id="stStyle">Open</span><span class="chev">▾</span></div>
+   <div class="rbody">
+     <label class="fld">What's the occasion?</label>
+     <div class="chips" id="occChips">${it.styling.occasions.map((o,i)=>`<button class="chip" data-v="${o}" aria-pressed="${i===0?'true':'false'}">${o}</button>`).join("")}</div>
+     <div class="result show" style="display:block;background:var(--pink-soft);border-color:var(--line-2);margin-top:12px">
+       <span class="big" style="color:var(--pink-ink)">Great match ✓</span>
+       <p>Best for <b>${it.styling.best}</b>. ${it.fitReviews>0?'':''}Buyers with a similar wardrobe wear it confidently here.</p>
+     </div>
+     <label class="fld">How ${it.styling.lookCount} buyers styled it</label>
+     <div class="looks">${it.styling.looks.map((l,i)=>`<div class="look"><div class="lsw" style="background:${SW[it.sw]}">${l}</div><div class="lt">${it.styling.lookLabels[i]}</div></div>`).join("")}</div>
+     <button class="act" id="styleOk" style="margin-top:13px">This works for me →</button>
+   </div>
+ </div>
+
+ <div class="verdict" id="verdict">
+   <h4>You're ready to decide ✦</h4>
+   <p>Fit, quality and styling all check out for you — the uncertainty that kept this in your wishlist is cleared. No price change needed.</p>
+ </div>`;
+}
+
+function toggleCard(card){
+ const open=card.classList.contains("open");
+ document.querySelectorAll(".rcard").forEach(c=>c.classList.remove("open"));
+ if(!open)card.classList.add("open");
+}
+
+function wire(){
+ document.querySelectorAll(".rhead").forEach(h=>h.onclick=()=>toggleCard(h.closest(".rcard")));
+ // body chips
+ chipGroup("#bodyChips",false);
+ chipGroup("#occChips",false);
+ $("#cardFit").classList.add("open");
+ // fit
+ $("#findSize").onclick=()=>{
+   const rb=$("#refBrand").value, rs=$("#refSize").value;
+   const bf=$("#bodyChips [aria-pressed='true']").dataset.v;
+   const r=recommendSize(rb,rs,cur.brand,cur.targetBias,bf);
+   const res=$("#fitRes"); res.classList.add("show");
+   res.innerHTML=`<span class="big">Order size ${r.size}</span>
+     <p>Because you wear <b>${rs}</b> in <b>${rb}</b> and ${r.note}. ${cur.fitReviews.toLocaleString()} buyers with your profile bought this ${cur.g==='shoe'?'pair':cur.g}.</p>
+     <div class="riskrow">Fit risk: <span class="pill ${r.risk}">${r.risk==='low'?'Low':'Medium'}</span> ${r.risk==='low'?'· easy free 14-day return if off':'· we suggest the safer size'}</div>`;
+   mark("fit","stFit");
+ };
+ $("#qualOk").onclick=()=>mark("quality","stQual");
+ $("#styleOk").onclick=()=>mark("style","stStyle");
+}
+function chipGroup(sel,multi){
+ const g=$(sel); if(!g)return;
+ g.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+   if(!multi)g.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed","false"));
+   c.setAttribute("aria-pressed", c.getAttribute("aria-pressed")==="true"&&multi?"false":"true");
+ });
+}
+function mark(key,stId){
+ state[key]=true; const st=$("#"+stId); st.textContent="Resolved ✓"; st.classList.add("done");
+ updateRing();
+ // auto-advance to next unresolved
+ const order=[["fit","cardFit"],["quality","cardQual"],["style","cardStyle"]];
+ const next=order.find(([k])=>!state[k]);
+ setTimeout(()=>{ if(next){toggleCard($("#"+next[1]));} else {document.querySelectorAll(".rcard").forEach(c=>c.classList.remove("open"));} },350);
+}
+
+$("#addbag").onclick=()=>{
+ if(!$("#addbag").classList.contains("ready"))return;
+ $("#addbag").textContent="✓ Added to Bag";
+ $("#toastMsg").textContent=`${cur.brand} added — decided with confidence, no coupon used.`;
+ $("#toast").classList.add("on");
+ setTimeout(()=>$("#toast").classList.remove("on"),2600);
+};
+</script>
+
+</body>
+</html>

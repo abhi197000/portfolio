@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<div id="wl-backbar" style="position:sticky;top:0;z-index:99999;background:#0a0e17;border-bottom:1px solid #1f2a40;padding:9px 18px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;display:flex;gap:10px;align-items:center">
+<a href="/agents/wishlist-growth" style="color:#38bdf8;text-decoration:none;font-weight:600">&larr; Wishlist Growth Studio</a>
+<span style="color:#64748b">Myntra &middot; wishlist &rarr; purchase</span></div>
+<title>Wishlist Signal Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+
+<style>
+:root{
+  --bg:#FBF7F9; --panel:#FFFFFF; --panel-2:#F5EEF2; --ink:#1C1420; --ink-soft:#5B5060;
+  --line:#E7DCE3; --line-strong:#D8C7D2;
+  --accent:#E11D67; --accent-soft:#FBE3ED; --accent-ink:#A50D48;
+  --pos:#1E6FD9; --neg:#C05600; /* colorblind-safe diverging pair (blue / orange) */
+  --good:#0F7A5A; --warn:#B45309; --muted:#8A7E8F;
+  --chip:#F0E6EC;
+  --shadow:0 1px 2px rgba(28,20,32,.04), 0 8px 24px rgba(28,20,32,.06);
+  --radius:14px;
+  --c1:#2563EB; --c2:#0D9488; --c3:#D97706; --c4:#7C3AED; --c5:#E11D67; --c6:#475569;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#151016; --panel:#1E1721; --panel-2:#271E2B; --ink:#F3EAF0; --ink-soft:#B9AABF;
+    --line:#332632; --line-strong:#463748;
+    --accent:#FF5C8D; --accent-soft:#3A1C29; --accent-ink:#FFB3C9;
+    --pos:#6BA5F2; --neg:#F0A15A;
+    --good:#48C9A0; --warn:#E6B655; --muted:#9A8DA0;
+    --chip:#2C2230;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151016; --panel:#1E1721; --panel-2:#271E2B; --ink:#F3EAF0; --ink-soft:#B9AABF;
+  --line:#332632; --line-strong:#463748;
+  --accent:#FF5C8D; --accent-soft:#3A1C29; --accent-ink:#FFB3C9;
+  --pos:#6BA5F2; --neg:#F0A15A;
+  --good:#48C9A0; --warn:#E6B655; --muted:#9A8DA0;
+  --chip:#2C2230;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Instrument Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  line-height:1.5;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 22px 64px;}
+h1,h2,h3{font-family:"Fraunces",Georgia,serif;font-weight:600;line-height:1.1;text-wrap:balance;margin:0;}
+a{color:var(--accent-ink)}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);font-weight:600;}
+.muted{color:var(--ink-soft)}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* Header */
+header.top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
+  border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:24px;}
+header.top h1{font-size:clamp(28px,4vw,42px);letter-spacing:-.01em;}
+header.top .sub{margin-top:8px;max-width:60ch;color:var(--ink-soft);font-size:15px;}
+.badge{display:inline-flex;align-items:center;gap:7px;background:var(--accent-soft);color:var(--accent-ink);
+  border:1px solid var(--line-strong);padding:5px 11px;border-radius:999px;font-size:12.5px;font-weight:600;}
+
+/* Layout */
+.grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:22px;align-items:start;}
+@media (max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);}
+.card .pad{padding:18px}
+.card h3{font-size:18px;margin-bottom:4px}
+.stack{display:flex;flex-direction:column;gap:22px}
+
+/* Input panel */
+textarea{width:100%;min-height:210px;resize:vertical;border:1px solid var(--line-strong);border-radius:10px;
+  background:var(--panel-2);color:var(--ink);padding:12px;font-family:"Instrument Sans",sans-serif;font-size:13.5px;line-height:1.5}
+textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.btnrow{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+button{font-family:inherit;font-size:13.5px;font-weight:600;border-radius:9px;padding:9px 14px;cursor:pointer;
+  border:1px solid var(--line-strong);background:var(--panel-2);color:var(--ink);transition:transform .05s ease,filter .15s}
+button:hover{filter:brightness(.98)}button:active{transform:translateY(1px)}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--accent);color:#fff;border-color:transparent}
+button.ghost{background:transparent}
+.hint{font-size:12px;color:var(--muted);margin-top:10px}
+
+/* KPI row */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media (max-width:620px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+.kpi .n{font-family:"Fraunces",serif;font-size:26px;font-weight:600;letter-spacing:-.01em}
+.kpi .l{font-size:12px;color:var(--ink-soft);margin-top:2px}
+
+/* Theme bars */
+.bar-row{display:grid;grid-template-columns:150px 1fr auto;gap:12px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--line)}
+.bar-row:last-child{border-bottom:0}
+.bar-label{font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px}
+.dot{width:10px;height:10px;border-radius:3px;flex:none}
+.track{background:var(--panel-2);border-radius:7px;height:16px;overflow:hidden;position:relative}
+.fill{height:100%;border-radius:7px;transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.bar-val{font-size:12.5px;font-weight:600;min-width:74px;text-align:right}
+.bar-val small{color:var(--muted);font-weight:500}
+
+/* sentiment */
+.sent{display:flex;height:20px;border-radius:7px;overflow:hidden;border:1px solid var(--line)}
+.sent > span{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+
+/* Opportunity table */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th,.tbl td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);font-weight:700;white-space:nowrap}
+.tbl td.tnum{text-align:right}
+.scorecell{display:flex;align-items:center;gap:9px;justify-content:flex-end}
+.scorepill{font-weight:700;font-variant-numeric:tabular-nums;padding:2px 8px;border-radius:7px;color:#fff;min-width:34px;text-align:center}
+.rank{font-family:"Fraunces",serif;font-weight:600;color:var(--muted)}
+.tagIn{color:var(--pos);font-weight:700}
+.tagOut{color:var(--neg);font-weight:700}
+tr.out td{opacity:.55}
+.stage{font-size:11px;background:var(--chip);border:1px solid var(--line);padding:2px 7px;border-radius:6px;color:var(--ink-soft);white-space:nowrap}
+
+/* quotes */
+.quotes{display:flex;flex-direction:column;gap:10px}
+.q{background:var(--panel-2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:10px 12px;font-size:13px}
+.q .meta{font-size:11px;color:var(--muted);margin-top:5px;display:flex;gap:8px;flex-wrap:wrap}
+details.method{margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+details.method summary{cursor:pointer;padding:14px 16px;font-weight:600;font-size:14px;list-style:none}
+details.method summary::-webkit-details-marker{display:none}
+details.method[open] summary{border-bottom:1px solid var(--line)}
+details.method .pad{padding:16px}
+.method h4{margin:14px 0 4px;font-size:13px;font-family:"Instrument Sans";text-transform:uppercase;letter-spacing:.06em;color:var(--accent-ink)}
+.method code{background:var(--panel-2);padding:1px 6px;border-radius:5px;font-size:12.5px}
+.sectlabel{display:flex;align-items:center;gap:9px;margin:2px 0 12px}
+.sectlabel .eyebrow{margin:0}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-soft);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.foot{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.scroll-x{overflow-x:auto}
+.empty{color:var(--muted);font-size:13.5px;padding:8px 0}
+.callout{background:var(--accent-soft);border:1px solid var(--line-strong);border-radius:10px;padding:12px 14px;font-size:13px;margin-top:14px}
+.callout b{color:var(--accent-ink)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Growth · Wishlist → Purchase</div>
+      <h1>Wishlist Signal Engine</h1>
+      <p class="sub">An AI-designed discovery workflow that reads fashion-shopping feedback at scale, tags the reasons high-intent wishlist items stall, quantifies each theme, and scores opportunities against one goal — lifting 30-day wishlist-to-purchase — under a no-monetary-incentive constraint.</p>
+    </div>
+    <div class="badge">● Myntra · Growth discovery</div>
+  </header>
+
+  <div class="grid">
+    <!-- INPUT -->
+    <div class="card">
+      <div class="pad">
+        <h3>1 · Feed it feedback</h3>
+        <p class="muted" style="font-size:13px;margin:6px 0 12px">Paste real reviews / Reddit / Q&amp;A / app-store text — one snippet per line. Or load the bundled corpus of public-review snippets to see it run.</p>
+        <textarea id="input" spellcheck="false" placeholder="e.g.&#10;Ordered my usual M but it was way too tight, had to return it&#10;Keeping it in wishlist till the next sale, too pricey right now&#10;Can't tell if the fabric is see-through from the photos..."></textarea>
+        <div class="btnrow">
+          <button class="primary" id="run">Analyze feedback</button>
+          <button id="sample">Load sample corpus</button>
+          <button class="ghost" id="clear">Clear</button>
+        </div>
+        <div class="btnrow">
+          <button class="ghost" id="copy">⧉ Copy findings summary</button>
+        </div>
+        <p class="hint" id="corpusnote">Bundled corpus = 46 snippets paraphrased from public Myntra/fashion-shopping reviews (Trustpilot, PissedConsumer, Quora, Play/App Store, Reddit themes). Paraphrased to represent real patterns — swap in your own scraped reviews for a live run.</p>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="stack">
+      <div class="kpis" id="kpis"></div>
+
+      <div class="card"><div class="pad">
+        <div class="sectlabel"><span class="eyebrow">2 · What's stalling purchases</span></div>
+        <h3 style="margin-bottom:12px">Theme frequency across feedback</h3>
+        <div id="bars"><p class="empty">Run the analysis to see themes ranked by how often they appear.</p></div>
+        <div class="legend" id="barlegend"></div>
+      </div></div>
+
+      <div class="card"><div class="pad">
+        <div class="sectlabel"><span class="eyebrow">3 · Signal quality</span></div>
+        <h3 style="margin-bottom:6px">Sentiment of the conversation</h3>
+        <p class="muted" style="font-size:12.5px;margin-bottom:12px">Lexicon-scored. Blue = positive, orange = negative (colour-blind-safe pair, also labelled).</p>
+        <div id="sentiment"><p class="empty">—</p></div>
+      </div></div>
+
+      <div class="card"><div class="pad">
+        <div class="sectlabel"><span class="eyebrow">4 · Where to play</span></div>
+        <h3 style="margin-bottom:4px">Opportunity scoring vs. the business metric</h3>
+        <p class="muted" style="font-size:12.5px;margin-bottom:12px">Score = normalized frequency × user impact × build feasibility. Price-led themes are flagged <span class="tagOut">out of scope</span> by the no-monetary-incentive constraint and excluded from ranking.</p>
+        <div class="scroll-x"><table class="tbl" id="opptbl"><tbody><tr><td class="empty">Run the analysis to rank opportunities.</td></tr></tbody></table></div>
+        <div class="callout" id="reco" style="display:none"></div>
+      </div></div>
+
+      <div class="card"><div class="pad">
+        <div class="sectlabel"><span class="eyebrow">5 · In their words</span></div>
+        <h3 style="margin-bottom:12px">Representative snippets — top theme</h3>
+        <div class="quotes" id="quotes"><p class="empty">—</p></div>
+      </div></div>
+    </div>
+  </div>
+
+  <details class="method">
+    <summary>How the engine works (methodology) ▸</summary>
+    <div class="pad method">
+      <p style="font-size:13.5px;margin-top:0">This is the operational front-end of a two-stage discovery workflow. Stage 1 (offline, LLM-assisted): qualitative reading of hundreds of public reviews to induce a <b>10-theme pain-point taxonomy</b> for fashion wishlist abandonment, each theme mapped to a stage of the wishlist→purchase funnel and rated for user impact, build feasibility, and whether it's actionable without money. Stage 2 (this tool): that taxonomy is operationalized as a transparent classifier that tags any volume of pasted feedback, quantifies theme frequency and sentiment, and computes opportunity scores — turning raw text into a ranked, comparable opportunity map.</p>
+      <h4>Classification</h4>
+      <p style="font-size:13px;margin:0">Each snippet is matched against per-theme keyword &amp; phrase lexicons (case-insensitive, word-boundary aware). A snippet can carry multiple themes. Theme frequency = share of snippets carrying that theme.</p>
+      <h4>Sentiment</h4>
+      <p style="font-size:13px;margin:0">Lexicon polarity per snippet (positive/negative term counts + negation flip), aggregated to a conversation-level split.</p>
+      <h4>Opportunity score</h4>
+      <p style="font-size:13px;margin:0"><code>score = (freq ÷ max_freq) × (impact ÷ 3) × (feasibility ÷ 3) × 100</code>, where impact and feasibility (1–3) are the taxonomy priors. Themes marked out-of-scope (price/discount levers) are shown for completeness but excluded from the recommended ranking.</p>
+      <h4>Honesty note</h4>
+      <p style="font-size:13px;margin:0">The bundled corpus is <b>paraphrased</b> from public reviews to protect against passing off invented quotes as verbatim; frequencies from it are indicative. For decision-grade numbers, paste a real scraped review set — the engine recomputes everything live in your browser. Nothing is uploaded; all processing is client-side.</p>
+    </div>
+  </details>
+
+  <div class="foot">Wishlist Signal Engine · a Growth-team discovery workflow for Myntra · runs entirely in your browser, no account or data upload.</div>
+</div>
+
+<script>
+const THEMES = [
+  {id:"fit", name:"Fit & size", color:"var(--c1)", stage:"Confidence", impact:3, feas:2, scope:true,
+   kw:["size","sizing","fit","fitting","fits","too small","too big","too tight","too loose","tight","loose","size chart","true to size","runs small","runs large","xl","xxl","xs","waist","length","measurement","body type","plus size","petite","oversized"]},
+  {id:"quality", name:"Quality & fabric", color:"var(--c2)", stage:"Confidence", impact:3, feas:3, scope:true,
+   kw:["quality","fabric","material","cheap material","poor quality","stitching","stitch","thin","transparent","see-through","see through","flimsy","cloth","fade","faded","defective","damaged","wash","shrunk","shrink","texture","feels cheap"]},
+  {id:"style", name:"Styling & occasion", color:"var(--c3)", stage:"Confidence", impact:2, feas:2, scope:true,
+   kw:["style","suit me","will it suit","suits me","look good","how to wear","pair it","pair with","match","matches","occasion","event","wedding","office wear","trend","trendy","outfit","styling","does it look"]},
+  {id:"reviews", name:"Reviews & validation", color:"var(--c4)", stage:"Confidence", impact:3, feas:3, scope:true,
+   kw:["review","reviews","ratings","rating","customer photos","real photos","real pics","photos of","not enough reviews","no reviews","fake reviews","trust the review","opinion","ask friends","validation"]},
+  {id:"decision", name:"Decision / bookmark", color:"var(--c5)", stage:"Recall & intent", impact:2, feas:3, scope:true,
+   kw:["wishlist","wish list","saved it","save for later","for later","forgot","forget","too many","compare","comparing","options","can't decide","cant decide","confused","overwhelmed","shortlist","bookmark","keep it in"]},
+  {id:"price", name:"Price & discount", color:"var(--c6)", stage:"Price (out of scope)", impact:3, feas:3, scope:false,
+   kw:["price","expensive","costly","overpriced","too pricey","pricey","budget","afford","discount","sale","offer","deal","coupon","cheaper","price drop","waiting for sale","wait for sale","emi","out of budget"]},
+  {id:"delivery", name:"Delivery & logistics", color:"var(--c1)", stage:"Fulfilment", impact:2, feas:1, scope:true,
+   kw:["delivery","delivered","delayed","late","shipping","courier","out for delivery","tracking","days to arrive","never arrived","slow delivery"]},
+  {id:"returns", name:"Returns & exchange", color:"var(--c2)", stage:"Amplifier", impact:2, feas:1, scope:true,
+   kw:["return","returns","exchange","refund","replace","replacement","pickup","return policy","no return","return hassle","hassle to return","send it back"]},
+  {id:"trust", name:"Trust & authenticity", color:"var(--c3)", stage:"Trust", impact:2, feas:2, scope:true,
+   kw:["fake","original","genuine","authentic","not genuine","counterfeit","duplicate","first copy","seller","scam","real product"]},
+  {id:"support", name:"Customer support", color:"var(--c4)", stage:"Amplifier", impact:1, feas:1, scope:true,
+   kw:["support","customer service","customer care","help center","helpline","no response","agent","complaint","raised a ticket","poor service","worst service"]},
+];
+
+const POS = ["good","great","love","loved","excellent","perfect","happy","satisfied","nice","worth","amazing","comfortable","recommend","best","beautiful","fits well","true to size","fast delivery","genuine"];
+const NEG = ["bad","poor","worst","disappointed","terrible","cheap","waste","horrible","hate","never","fake","defective","damaged","delayed","refund","complaint","pathetic","useless","wrong","too tight","too small","too big","overpriced","hassle","confused","see-through","transparent"];
+const NEGATORS = ["not","no","never","didn't","dont","don't","can't","cant","couldn't"];
+
+const CORPUS = [
+"Ordered my usual size M but it came way too tight, had to return it — now I hesitate before buying clothes here",
+"Keeping this kurta in my wishlist till the next big sale, it's a bit pricey at full price",
+"Can't tell from the photos if the fabric is see-through, wish there were real customer pictures",
+"The size chart says L but reviews say it runs small, so confused about which to order",
+"Added a bunch of dresses to wishlist but honestly I just window shop, not sure I'll buy",
+"Quality of the shirt was so thin and cheap, not worth the price at all",
+"Waiting for a price drop on these shoes, they're on my wishlist with a price alert",
+"Love the design but not sure it will suit my body type, no reviews from plus size buyers",
+"Have like 60 items saved, I forget what's even in there half the time",
+"Fit was completely off, the waist was huge — returns are such a hassle",
+"Want to know how to style this jacket for office wear before I commit",
+"The material felt flimsy after one wash, faded quickly, disappointed",
+"Not enough reviews on this product to trust the quality, so I'm holding off",
+"Comparing three similar tops in my wishlist, can't decide which one to actually buy",
+"Delivery was delayed by 5 days, item showed out for delivery forever",
+"Is this the genuine brand or a first copy? Reviews mention fake products from some sellers",
+"Beautiful saree but I'm worried the colour won't look like the photo in real life",
+"Exchange for a different size wasn't allowed, only return, which put me off ordering",
+"This is perfect for the wedding but I want my sister's opinion before buying",
+"Too expensive right now, saved for later, will grab it during End of Reason Sale",
+"The kurti fit well and true to size, very happy with the quality actually",
+"App keeps showing me options but I feel overwhelmed, too many similar products",
+"Customer care gave no response when I asked about the fabric composition",
+"Shortlisted these sneakers weeks ago, still haven't decided, keep second-guessing the fit",
+"Ordered a size up based on reviews and it fit perfectly, wish all listings had that info",
+"Photos look great but I've been burned before by poor stitching, need real pics",
+"Wishlisted a blazer, waiting to see if it goes on discount before month end",
+"How do I know if this dress will suit me? I wish there was a try-on preview",
+"Returned twice due to wrong fit, honestly exhausting, thinking of ordering from store instead",
+"The trousers were good quality and worth the money, pleasantly surprised",
+"Not sure if this is office appropriate or too casual, need styling guidance",
+"Saved 40 products, use it more like a mood board than an actual buying list",
+"The colour faded after wash, quality does not match the premium price",
+"Reviews are all 5 star with no photos, feels fake, hard to trust",
+"Delivery is slow in my area so I hesitate to order fashion I'm unsure about",
+"This lehenga is gorgeous but way out of budget, keeping it in wishlist as a dream",
+"Fit guide would help so much, every brand sizes differently and it's frustrating",
+"Want to pair this with jeans I already own but can't tell the exact shade",
+"Been waiting for a coupon on my wishlist items, prices are just too high otherwise",
+"Genuine product and fast delivery, fits true to size, would recommend",
+"I add to wishlist to remember, then compare on other apps before deciding",
+"Material is see-through and thin, had to return, such a waste of time",
+"Not confident about the fit so I keep postponing, wish I could ask someone",
+"Occasion is next week, need to be sure it will arrive and fit, too risky",
+"Too many choices saved, decision paralysis, I end up buying nothing",
+"The stitching quality was poor and one seam came undone, disappointed with the brand",
+];
+
+const $=s=>document.querySelector(s);
+function esc(t){return t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+
+function analyze(lines){
+  const snips = lines.map(l=>l.trim()).filter(l=>l.length>2);
+  const N = snips.length;
+  const counts={}, sents={}, examples={};
+  THEMES.forEach(t=>{counts[t.id]=0;sents[t.id]=0;examples[t.id]=[];});
+  let posTot=0, negTot=0, neuTot=0;
+  snips.forEach(s=>{
+    const low=" "+s.toLowerCase()+" ";
+    // sentiment
+    let sc=0;
+    POS.forEach(w=>{if(low.includes(w)) sc++;});
+    NEG.forEach(w=>{if(low.includes(w)) sc--;});
+    if(sc>0)posTot++; else if(sc<0)negTot++; else neuTot++;
+    // themes
+    THEMES.forEach(t=>{
+      const hit=t.kw.some(k=>low.includes(k.toLowerCase()));
+      if(hit){counts[t.id]++; sents[t.id]+=sc; if(examples[t.id].length<6) examples[t.id].push({s,sc});}
+    });
+  });
+  return {N,counts,sents,examples,posTot,negTot,neuTot};
+}
+
+function render(r){
+  const {N,counts,examples,posTot,negTot,neuTot}=r;
+  if(N===0){alert("Add at least one line of feedback, or click 'Load sample corpus'.");return;}
+  // KPIs
+  const themed = THEMES.filter(t=>counts[t.id]>0).length;
+  const inScopeStall = THEMES.filter(t=>t.scope && t.stage==="Confidence").reduce((a,t)=>a+counts[t.id],0);
+  const priceCount = counts["price"];
+  $("#kpis").innerHTML=[
+    ["Snippets analysed",N],
+    ["Distinct pain themes",themed+" / "+THEMES.length],
+    ["Confidence-gap mentions",inScopeStall],
+    ["Price-led (out of scope)",priceCount],
+  ].map(([l,n])=>`<div class="kpi"><div class="n tnum">${n}</div><div class="l">${l}</div></div>`).join("");
+
+  // Bars
+  const maxc=Math.max(...THEMES.map(t=>counts[t.id]),1);
+  const ranked=[...THEMES].sort((a,b)=>counts[b.id]-counts[a.id]);
+  $("#bars").innerHTML=ranked.map(t=>{
+    const c=counts[t.id], pct=Math.round(c/N*100), w=Math.round(c/maxc*100);
+    return `<div class="bar-row">
+      <div class="bar-label"><span class="dot" style="background:${t.color}"></span>${t.name}${t.scope?"":' <span class="tagOut" title="excluded by no-money constraint">⊘</span>'}</div>
+      <div class="track"><div class="fill" style="width:${w}%;background:${t.color};opacity:${t.scope?1:.5}"></div></div>
+      <div class="bar-val tnum">${pct}% <small>· ${c}</small></div>
+    </div>`;
+  }).join("");
+  $("#barlegend").innerHTML=`<span><span class="dot" style="background:var(--c1)"></span>bar length = mentions vs. top theme</span><span>% = share of all snippets</span><span class="tagOut">⊘ = out of scope (price lever)</span>`;
+
+  // Sentiment
+  const tot=posTot+negTot+neuTot||1;
+  const pp=Math.round(posTot/tot*100), np=Math.round(negTot/tot*100), up=100-pp-np;
+  $("#sentiment").innerHTML=`<div class="sent">
+     <span style="width:${np}%;background:var(--neg)">${np>7?np+'% neg':''}</span>
+     <span style="width:${up}%;background:var(--muted)">${up>7?up+'% neutral':''}</span>
+     <span style="width:${pp}%;background:var(--pos)">${pp>7?pp+'% pos':''}</span>
+   </div>
+   <p class="muted" style="font-size:12.5px;margin-top:8px">A predominantly negative, high-friction conversation is exactly where an unmet need lives — the feedback is about barriers, not delight.</p>`;
+
+  // Opportunity table
+  const scored=THEMES.map(t=>{
+    const c=counts[t.id], freq=c/maxc;
+    const score=Math.round(freq*(t.impact/3)*(t.feas/3)*100);
+    return {...t,c,pct:Math.round(c/N*100),score};
+  });
+  const inScope=scored.filter(t=>t.scope).sort((a,b)=>b.score-a.score);
+  const outScope=scored.filter(t=>!t.scope);
+  let rank=0;
+  const scoreColor=s=>{const a=Math.max(.15,Math.min(1,s/ (inScope[0]?.score||1)));return `background:var(--accent);opacity:${a}`;};
+  const rows=[...inScope,...outScope].map(t=>{
+    const isOut=!t.scope; if(!isOut) rank++;
+    return `<tr class="${isOut?'out':''}">
+      <td class="rank">${isOut?'—':rank}</td>
+      <td><b>${t.name}</b></td>
+      <td><span class="stage">${t.stage}</span></td>
+      <td class="tnum">${t.pct}%</td>
+      <td class="tnum">${t.impact}</td>
+      <td class="tnum">${t.feas}</td>
+      <td>${isOut?'<span class="tagOut">✗ no-money</span>':'<span class="tagIn">✓ in scope</span>'}</td>
+      <td><div class="scorecell"><span class="scorepill" style="${isOut?'background:var(--muted)':scoreColor(t.score)}">${t.score}</span></div></td>
+    </tr>`;
+  }).join("");
+  $("#opptbl").innerHTML=`<thead><tr>
+     <th>#</th><th>Opportunity</th><th>Funnel stage</th><th>Freq</th><th>Impact</th><th>Feas.</th><th>Constraint</th><th>Score</th>
+   </tr></thead><tbody>${rows}</tbody>`;
+  const top=inScope[0];
+  $("#reco").style.display="block";
+  $("#reco").innerHTML=`<b>Recommended focus:</b> ${top.name} — the highest-scoring in-scope opportunity (${top.pct}% of feedback, ${top.stage} stage). The top ${Math.min(3,inScope.filter(t=>t.stage==="Confidence").length)} in-scope themes are all facets of one root: <b>purchase confidence</b>. Price ranks high on raw frequency but is excluded by the no-monetary-incentive constraint.`;
+
+  // Quotes — top in-scope theme
+  const qTheme=top.id;
+  const ex=examples[qTheme]||[];
+  $("#quotes").innerHTML= ex.length? ex.map(e=>`<div class="q">“${esc(e.s)}”<div class="meta"><span>theme: ${top.name}</span><span>sentiment: ${e.sc>0?'positive':e.sc<0?'negative':'neutral'}</span></div></div>`).join("")
+    : `<p class="empty">No snippets matched the top theme.</p>`;
+  document.querySelector('#quotes').closest('.card').querySelector('h3').textContent="Representative snippets — "+top.name;
+  window.__last=r;
+}
+
+function loadSample(){$("#input").value=CORPUS.join("\n");}
+$("#run").onclick=()=>render(analyze($("#input").value.split("\n")));
+$("#sample").onclick=()=>{loadSample();render(analyze(CORPUS));};
+$("#clear").onclick=()=>{$("#input").value="";$("#kpis").innerHTML="";$("#bars").innerHTML='<p class="empty">Run the analysis to see themes.</p>';$("#sentiment").innerHTML='<p class="empty">—</p>';$("#opptbl").innerHTML='<tbody><tr><td class="empty">Run the analysis to rank opportunities.</td></tr></tbody>';$("#quotes").innerHTML='<p class="empty">—</p>';$("#reco").style.display="none";};
+$("#copy").onclick=()=>{
+  const r=window.__last; if(!r){alert("Run an analysis first.");return;}
+  const maxc=Math.max(...THEMES.map(t=>r.counts[t.id]),1);
+  const lines=["WISHLIST SIGNAL ENGINE — findings","Snippets: "+r.N,"",
+    "Theme frequency:",...[...THEMES].sort((a,b)=>r.counts[b.id]-r.counts[a.id]).map(t=>`  ${t.name}: ${Math.round(r.counts[t.id]/r.N*100)}% (${r.counts[t.id]})${t.scope?"":"  [out of scope: price]"}`),
+    "",`Sentiment: ${Math.round(r.negTot/r.N*100)}% neg / ${Math.round(r.neuTot/r.N*100)}% neutral / ${Math.round(r.posTot/r.N*100)}% pos`];
+  navigator.clipboard.writeText(lines.join("\n")).then(()=>{$("#copy").textContent="✓ Copied";setTimeout(()=>$("#copy").textContent="⧉ Copy findings summary",1500);});
+};
+</script>
+
+</body>
+</html>

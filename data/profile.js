@@ -137,6 +137,15 @@ export const projects = [
 
 export const agents = [
   {
+    id: "wishlist-growth",
+    title: "Wishlist Growth Studio",
+    subtitle: "Myntra Wishlist → Purchase · PM Discovery Suite",
+    description:
+      "A four-tool product-management suite that lifts wishlist-to-purchase conversion without discounts: a live serverless review scraper, an AI opportunity-discovery engine, a user-research kit, and a deployed MVP prototype — plus the full 10-slide case study.",
+    tags: ["Product Management", "AI Discovery", "Growth", "Review Mining"],
+    status: "live",
+  },
+  {
     id: "schema-compare",
     title: "Schema Comparison Agent",
     subtitle: "BigQuery Schema Analyzer",

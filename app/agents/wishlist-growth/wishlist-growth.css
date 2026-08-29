@@ -1,0 +1,96 @@
+.wg-page { min-height: 100vh; background: var(--bg); color: var(--text); }
+
+.wg-nav {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(12px);
+  background: rgba(10, 14, 23, 0.8);
+  border-bottom: 1px solid var(--border);
+}
+.wg-nav-inner {
+  max-width: var(--max-width); margin: 0 auto; height: 60px;
+  display: flex; align-items: center; justify-content: space-between; padding: 0 24px;
+}
+.wg-nav-back { color: var(--accent); font-weight: 600; font-size: 0.9rem; text-decoration: none; }
+.wg-nav-back:hover { text-decoration: underline; }
+.wg-nav-title { color: var(--text-muted); font-size: 0.86rem; }
+
+.wg-hero { max-width: var(--max-width); margin: 0 auto; padding: 60px 24px 30px; }
+.wg-eyebrow {
+  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
+  font-weight: 700; color: #ff6b95;
+}
+.wg-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.08;
+  margin: 12px 0 0; letter-spacing: -0.02em; max-width: 16ch;
+}
+.wg-hero h1 span {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.wg-sub { color: var(--text-muted); font-size: 1.08rem; max-width: 62ch; margin: 18px 0 0; }
+
+.wg-pipe { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+.wg-step {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 999px;
+  padding: 7px 14px; font-size: 0.82rem; font-weight: 600; color: var(--text);
+}
+.wg-step b { color: var(--accent); margin-right: 5px; }
+
+.wg-main { max-width: var(--max-width); margin: 0 auto; padding: 20px 24px 70px; }
+.wg-section-title { font-size: 1.4rem; font-weight: 700; margin: 40px 0 6px; }
+.wg-section-sub { color: var(--text-muted); font-size: 0.95rem; margin: 0 0 22px; }
+
+.wg-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 720px) { .wg-cards { grid-template-columns: 1fr; } }
+.wg-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+  padding: 22px; display: flex; flex-direction: column; transition: transform .14s, border-color .18s;
+  text-decoration: none; color: inherit;
+}
+.wg-card:hover { transform: translateY(-3px); border-color: var(--accent); text-decoration: none; }
+.wg-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.wg-num { font-size: 0.78rem; font-weight: 700; color: var(--accent-2); }
+.wg-badge {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: 6px; margin-left: auto;
+}
+.wg-badge.live { background: rgba(52, 211, 153, 0.14); color: #34d399; }
+.wg-badge.api { background: rgba(129, 140, 248, 0.16); color: #a5b4fc; }
+.wg-card h3 { font-size: 1.24rem; font-weight: 700; margin: 4px 0 8px; }
+.wg-card p { color: var(--text-muted); font-size: 0.94rem; margin: 0; flex: 1; }
+.wg-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; }
+.wg-tags span {
+  font-size: 0.72rem; color: var(--text-muted);
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  padding: 3px 9px; border-radius: 999px;
+}
+.wg-cta { margin-top: 14px; color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+
+.wg-think { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 6px; }
+@media (max-width: 720px) { .wg-think { grid-template-columns: 1fr; } }
+.wg-think .wg-card { cursor: default; }
+.wg-think .wg-card:hover { transform: none; border-color: var(--border); }
+.wg-think h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #ff6b95; margin: 0 0 6px; }
+.wg-think p { color: var(--text); font-size: 0.95rem; }
+
+.wg-deckbar {
+  margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px;
+}
+.wg-deckbar p { margin: 0; color: var(--text-muted); font-size: 0.94rem; flex: 1; min-width: 200px; }
+.wg-deckbar b { color: var(--text); }
+.wg-btn {
+  display: inline-block; background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #06121f; font-weight: 700; font-size: 0.9rem; padding: 11px 18px; border-radius: 10px;
+  text-decoration: none;
+}
+.wg-btn:hover { text-decoration: none; opacity: 0.94; }
+
+.wg-note {
+  margin-top: 22px; font-size: 0.86rem; color: var(--text-muted);
+  background: rgba(255,255,255,0.02); border: 1px dashed var(--border); border-radius: 12px; padding: 14px 16px;
+}
+.wg-footer {
+  max-width: var(--max-width); margin: 0 auto; padding: 24px; border-top: 1px solid var(--border);
+  color: var(--text-muted); font-size: 0.82rem;
+}
