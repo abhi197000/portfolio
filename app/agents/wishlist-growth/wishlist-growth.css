@@ -153,6 +153,82 @@
 }
 
 @keyframes wg-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ============ 3D story deck ============ */
+.story { max-width: var(--max-width); margin: 6px auto 0; padding: 0 16px; }
+.story-hint { text-align: center; color: var(--text-muted); font-size: 0.82rem; margin: 0 0 6px; }
+.story-stage {
+  perspective: 1700px; position: relative;
+  height: clamp(430px, 60vh, 560px);
+}
+.story-deck { position: absolute; inset: 0; transform-style: preserve-3d; }
+.story-thread {
+  position: absolute; left: 4%; right: 4%; top: 50%; height: 2px; z-index: 0;
+  background: repeating-linear-gradient(90deg, rgba(167,139,250,0.4) 0 8px, transparent 8px 20px);
+  overflow: hidden;
+}
+.story-thread i {
+  position: absolute; top: -3px; width: 80px; height: 8px; border-radius: 8px;
+  background: linear-gradient(90deg, transparent, #A78BFA, transparent); filter: blur(1px);
+  animation: story-flow 3.2s linear infinite;
+}
+@keyframes story-flow { from { left: -12%; } to { left: 100%; } }
+
+.story-card {
+  position: absolute; top: 50%; left: 50%;
+  width: min(500px, 84vw);
+  transform-style: preserve-3d;
+  transition: transform .82s cubic-bezier(.2,.85,.25,1), opacity .6s ease, filter .6s ease;
+  background: rgba(30, 26, 62, 0.66);
+  border: 1px solid rgba(180, 160, 255, 0.2);
+  border-radius: 22px; padding: 30px 30px 26px;
+  backdrop-filter: blur(16px) saturate(1.2); -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: 0 34px 90px rgba(8, 6, 30, 0.6);
+  cursor: pointer;
+}
+.story-card.is-active {
+  cursor: default; border-color: rgba(167, 139, 250, 0.55);
+  box-shadow: 0 34px 100px rgba(139, 124, 246, 0.4), 0 0 0 1px rgba(167, 139, 250, 0.45);
+}
+.story-disc {
+  width: 100px; height: 100px; border-radius: 50%; display: grid; place-items: center;
+  margin: -74px auto 14px; position: relative; line-height: 1;
+  background: radial-gradient(circle at 34% 28%, #2c2660, #14122e 72%);
+  border: 1px solid rgba(167, 139, 250, 0.55);
+  box-shadow: 0 14px 44px rgba(139, 124, 246, 0.45), inset 0 0 26px rgba(167, 139, 250, 0.28);
+}
+.story-disc b {
+  font-size: 2.1rem; font-weight: 800;
+  background: linear-gradient(120deg, #CDBBFF, #F472B6);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.story-disc em { position: absolute; bottom: 16px; font-style: normal; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: #B6AFDB; }
+.story-tag { text-align: center; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #CDBBFF; font-weight: 700; }
+.story-card h3 { text-align: center; font-size: 1.55rem; font-weight: 800; margin: 6px 0 10px; }
+.story-card p { text-align: center; color: #C7BFEA; font-size: 0.97rem; line-height: 1.55; margin: 0; }
+.story-cta { display: flex; justify-content: center; margin-top: 20px; min-height: 44px; align-items: center; }
+.story-cta a, .story-cta button {
+  background: linear-gradient(120deg, #A78BFA, #F472B6); color: #0f0c22; font-weight: 800;
+  border: none; border-radius: 12px; padding: 12px 22px; font-size: 0.94rem; cursor: pointer;
+  text-decoration: none; box-shadow: 0 10px 30px rgba(167, 139, 250, 0.4); font-family: inherit;
+}
+.story-cta a:hover, .story-cta button:hover { filter: brightness(1.07); text-decoration: none; }
+.story-peekcta { color: #B6AFDB; font-size: 0.82rem; font-weight: 600; border: 1px dashed rgba(180,160,255,0.4); padding: 8px 16px; border-radius: 999px; }
+
+.story-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 18px; }
+.story-nav {
+  width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(167, 139, 250, 0.4);
+  background: rgba(30, 26, 62, 0.6); color: #ECE9FF; font-size: 22px; cursor: pointer;
+  backdrop-filter: blur(8px); display: grid; place-items: center; transition: .15s;
+}
+.story-nav:hover:not(:disabled) { background: rgba(167, 139, 250, 0.2); }
+.story-nav:disabled { opacity: 0.3; cursor: default; }
+.story-dots { display: flex; gap: 8px; align-items: center; }
+.story-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(182, 175, 219, 0.4); border: none; cursor: pointer; transition: .2s; padding: 0; }
+.story-dot.on { background: linear-gradient(120deg, #A78BFA, #F472B6); width: 26px; border-radius: 6px; }
+
 @media (prefers-reduced-motion: reduce) {
   .wg-page::after, .wg-cta-begin, .wg-cta-begin .a, .wg-hero, .wg-card { animation: none !important; }
+  .story-card { transition: opacity .3s ease !important; }
+  .story-thread i { animation: none; }
 }
