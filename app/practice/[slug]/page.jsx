@@ -7,7 +7,7 @@ import { getQuestion, getSessionId, listQuestions, submitAttempt } from "../../.
 import { compareResults } from "../../../lib/compareResults";
 import { runSqlQuery } from "../../../lib/sqlRunner";
 import { runPythonCode } from "../../../lib/pyRunner";
-import { getCompletedSlugs, isJourneyComplete, markCompleted } from "../../../lib/practiceProgress";
+import { getCompletedSlugs, isJourneyComplete, markCompleted, recordPracticeActivity } from "../../../lib/practiceProgress";
 
 export default function PracticeWorkbenchPage() {
   const { slug } = useParams();
@@ -44,6 +44,7 @@ export default function PracticeWorkbenchPage() {
     setStatus("running");
     setMessage("");
     setRows(null);
+    recordPracticeActivity();
     try {
       let result;
       if (question.category === "sql") {

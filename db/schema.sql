@@ -58,7 +58,10 @@ ALTER TABLE submissions ADD COLUMN IF NOT EXISTS mode VARCHAR(20) NOT NULL DEFAU
 --    service_role key you keep off the client) — so a visitor can't deface
 --    the question bank through the API
 --  - anyone can INSERT a submission (logging their own attempt) but can't
---    read, edit, or delete submissions through the API
+--    read, edit, or delete submissions through the API. The "My Story" history
+--    view reads submissions server-side with the service_role key (which
+--    bypasses RLS and never reaches the browser) — so NO public SELECT policy
+--    is added here, and the insert-only posture for the anon key is preserved.
 ALTER TABLE questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE submissions ENABLE ROW LEVEL SECURITY;
 

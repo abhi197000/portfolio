@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import "../agents/schema-compare/schema-compare.css";
 import { listQuestions } from "../../lib/practiceApi";
-import { getCompletedSlugs, getLastTestScore } from "../../lib/practiceProgress";
+import { getCompletedSlugs, getLastTestScore, getStreak, getTodaySet } from "../../lib/practiceProgress";
 
 const DIFFICULTY_COLOR = {
   easy: "sc-badge-ok",
@@ -18,6 +18,7 @@ export default function PracticeIndexPage() {
   const [error, setError] = useState(null);
   const [completed, setCompleted] = useState(new Set());
   const [lastScore, setLastScore] = useState(null);
+  const [streak, setStreak] = useState(null);
 
   useEffect(() => {
     listQuestions()
@@ -25,7 +26,10 @@ export default function PracticeIndexPage() {
       .catch((err) => setError(err.message));
     setCompleted(getCompletedSlugs());
     setLastScore(getLastTestScore());
+    setStreak(getStreak());
   }, []);
+
+  const todaySet = questions ? getTodaySet(questions, 10) : [];
 
   const filtered = questions
     ? questions.filter((q) => filter === "all" || q.category === filter)
@@ -46,7 +50,10 @@ export default function PracticeIndexPage() {
 
       <div className="sc-hero">
         <h1>SQL &amp; Python <span>Interview Prep</span></h1>
-        <p className="sc-hero-subtitle">Write real queries. Get instant, honest feedback.</p>
+        <p className="sc-hero-subtitle">
+          Would you rather apply to 100 random jobs a day — or answer 10 questions a day that
+          actually make you better?
+        </p>
         <p className="sc-hero-desc">
           You're the newest analyst at Meridian Retail, working through Priya's onboarding
           cases — 15 real business questions, each solved in SQL and/or Python against an
@@ -56,6 +63,49 @@ export default function PracticeIndexPage() {
       </div>
 
       <main className="sc-main">
+        {questions && (
+          <div className="sc-card" style={{ marginBottom: 24 }}>
+            <div className="sc-card-header">
+              <h2>Today&apos;s 10</h2>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                {streak && (
+                  <span className="sc-badge sc-badge-ok">
+                    🔥 {streak.current}-day streak
+                  </span>
+                )}
+                <Link href="/practice/story" className="sc-nav-back" style={{ margin: 0 }}>
+                  My Story →
+                </Link>
+              </div>
+            </div>
+            <div className="sc-card-body">
+              <p className="sc-source-detail" style={{ marginBottom: 12 }}>
+                {streak?.todayCount
+                  ? `${streak.todayCount} attempt${streak.todayCount === 1 ? "" : "s"} logged today — keep the streak alive.`
+                  : "Ten focused questions beat a hundred cold applications. Start with these."}
+              </p>
+              <div style={{ display: "grid", gap: 8 }}>
+                {todaySet.map((q) => (
+                  <Link
+                    key={q.slug}
+                    href={`/practice/${q.slug}`}
+                    className="sc-source-item"
+                    style={{ display: "flex", justifyContent: "space-between", alignItems: "center", textDecoration: "none" }}
+                  >
+                    <span className="sc-source-name">
+                      {completed.has(q.slug) && <span style={{ color: "var(--accent, #38bdf8)" }}>✓ </span>}
+                      {q.title}
+                    </span>
+                    <span className={`sc-badge ${DIFFICULTY_COLOR[q.difficulty] || "sc-badge-ok"}`}>
+                      {q.category.toUpperCase()}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {questions && (
           <div className="sc-card" style={{ marginBottom: 24 }}>
             <div className="sc-card-header">
