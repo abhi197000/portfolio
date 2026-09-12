@@ -21,13 +21,15 @@ function jsonLiteral(value) {
 
 const statements = QUESTIONS.map((q) => {
   const cols = [
-    "slug", "title", "category", "difficulty", "topic_tags", "story", "prompt",
+    "slug", "title", "category", "difficulty", "topic_tags",
+    "chapter_number", "chapter_title", "story", "prompt",
     "schema_sql", "seed_sql", "seed_data", "expected_result", "order_matters",
     "starter_code", "hints", "solution_code", "sort_order",
   ];
   const values = [
     sqlLiteral(q.slug), sqlLiteral(q.title), sqlLiteral(q.category), sqlLiteral(q.difficulty),
-    jsonLiteral(q.topic_tags), sqlLiteral(q.story), sqlLiteral(q.prompt),
+    jsonLiteral(q.topic_tags),
+    sqlLiteral(q.chapter_number), sqlLiteral(q.chapter_title), sqlLiteral(q.story), sqlLiteral(q.prompt),
     sqlLiteral(q.schema_sql), sqlLiteral(q.seed_sql), jsonLiteral(q.seed_data),
     jsonLiteral(q.expected_result), sqlLiteral(q.order_matters),
     sqlLiteral(q.starter_code), jsonLiteral(q.hints), sqlLiteral(q.solution_code),

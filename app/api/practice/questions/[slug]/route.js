@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
     const { data, error } = await supabase
       .from("questions")
       .select(
-        "id, slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code"
+        "id, slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code"
       )
       .eq("slug", slug)
       .maybeSingle();

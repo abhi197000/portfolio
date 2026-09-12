@@ -123,6 +123,8 @@ const MOVING_AVG_SEED_DATA = {
 export const QUESTIONS = [
   {
     slug: "revenue-gap-best-vs-worst-item",
+    chapter_number: 1,
+    chapter_title: "The Welcome Assignment",
     title: "Revenue Gap: Best vs. Worst Selling Item",
     category: "sql",
     difficulty: "easy",
@@ -156,6 +158,8 @@ export const QUESTIONS = [
   },
   {
     slug: "qualifying-high-value-users",
+    chapter_number: 2,
+    chapter_title: "The Loyalty Shortlist",
     title: "Qualifying High-Value Users",
     category: "sql",
     difficulty: "medium",
@@ -194,6 +198,8 @@ export const QUESTIONS = [
   },
   {
     slug: "top-3-viewed-products-per-day",
+    chapter_number: 3,
+    chapter_title: "What's Trending",
     title: "Top 3 Most-Viewed Products Per Day",
     category: "sql",
     difficulty: "medium",
@@ -228,6 +234,8 @@ export const QUESTIONS = [
   },
   {
     slug: "price-bucket-revenue-distribution",
+    chapter_number: 4,
+    chapter_title: "Your First Python Case",
     title: "Price-Bucket Revenue Distribution",
     category: "python",
     difficulty: "easy",
@@ -276,6 +284,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "net-revenue-before-after-discount",
+    chapter_number: 5,
+    chapter_title: "The Discount Audit",
     title: "Net Revenue Before vs. After Discount",
     category: "sql",
     difficulty: "medium",
@@ -312,6 +322,8 @@ export const QUESTIONS = [
   },
   {
     slug: "net-revenue-before-after-discount-pandas",
+    chapter_number: 5,
+    chapter_title: "The Discount Audit — Python",
     title: "Net Revenue Before vs. After Discount",
     category: "python",
     difficulty: "medium",
@@ -357,6 +369,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "rolling-7-day-revenue-with-gaps",
+    chapter_number: 6,
+    chapter_title: "The Missing Days",
     title: "Rolling 7-Day Revenue (With Gaps)",
     category: "sql",
     difficulty: "medium",
@@ -406,6 +420,8 @@ export const QUESTIONS = [
   },
   {
     slug: "rolling-7-day-revenue-with-gaps-pandas",
+    chapter_number: 6,
+    chapter_title: "The Missing Days — Python",
     title: "Rolling 7-Day Revenue (With Gaps)",
     category: "python",
     difficulty: "medium",
@@ -458,6 +474,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "moving-average-deviation-days",
+    chapter_number: 7,
+    chapter_title: "The Anomaly Hunt",
     title: "Spike & Drop Days vs. 7-Day Moving Average",
     category: "sql",
     difficulty: "hard",
@@ -487,6 +505,8 @@ export const QUESTIONS = [
   },
   {
     slug: "moving-average-deviation-days-pandas",
+    chapter_number: 7,
+    chapter_title: "The Anomaly Hunt — Python",
     title: "Spike & Drop Days vs. 7-Day Moving Average",
     category: "python",
     difficulty: "hard",
@@ -517,6 +537,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "consecutive-order-day-streaks",
+    chapter_number: 8,
+    chapter_title: "The Loyalty Streak",
     title: "Consecutive Order-Day Streaks",
     category: "sql",
     difficulty: "medium",
@@ -559,6 +581,8 @@ export const QUESTIONS = [
   },
   {
     slug: "consecutive-order-day-streaks-pandas",
+    chapter_number: 8,
+    chapter_title: "The Loyalty Streak — Python",
     title: "Consecutive Order-Day Streaks",
     category: "python",
     difficulty: "medium",
@@ -604,6 +628,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "average-time-to-checkout",
+    chapter_number: 9,
+    chapter_title: "The Checkout Clock",
     title: "Average Time to Checkout",
     category: "sql",
     difficulty: "medium",
@@ -641,6 +667,8 @@ export const QUESTIONS = [
   },
   {
     slug: "average-time-to-checkout-pandas",
+    chapter_number: 9,
+    chapter_title: "The Checkout Clock — Python",
     title: "Average Time to Checkout",
     category: "python",
     difficulty: "medium",
@@ -680,6 +708,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "session-conversion-rate",
+    chapter_number: 10,
+    chapter_title: "The Headline Number",
     title: "Session Conversion Rate",
     category: "sql",
     difficulty: "easy",
@@ -717,6 +747,8 @@ export const QUESTIONS = [
   },
   {
     slug: "session-conversion-rate-pandas",
+    chapter_number: 10,
+    chapter_title: "The Headline Number — Python",
     title: "Session Conversion Rate",
     category: "python",
     difficulty: "easy",
@@ -756,6 +788,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "search-to-view-dropoff-days",
+    chapter_number: 11,
+    chapter_title: "The Leaky Funnel",
     title: "Days Where Search-to-View Drop-off Exceeds 40%",
     category: "sql",
     difficulty: "hard",
@@ -782,6 +816,8 @@ export const QUESTIONS = [
   },
   {
     slug: "search-to-view-dropoff-days-pandas",
+    chapter_number: 11,
+    chapter_title: "The Leaky Funnel — Python",
     title: "Days Where Search-to-View Drop-off Exceeds 40%",
     category: "python",
     difficulty: "hard",
@@ -812,6 +848,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "cumulative-stock-levels",
+    chapter_number: 12,
+    chapter_title: "The Ledger",
     title: "Daily & Cumulative Stock Levels",
     category: "sql",
     difficulty: "easy",
@@ -855,6 +893,8 @@ export const QUESTIONS = [
   },
   {
     slug: "cumulative-stock-levels-pandas",
+    chapter_number: 12,
+    chapter_title: "The Ledger — Python",
     title: "Daily & Cumulative Stock Levels",
     category: "python",
     difficulty: "easy",
@@ -901,6 +941,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "out-of-stock-streaks",
+    chapter_number: 13,
+    chapter_title: "The Stockout Audit",
     title: "Out-of-Stock Streaks",
     category: "sql",
     difficulty: "hard",
@@ -930,6 +972,8 @@ export const QUESTIONS = [
   },
   {
     slug: "out-of-stock-streaks-pandas",
+    chapter_number: 13,
+    chapter_title: "The Stockout Audit — Python",
     title: "Out-of-Stock Streaks",
     category: "python",
     difficulty: "hard",
@@ -963,6 +1007,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "reorder-trigger-date",
+    chapter_number: 14,
+    chapter_title: "The Early Warning",
     title: "Reorder Trigger Date",
     category: "sql",
     difficulty: "medium",
@@ -991,6 +1037,8 @@ export const QUESTIONS = [
   },
   {
     slug: "reorder-trigger-date-pandas",
+    chapter_number: 14,
+    chapter_title: "The Early Warning — Python",
     title: "Reorder Trigger Date",
     category: "python",
     difficulty: "medium",
@@ -1023,6 +1071,8 @@ export const QUESTIONS = [
   // -------------------------------------------------------------------
   {
     slug: "restock-scenario-modeling",
+    chapter_number: 15,
+    chapter_title: "The Final Case",
     title: "Restock Scenario Modeling (+10%)",
     category: "sql",
     difficulty: "very_hard",
@@ -1058,6 +1108,8 @@ export const QUESTIONS = [
   },
   {
     slug: "restock-scenario-modeling-pandas",
+    chapter_number: 15,
+    chapter_title: "The Final Case — Python",
     title: "Restock Scenario Modeling (+10%)",
     category: "python",
     difficulty: "very_hard",

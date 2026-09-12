@@ -3,7 +3,7 @@ import { getSupabase } from "../../../../lib/supabaseClient";
 
 export async function POST(request) {
   const body = await request.json();
-  const { session_id, question_slug, language, code, passed } = body;
+  const { session_id, question_slug, language, code, passed, mode } = body;
 
   if (!session_id || !question_slug || !language || typeof passed !== "boolean") {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -31,6 +31,7 @@ export async function POST(request) {
       language,
       code,
       passed,
+      mode: mode === "test" ? "test" : "practice",
     });
     if (error) throw error;
 

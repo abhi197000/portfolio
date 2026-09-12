@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import "../../agents/schema-compare/schema-compare.css";
-import { getQuestion, getSessionId, submitAttempt } from "../../../lib/practiceApi";
+import { getQuestion, getSessionId, listQuestions, submitAttempt } from "../../../lib/practiceApi";
 import { compareResults } from "../../../lib/compareResults";
 import { runSqlQuery } from "../../../lib/sqlRunner";
 import { runPythonCode } from "../../../lib/pyRunner";
+import { getCompletedSlugs, isJourneyComplete, markCompleted } from "../../../lib/practiceProgress";
 
 export default function PracticeWorkbenchPage() {
   const { slug } = useParams();
@@ -19,14 +20,23 @@ export default function PracticeWorkbenchPage() {
   const [showHints, setShowHints] = useState(0);
   const [showSolution, setShowSolution] = useState(false);
   const [runLabel, setRunLabel] = useState("Run");
+  const [alreadyCompleted, setAlreadyCompleted] = useState(false);
+  const [nextSlug, setNextSlug] = useState(null);
+  const [journeyReady, setJourneyReady] = useState(false);
 
   useEffect(() => {
     getQuestion(slug)
       .then((q) => {
         setQuestion(q);
         setCode(q.starter_code || "");
+        setAlreadyCompleted(getCompletedSlugs().has(q.slug));
       })
       .catch((err) => setError(err.message));
+
+    listQuestions().then((all) => {
+      const idx = all.findIndex((q) => q.slug === slug);
+      setNextSlug(idx >= 0 && idx < all.length - 1 ? all[idx + 1].slug : null);
+    });
   }, [slug]);
 
   async function handleRun() {
@@ -54,12 +64,20 @@ export default function PracticeWorkbenchPage() {
       setStatus(verdict.passed ? "pass" : "fail");
       setMessage(verdict.passed ? "Correct — matches the expected output." : verdict.reason);
 
+      if (verdict.passed) {
+        markCompleted(question.slug);
+        setAlreadyCompleted(true);
+        const all = await listQuestions();
+        if (isJourneyComplete(all.map((q) => q.slug))) setJourneyReady(true);
+      }
+
       submitAttempt({
         sessionId: getSessionId(),
         questionSlug: question.slug,
         language: question.category,
         code,
         passed: verdict.passed,
+        mode: "practice",
       });
     } catch (err) {
       setStatus("error");
@@ -94,11 +112,18 @@ export default function PracticeWorkbenchPage() {
         <div className="sc-nav-inner">
           <Link href="/practice" className="sc-nav-back">&larr; Back to Practice</Link>
           <span className="sc-nav-title">{question.title}</span>
+          {alreadyCompleted && <span className="sc-badge sc-badge-ok" style={{ marginLeft: 12 }}>✓ Completed</span>}
         </div>
       </nav>
 
       <main className="sc-main" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
         <div style={{ display: "grid", gap: 24, alignContent: "start" }}>
+          {question.chapter_number && (
+            <p className="sc-source-detail" style={{ margin: 0 }}>
+              Case {question.chapter_number} of 15 · {question.chapter_title}
+            </p>
+          )}
+
           {question.story && (
             <div className="sc-card">
               <div className="sc-card-header"><h2>The Scenario</h2></div>
@@ -199,6 +224,24 @@ export default function PracticeWorkbenchPage() {
                     <div className="sc-source-name" style={{ marginTop: 12 }}>Your output</div>
                     <ResultTable rows={rows} />
                   </>
+                )}
+
+                {status === "pass" && journeyReady && (
+                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--border, #1f2a40)" }}>
+                    <p style={{ marginBottom: 8 }}>
+                      🎉 That's every case cleared — the certification test is now unlocked.
+                    </p>
+                    <Link href="/practice/test" className="sc-btn sc-btn-primary">
+                      Start the Certification Test →
+                    </Link>
+                  </div>
+                )}
+                {status === "pass" && !journeyReady && nextSlug && (
+                  <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--border, #1f2a40)" }}>
+                    <Link href={`/practice/${nextSlug}`} className="sc-btn sc-btn-secondary">
+                      Next Case →
+                    </Link>
+                  </div>
                 )}
               </div>
             </div>

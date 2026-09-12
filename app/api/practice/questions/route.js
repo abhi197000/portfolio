@@ -8,7 +8,7 @@ export async function GET(request) {
     const supabase = getSupabase();
     let q = supabase
       .from("questions")
-      .select("id, slug, title, category, difficulty, topic_tags")
+      .select("id, slug, title, category, difficulty, topic_tags, chapter_number, chapter_title")
       .order("sort_order", { ascending: true })
       .order("id", { ascending: true });
 

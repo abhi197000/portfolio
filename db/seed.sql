@@ -1,7 +1,7 @@
 -- Generated from scripts/seed-data.mjs — paste into the Supabase SQL Editor and run.
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('revenue-gap-best-vs-worst-item', 'Revenue Gap: Best vs. Worst Selling Item', 'sql', 'easy', '["aggregation","group by","cte"]'::jsonb, 'You''re the analyst on a retail client''s inventory team. Leadership wants a single number for the weekly readout: how far apart is the best performer from the worst?', 'Table `orders(order_id, user_id, order_date, item_id, category, quantity, price, discount_code)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('revenue-gap-best-vs-worst-item', 'Revenue Gap: Best vs. Worst Selling Item', 'sql', 'easy', '["aggregation","group by","cte"]'::jsonb, 1, 'The Welcome Assignment', 'You''re the analyst on a retail client''s inventory team. Leadership wants a single number for the weekly readout: how far apart is the best performer from the worst?', 'Table `orders(order_id, user_id, order_date, item_id, category, quantity, price, discount_code)`.
 
 Each row is one order line. Revenue for an item = SUM(quantity * price) across its order lines.
 
@@ -34,6 +34,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -46,8 +48,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('qualifying-high-value-users', 'Qualifying High-Value Users', 'sql', 'medium', '["group by","having","aggregation"]'::jsonb, 'Marketing wants a shortlist for a loyalty pilot: repeat buyers who''ve already proven they''ll spend, so the pilot budget isn''t wasted on one-time shoppers.', 'Table `orders(order_id, user_id, order_date, item_id, category, quantity, price, discount_code)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('qualifying-high-value-users', 'Qualifying High-Value Users', 'sql', 'medium', '["group by","having","aggregation"]'::jsonb, 2, 'The Loyalty Shortlist', 'Marketing wants a shortlist for a loyalty pilot: repeat buyers who''ve already proven they''ll spend, so the pilot budget isn''t wasted on one-time shoppers.', 'Table `orders(order_id, user_id, order_date, item_id, category, quantity, price, discount_code)`.
 
 Between 2025-02-01 and 2025-02-28 (inclusive), find users with at least 2 distinct orders AND total spending (SUM(quantity * price)) greater than $500.
 
@@ -83,6 +85,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -95,8 +99,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('top-3-viewed-products-per-day', 'Top 3 Most-Viewed Products Per Day', 'sql', 'medium', '["window functions","rank","partition by"]'::jsonb, 'The merchandising team refreshes homepage placements daily and wants to feature whatever''s trending — a fresh top-3-per-day feed, not a single all-time leaderboard.', 'Table `events(event_id, user_id, event_time, event_type, page, product_id, session_id, revenues_estimate)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('top-3-viewed-products-per-day', 'Top 3 Most-Viewed Products Per Day', 'sql', 'medium', '["window functions","rank","partition by"]'::jsonb, 3, 'What''s Trending', 'The merchandising team refreshes homepage placements daily and wants to feature whatever''s trending — a fresh top-3-per-day feed, not a single all-time leaderboard.', 'Table `events(event_id, user_id, event_time, event_type, page, product_id, session_id, revenues_estimate)`.
 
 Using only rows where `event_type = ''view''`, find the top 3 most-viewed `product_id`s for each calendar day.
 
@@ -166,6 +170,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -178,8 +184,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('price-bucket-revenue-distribution', 'Price-Bucket Revenue Distribution', 'python', 'easy', '["pandas","groupby","merge"]'::jsonb, 'Finance wants to know whether revenue is concentrated in premium items or spread across the budget catalog, ahead of a pricing strategy review.', 'You have two pandas DataFrames already loaded: `items(item_id, price)` and `orders(item_id, quantity, price)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('price-bucket-revenue-distribution', 'Price-Bucket Revenue Distribution', 'python', 'easy', '["pandas","groupby","merge"]'::jsonb, 4, 'Your First Python Case', 'Finance wants to know whether revenue is concentrated in premium items or spread across the budget catalog, ahead of a pricing strategy review.', 'You have two pandas DataFrames already loaded: `items(item_id, price)` and `orders(item_id, quantity, price)`.
 
 Bucket each item by its `price` into low (<50), medium (50-100), high (>100).
 
@@ -212,6 +218,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -224,8 +232,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('net-revenue-before-after-discount', 'Net Revenue Before vs. After Discount', 'sql', 'medium', '["left join","coalesce","aggregation"]'::jsonb, 'Finance is reconciling how much of gross revenue promotions are actually eating into, category by category, ahead of next quarter''s discount budget.', 'Tables `orders(order_id, category, quantity, price, discount_code)` and `discount_map(discount_code, discount_pct)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('net-revenue-before-after-discount', 'Net Revenue Before vs. After Discount', 'sql', 'medium', '["left join","coalesce","aggregation"]'::jsonb, 5, 'The Discount Audit', 'Finance is reconciling how much of gross revenue promotions are actually eating into, category by category, ahead of next quarter''s discount budget.', 'Tables `orders(order_id, category, quantity, price, discount_code)` and `discount_map(discount_code, discount_pct)`.
 
 Not every order has a discount code. For each category, compute `revenue_before` (gross = quantity * price), `revenue_after` (net, after applying the discount pct where one applies), and `diff` (before - after). Order by `diff` descending.', 'CREATE TABLE orders (order_id INTEGER PRIMARY KEY, category TEXT, quantity INTEGER, price REAL, discount_code TEXT);
 CREATE TABLE discount_map (discount_code TEXT PRIMARY KEY, discount_pct REAL);', 'INSERT INTO discount_map (discount_code, discount_pct) VALUES (''SAVE10'', 10), (''SAVE20'', 20);
@@ -261,6 +269,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -273,8 +283,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('net-revenue-before-after-discount-pandas', 'Net Revenue Before vs. After Discount', 'python', 'medium', '["pandas","merge","groupby"]'::jsonb, 'Finance is reconciling how much of gross revenue promotions are actually eating into, category by category, ahead of next quarter''s discount budget.', 'DataFrames `orders(order_id, category, quantity, price, discount_code)` and `discount_map(discount_code, discount_pct)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('net-revenue-before-after-discount-pandas', 'Net Revenue Before vs. After Discount', 'python', 'medium', '["pandas","merge","groupby"]'::jsonb, 5, 'The Discount Audit — Python', 'Finance is reconciling how much of gross revenue promotions are actually eating into, category by category, ahead of next quarter''s discount budget.', 'DataFrames `orders(order_id, category, quantity, price, discount_code)` and `discount_map(discount_code, discount_pct)`.
 
 Not every order has a discount code. Build `result` with columns `category, revenue_before, revenue_after, diff`, sorted by `diff` descending.', NULL, NULL, '{"discount_map":[{"discount_code":"SAVE10","discount_pct":10},{"discount_code":"SAVE20","discount_pct":20}],"orders":[{"order_id":1,"category":"Electronics","quantity":2,"price":100,"discount_code":"SAVE10"},{"order_id":2,"category":"Electronics","quantity":1,"price":50,"discount_code":null},{"order_id":3,"category":"Home","quantity":3,"price":30,"discount_code":"SAVE20"},{"order_id":4,"category":"Home","quantity":2,"price":40,"discount_code":null},{"order_id":5,"category":"Electronics","quantity":1,"price":200,"discount_code":"SAVE10"}]}'::jsonb, '[{"category":"Electronics","revenue_before":450,"revenue_after":410,"diff":40},{"category":"Home","revenue_before":170,"revenue_after":152,"diff":18}]'::jsonb, TRUE, 'orders_m = orders.merge(discount_map, on=''discount_code'', how=''left'')
 orders_m[''discount_pct''] = orders_m[''discount_pct''].fillna(0)
@@ -299,6 +309,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -311,8 +323,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('rolling-7-day-revenue-with-gaps', 'Rolling 7-Day Revenue (With Gaps)', 'sql', 'medium', '["window functions","gaps","recursive cte"]'::jsonb, 'The exec dashboard shows a 7-day trailing revenue trend, but a few days had zero orders — and a naive rolling window silently skips them instead of counting them as zero, throwing off the trend line.', 'Table `orders(order_id, customer_id, order_date, amount)`. Some calendar dates between the min and max order date have **no rows at all**.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('rolling-7-day-revenue-with-gaps', 'Rolling 7-Day Revenue (With Gaps)', 'sql', 'medium', '["window functions","gaps","recursive cte"]'::jsonb, 6, 'The Missing Days', 'The exec dashboard shows a 7-day trailing revenue trend, but a few days had zero orders — and a naive rolling window silently skips them instead of counting them as zero, throwing off the trend line.', 'Table `orders(order_id, customer_id, order_date, amount)`. Some calendar dates between the min and max order date have **no rows at all**.
 
 Fill in every missing date with 0 revenue, then compute a 7-day trailing rolling sum (current day + 6 prior days). Return `order_date, amount, rolling_7d` ordered by date.', 'CREATE TABLE orders (order_id INTEGER PRIMARY KEY, customer_id INTEGER, order_date TEXT, amount REAL);', 'INSERT INTO orders (order_id, customer_id, order_date, amount) VALUES
   (1, 301, ''2025-04-01'', 100),
@@ -358,6 +370,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -370,8 +384,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('rolling-7-day-revenue-with-gaps-pandas', 'Rolling 7-Day Revenue (With Gaps)', 'python', 'medium', '["pandas","resample","rolling"]'::jsonb, 'The exec dashboard shows a 7-day trailing revenue trend, but a few days had zero orders — and a naive rolling window silently skips them instead of counting them as zero, throwing off the trend line.', 'DataFrame `orders(order_id, customer_id, order_date, amount)`. Some calendar dates between the min and max order date have **no rows at all**.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('rolling-7-day-revenue-with-gaps-pandas', 'Rolling 7-Day Revenue (With Gaps)', 'python', 'medium', '["pandas","resample","rolling"]'::jsonb, 6, 'The Missing Days — Python', 'The exec dashboard shows a 7-day trailing revenue trend, but a few days had zero orders — and a naive rolling window silently skips them instead of counting them as zero, throwing off the trend line.', 'DataFrame `orders(order_id, customer_id, order_date, amount)`. Some calendar dates between the min and max order date have **no rows at all**.
 
 Fill in every missing date with 0 revenue, then compute a 7-day trailing rolling sum (current day + up to 6 prior days). Build `result` with columns `order_date, amount, rolling_7d` (order_date as a plain ''YYYY-MM-DD'' string), sorted by date.', NULL, NULL, '{"orders":[{"order_id":1,"customer_id":301,"order_date":"2025-04-01","amount":100},{"order_id":2,"customer_id":301,"order_date":"2025-04-02","amount":50},{"order_id":3,"customer_id":301,"order_date":"2025-04-04","amount":80},{"order_id":4,"customer_id":301,"order_date":"2025-04-05","amount":20},{"order_id":5,"customer_id":301,"order_date":"2025-04-06","amount":60},{"order_id":6,"customer_id":301,"order_date":"2025-04-08","amount":90},{"order_id":7,"customer_id":301,"order_date":"2025-04-09","amount":40},{"order_id":8,"customer_id":301,"order_date":"2025-04-10","amount":30}]}'::jsonb, '[{"order_date":"2025-04-01","amount":100,"rolling_7d":100},{"order_date":"2025-04-02","amount":50,"rolling_7d":150},{"order_date":"2025-04-03","amount":0,"rolling_7d":150},{"order_date":"2025-04-04","amount":80,"rolling_7d":230},{"order_date":"2025-04-05","amount":20,"rolling_7d":250},{"order_date":"2025-04-06","amount":60,"rolling_7d":310},{"order_date":"2025-04-07","amount":0,"rolling_7d":310},{"order_date":"2025-04-08","amount":90,"rolling_7d":300},{"order_date":"2025-04-09","amount":40,"rolling_7d":290},{"order_date":"2025-04-10","amount":30,"rolling_7d":320}]'::jsonb, TRUE, 'daily = orders.groupby(''order_date'')[''amount''].sum().reset_index()
 daily[''order_date''] = pd.to_datetime(daily[''order_date''])
@@ -396,6 +410,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -408,8 +424,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('moving-average-deviation-days', 'Spike & Drop Days vs. 7-Day Moving Average', 'sql', 'hard', '["window functions","moving average","anomaly detection"]'::jsonb, 'Ops wants an automated anomaly flag for the daily revenue report — any day that swings more than 50% away from its own recent trend, so a human only has to look at the days that actually matter.', 'Table `orders_net(category, order_date, net_revenue)` (net revenue is already computed per line).
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('moving-average-deviation-days', 'Spike & Drop Days vs. 7-Day Moving Average', 'sql', 'hard', '["window functions","moving average","anomaly detection"]'::jsonb, 7, 'The Anomaly Hunt', 'Ops wants an automated anomaly flag for the daily revenue report — any day that swings more than 50% away from its own recent trend, so a human only has to look at the days that actually matter.', 'Table `orders_net(category, order_date, net_revenue)` (net revenue is already computed per line).
 
 For each category, count the number of days **in May 2025** where daily net revenue deviates by more than ±50% from its own trailing 7-day moving average (the average of the 7 days *before* it, excluding the day itself).', 'CREATE TABLE orders_net (category TEXT, order_date TEXT, net_revenue REAL);', 'INSERT INTO orders_net (category, order_date, net_revenue) VALUES
   (''A'', ''2025-04-24'', 100),
@@ -468,6 +484,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -480,8 +498,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('moving-average-deviation-days-pandas', 'Spike & Drop Days vs. 7-Day Moving Average', 'python', 'hard', '["pandas","shift","rolling"]'::jsonb, 'Ops wants an automated anomaly flag for the daily revenue report — any day that swings more than 50% away from its own recent trend, so a human only has to look at the days that actually matter.', 'DataFrame `orders_net(category, order_date, net_revenue)` (net revenue is already computed per line; order_date is a plain ''YYYY-MM-DD'' string).
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('moving-average-deviation-days-pandas', 'Spike & Drop Days vs. 7-Day Moving Average', 'python', 'hard', '["pandas","shift","rolling"]'::jsonb, 7, 'The Anomaly Hunt — Python', 'Ops wants an automated anomaly flag for the daily revenue report — any day that swings more than 50% away from its own recent trend, so a human only has to look at the days that actually matter.', 'DataFrame `orders_net(category, order_date, net_revenue)` (net revenue is already computed per line; order_date is a plain ''YYYY-MM-DD'' string).
 
 For each category, count the number of days **in May 2025** where daily net revenue deviates by more than ±50% from its own trailing 7-day moving average (the average of the 7 days *before* it, excluding the day itself). Build `result` with columns `category, spike_or_drop_days`.', NULL, NULL, '{"orders_net":[{"category":"A","order_date":"2025-04-24","net_revenue":100},{"category":"A","order_date":"2025-04-25","net_revenue":100},{"category":"A","order_date":"2025-04-26","net_revenue":100},{"category":"A","order_date":"2025-04-27","net_revenue":100},{"category":"A","order_date":"2025-04-28","net_revenue":100},{"category":"A","order_date":"2025-04-29","net_revenue":100},{"category":"A","order_date":"2025-04-30","net_revenue":100},{"category":"A","order_date":"2025-05-01","net_revenue":100},{"category":"A","order_date":"2025-05-02","net_revenue":260},{"category":"A","order_date":"2025-05-03","net_revenue":100},{"category":"A","order_date":"2025-05-04","net_revenue":100},{"category":"A","order_date":"2025-05-05","net_revenue":100},{"category":"A","order_date":"2025-05-06","net_revenue":100},{"category":"A","order_date":"2025-05-07","net_revenue":100},{"category":"A","order_date":"2025-05-08","net_revenue":100},{"category":"A","order_date":"2025-05-09","net_revenue":30},{"category":"A","order_date":"2025-05-10","net_revenue":100}]}'::jsonb, '[{"category":"A","spike_or_drop_days":2}]'::jsonb, FALSE, 'daily_cat = orders_net.groupby([''category'', ''order_date''])[''net_revenue''].sum().reset_index()
 daily_cat = daily_cat.sort_values([''category'', ''order_date''])
@@ -510,6 +528,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -522,8 +542,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('consecutive-order-day-streaks', 'Consecutive Order-Day Streaks', 'sql', 'medium', '["gaps and islands","window functions"]'::jsonb, 'The retention team wants to reward users who order on back-to-back days — but first they need every unbroken streak identified, not just whether a streak ever happened.', 'Table `orders(order_id, user_id, order_date)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('consecutive-order-day-streaks', 'Consecutive Order-Day Streaks', 'sql', 'medium', '["gaps and islands","window functions"]'::jsonb, 8, 'The Loyalty Streak', 'The retention team wants to reward users who order on back-to-back days — but first they need every unbroken streak identified, not just whether a streak ever happened.', 'Table `orders(order_id, user_id, order_date)`.
 
 For each user, find every unbroken streak of consecutive order-days. Return `user_id, streak_start, streak_end, streak_length` for every streak, ordered by `user_id`, `streak_start`.', 'CREATE TABLE orders (order_id INTEGER PRIMARY KEY, user_id INTEGER, order_date TEXT);', 'INSERT INTO orders (order_id, user_id, order_date) VALUES
   (1, 401, ''2025-06-01''),
@@ -565,6 +585,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -577,8 +599,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('consecutive-order-day-streaks-pandas', 'Consecutive Order-Day Streaks', 'python', 'medium', '["pandas","gaps and islands","cumcount"]'::jsonb, 'The retention team wants to reward users who order on back-to-back days — but first they need every unbroken streak identified, not just whether a streak ever happened.', 'DataFrame `orders(order_id, user_id, order_date)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('consecutive-order-day-streaks-pandas', 'Consecutive Order-Day Streaks', 'python', 'medium', '["pandas","gaps and islands","cumcount"]'::jsonb, 8, 'The Loyalty Streak — Python', 'The retention team wants to reward users who order on back-to-back days — but first they need every unbroken streak identified, not just whether a streak ever happened.', 'DataFrame `orders(order_id, user_id, order_date)`.
 
 For each user, find every unbroken streak of consecutive order-days. Build `result` with columns `user_id, streak_start, streak_end, streak_length` (dates as plain ''YYYY-MM-DD'' strings), for every streak, ordered by `user_id`, `streak_start`.', NULL, NULL, '{"orders":[{"order_id":1,"user_id":401,"order_date":"2025-06-01"},{"order_id":2,"user_id":401,"order_date":"2025-06-02"},{"order_id":3,"user_id":401,"order_date":"2025-06-03"},{"order_id":4,"user_id":401,"order_date":"2025-06-05"},{"order_id":5,"user_id":402,"order_date":"2025-06-01"},{"order_id":6,"user_id":402,"order_date":"2025-06-02"},{"order_id":7,"user_id":402,"order_date":"2025-06-04"}]}'::jsonb, '[{"user_id":401,"streak_start":"2025-06-01","streak_end":"2025-06-03","streak_length":3},{"user_id":401,"streak_start":"2025-06-05","streak_end":"2025-06-05","streak_length":1},{"user_id":402,"streak_start":"2025-06-01","streak_end":"2025-06-02","streak_length":2},{"user_id":402,"streak_start":"2025-06-04","streak_end":"2025-06-04","streak_length":1}]'::jsonb, TRUE, 'df = orders.drop_duplicates([''user_id'', ''order_date'']).copy()
 df[''order_date''] = pd.to_datetime(df[''order_date''])
@@ -608,6 +630,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -620,8 +644,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('average-time-to-checkout', 'Average Time to Checkout', 'sql', 'medium', '["self join","date math"]'::jsonb, 'UX wants to know how long shoppers linger between first laying eyes on a product and actually checking out, to judge whether a faster checkout flow is worth building.', 'Table `events(event_id, user_id, event_time, event_type, session_id)`, `event_type` is `''view''` or `''checkout''`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('average-time-to-checkout', 'Average Time to Checkout', 'sql', 'medium', '["self join","date math"]'::jsonb, 9, 'The Checkout Clock', 'UX wants to know how long shoppers linger between first laying eyes on a product and actually checking out, to judge whether a faster checkout flow is worth building.', 'Table `events(event_id, user_id, event_time, event_type, session_id)`, `event_type` is `''view''` or `''checkout''`.
 
 For each session, find the time (in seconds) between its first `view` and its first `checkout`. Return the single average across all sessions as `avg_seconds_to_checkout`.', 'CREATE TABLE events (event_id INTEGER PRIMARY KEY, user_id INTEGER, event_time TEXT, event_type TEXT, session_id TEXT);', 'INSERT INTO events (event_id, user_id, event_time, event_type, session_id) VALUES
   (1, 1, ''2025-07-01 10:00:00'', ''view'', ''s1''),
@@ -653,6 +677,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -665,8 +691,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('average-time-to-checkout-pandas', 'Average Time to Checkout', 'python', 'medium', '["pandas","merge","timedelta"]'::jsonb, 'UX wants to know how long shoppers linger between first laying eyes on a product and actually checking out, to judge whether a faster checkout flow is worth building.', 'DataFrame `events(event_id, user_id, event_time, event_type, session_id)`, `event_type` is `''view''` or `''checkout''`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('average-time-to-checkout-pandas', 'Average Time to Checkout', 'python', 'medium', '["pandas","merge","timedelta"]'::jsonb, 9, 'The Checkout Clock — Python', 'UX wants to know how long shoppers linger between first laying eyes on a product and actually checking out, to judge whether a faster checkout flow is worth building.', 'DataFrame `events(event_id, user_id, event_time, event_type, session_id)`, `event_type` is `''view''` or `''checkout''`.
 
 For each session, find the time (in seconds) between its first `view` and its first `checkout`. Build `result` as a one-row DataFrame with column `avg_seconds_to_checkout`.', NULL, NULL, '{"events":[{"event_id":1,"user_id":1,"event_time":"2025-07-01 10:00:00","event_type":"view","session_id":"s1"},{"event_id":2,"user_id":1,"event_time":"2025-07-01 10:05:00","event_type":"checkout","session_id":"s1"},{"event_id":3,"user_id":2,"event_time":"2025-07-01 11:00:00","event_type":"view","session_id":"s2"},{"event_id":4,"user_id":2,"event_time":"2025-07-01 11:02:00","event_type":"checkout","session_id":"s2"},{"event_id":5,"user_id":3,"event_time":"2025-07-01 12:00:00","event_type":"view","session_id":"s3"},{"event_id":6,"user_id":3,"event_time":"2025-07-01 12:10:00","event_type":"checkout","session_id":"s3"}]}'::jsonb, '[{"avg_seconds_to_checkout":340}]'::jsonb, FALSE, 'events[''event_time''] = pd.to_datetime(events[''event_time''])
 
@@ -691,6 +717,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -703,8 +731,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('session-conversion-rate', 'Session Conversion Rate', 'sql', 'easy', '["conditional aggregation","distinct count"]'::jsonb, 'Growth wants one headline number for the weekly review: what fraction of visits actually convert.', 'Table `events(event_id, event_type, session_id)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('session-conversion-rate', 'Session Conversion Rate', 'sql', 'easy', '["conditional aggregation","distinct count"]'::jsonb, 10, 'The Headline Number', 'Growth wants one headline number for the weekly review: what fraction of visits actually convert.', 'Table `events(event_id, event_type, session_id)`.
 
 Define a converted session as one containing at least one `''checkout''` event. Return `session_conversion_rate`: the fraction of all distinct sessions that converted.', 'CREATE TABLE events (event_id INTEGER PRIMARY KEY, event_type TEXT, session_id TEXT);', 'INSERT INTO events (event_id, event_type, session_id) VALUES
   (1, ''view'', ''s1''),
@@ -723,6 +751,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -735,8 +765,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('session-conversion-rate-pandas', 'Session Conversion Rate', 'python', 'easy', '["pandas","nunique"]'::jsonb, 'Growth wants one headline number for the weekly review: what fraction of visits actually convert.', 'DataFrame `events(event_id, event_type, session_id)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('session-conversion-rate-pandas', 'Session Conversion Rate', 'python', 'easy', '["pandas","nunique"]'::jsonb, 10, 'The Headline Number — Python', 'Growth wants one headline number for the weekly review: what fraction of visits actually convert.', 'DataFrame `events(event_id, event_type, session_id)`.
 
 Define a converted session as one containing at least one `''checkout''` event. Build `result` as a one-row DataFrame with column `session_conversion_rate`.', NULL, NULL, '{"events":[{"event_id":1,"event_type":"view","session_id":"s1"},{"event_id":2,"event_type":"checkout","session_id":"s1"},{"event_id":3,"event_type":"view","session_id":"s2"},{"event_id":4,"event_type":"checkout","session_id":"s2"},{"event_id":5,"event_type":"view","session_id":"s3"},{"event_id":6,"event_type":"view","session_id":"s4"},{"event_id":7,"event_type":"checkout","session_id":"s4"},{"event_id":8,"event_type":"view","session_id":"s5"}]}'::jsonb, '[{"session_conversion_rate":0.6}]'::jsonb, FALSE, '# your code here
 result = None
@@ -749,6 +779,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -761,8 +793,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('search-to-view-dropoff-days', 'Days Where Search-to-View Drop-off Exceeds 40%', 'sql', 'hard', '["pivot","funnel analysis"]'::jsonb, 'The search team suspects a recent results-page change is losing people between searching and actually viewing a product — they want the exact days it got bad enough to investigate.', 'Table `events(event_id, event_time, event_type, session_id)`, `event_type` is `''search''` or `''view''`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('search-to-view-dropoff-days', 'Days Where Search-to-View Drop-off Exceeds 40%', 'sql', 'hard', '["pivot","funnel analysis"]'::jsonb, 11, 'The Leaky Funnel', 'The search team suspects a recent results-page change is losing people between searching and actually viewing a product — they want the exact days it got bad enough to investigate.', 'Table `events(event_id, event_time, event_type, session_id)`, `event_type` is `''search''` or `''view''`.
 
 For each day, drop-off % = (distinct searching sessions - distinct viewing sessions) / distinct searching sessions * 100. Return every day where that exceeds 40%, with `event_date, searches, views, drop_off_pct`.', 'CREATE TABLE events (
   event_id INTEGER PRIMARY KEY,
@@ -847,6 +879,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -859,8 +893,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('search-to-view-dropoff-days-pandas', 'Days Where Search-to-View Drop-off Exceeds 40%', 'python', 'hard', '["pandas","pivot_table"]'::jsonb, 'The search team suspects a recent results-page change is losing people between searching and actually viewing a product — they want the exact days it got bad enough to investigate.', 'DataFrame `events(event_id, event_time, event_type, session_id)`, `event_type` is `''search''` or `''view''`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('search-to-view-dropoff-days-pandas', 'Days Where Search-to-View Drop-off Exceeds 40%', 'python', 'hard', '["pandas","pivot_table"]'::jsonb, 11, 'The Leaky Funnel — Python', 'The search team suspects a recent results-page change is losing people between searching and actually viewing a product — they want the exact days it got bad enough to investigate.', 'DataFrame `events(event_id, event_time, event_type, session_id)`, `event_type` is `''search''` or `''view''`.
 
 For each day, drop-off % = (distinct searching sessions - distinct viewing sessions) / distinct searching sessions * 100. Build `result` with every day where that exceeds 40%: columns `event_date, searches, views, drop_off_pct`.', NULL, NULL, '{"events":[{"event_id":1,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a0"},{"event_id":2,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a1"},{"event_id":3,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a2"},{"event_id":4,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a3"},{"event_id":5,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a4"},{"event_id":6,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a5"},{"event_id":7,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a6"},{"event_id":8,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a7"},{"event_id":9,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a8"},{"event_id":10,"event_time":"2025-08-01 09:00:00","event_type":"search","session_id":"a9"},{"event_id":11,"event_time":"2025-08-01 09:05:00","event_type":"view","session_id":"a0"},{"event_id":12,"event_time":"2025-08-01 09:05:00","event_type":"view","session_id":"a1"},{"event_id":13,"event_time":"2025-08-01 09:05:00","event_type":"view","session_id":"a2"},{"event_id":14,"event_time":"2025-08-01 09:05:00","event_type":"view","session_id":"a3"},{"event_id":15,"event_time":"2025-08-01 09:05:00","event_type":"view","session_id":"a4"},{"event_id":16,"event_time":"2025-08-01 09:05:00","event_type":"view","session_id":"a5"},{"event_id":17,"event_time":"2025-08-01 09:05:00","event_type":"view","session_id":"a6"},{"event_id":18,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b0"},{"event_id":19,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b1"},{"event_id":20,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b2"},{"event_id":21,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b3"},{"event_id":22,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b4"},{"event_id":23,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b5"},{"event_id":24,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b6"},{"event_id":25,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b7"},{"event_id":26,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b8"},{"event_id":27,"event_time":"2025-08-02 09:00:00","event_type":"search","session_id":"b9"},{"event_id":28,"event_time":"2025-08-02 09:05:00","event_type":"view","session_id":"b0"},{"event_id":29,"event_time":"2025-08-02 09:05:00","event_type":"view","session_id":"b1"},{"event_id":30,"event_time":"2025-08-02 09:05:00","event_type":"view","session_id":"b2"},{"event_id":31,"event_time":"2025-08-02 09:05:00","event_type":"view","session_id":"b3"},{"event_id":32,"event_time":"2025-08-02 09:05:00","event_type":"view","session_id":"b4"},{"event_id":33,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c0"},{"event_id":34,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c1"},{"event_id":35,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c2"},{"event_id":36,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c3"},{"event_id":37,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c4"},{"event_id":38,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c5"},{"event_id":39,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c6"},{"event_id":40,"event_time":"2025-08-03 09:00:00","event_type":"search","session_id":"c7"},{"event_id":41,"event_time":"2025-08-03 09:05:00","event_type":"view","session_id":"c0"},{"event_id":42,"event_time":"2025-08-03 09:05:00","event_type":"view","session_id":"c1"},{"event_id":43,"event_time":"2025-08-03 09:05:00","event_type":"view","session_id":"c2"},{"event_id":44,"event_time":"2025-08-03 09:05:00","event_type":"view","session_id":"c3"},{"event_id":45,"event_time":"2025-08-03 09:05:00","event_type":"view","session_id":"c4"},{"event_id":46,"event_time":"2025-08-03 09:05:00","event_type":"view","session_id":"c5"}]}'::jsonb, '[{"event_date":"2025-08-02","searches":10,"views":5,"drop_off_pct":50}]'::jsonb, FALSE, 'events[''event_date''] = pd.to_datetime(events[''event_time'']).dt.strftime(''%Y-%m-%d'')
 
@@ -887,6 +921,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -899,8 +935,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('cumulative-stock-levels', 'Daily & Cumulative Stock Levels', 'sql', 'easy', '["window functions","running total"]'::jsonb, 'The warehouse team wants a daily closing-stock ledger per product/warehouse — the running total that everything else (reorder alerts, stockout detection) gets built on top of.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)` — `delta_qty` is signed (positive for restocks, negative for sales/usage).
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('cumulative-stock-levels', 'Daily & Cumulative Stock Levels', 'sql', 'easy', '["window functions","running total"]'::jsonb, 12, 'The Ledger', 'The warehouse team wants a daily closing-stock ledger per product/warehouse — the running total that everything else (reorder alerts, stockout detection) gets built on top of.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)` — `delta_qty` is signed (positive for restocks, negative for sales/usage).
 
 For each product/warehouse, compute the daily net change and the running cumulative stock. Return `product_id, warehouse, record_date, daily_change, cumulative_stock`, ordered by product, warehouse, date.', 'CREATE TABLE inventory (
   inventory_id INTEGER PRIMARY KEY,
@@ -948,6 +984,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -960,8 +998,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('cumulative-stock-levels-pandas', 'Daily & Cumulative Stock Levels', 'python', 'easy', '["pandas","cumsum"]'::jsonb, 'The warehouse team wants a daily closing-stock ledger per product/warehouse — the running total that everything else (reorder alerts, stockout detection) gets built on top of.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)` — `delta_qty` is signed (positive for restocks, negative for sales/usage).
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('cumulative-stock-levels-pandas', 'Daily & Cumulative Stock Levels', 'python', 'easy', '["pandas","cumsum"]'::jsonb, 12, 'The Ledger — Python', 'The warehouse team wants a daily closing-stock ledger per product/warehouse — the running total that everything else (reorder alerts, stockout detection) gets built on top of.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)` — `delta_qty` is signed (positive for restocks, negative for sales/usage).
 
 For each product/warehouse, compute the daily net change and the running cumulative stock. Build `result` with columns `product_id, warehouse, record_date, daily_change, cumulative_stock`, sorted by product, warehouse, date.', NULL, NULL, '{"inventory":[{"product_id":"P1","record_date":"2025-09-01","delta_qty":50,"is_restock":1,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-03","delta_qty":-15,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-04","delta_qty":-10,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-05","delta_qty":-8,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-06","delta_qty":5,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-07","delta_qty":-30,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-08","delta_qty":40,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-01","delta_qty":200,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-03","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-04","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-05","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-06","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-07","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-08","delta_qty":-20,"is_restock":0,"warehouse":"W1"}]}'::jsonb, '[{"product_id":"P1","warehouse":"W1","record_date":"2025-09-01","daily_change":50,"cumulative_stock":50},{"product_id":"P1","warehouse":"W1","record_date":"2025-09-02","daily_change":-20,"cumulative_stock":30},{"product_id":"P1","warehouse":"W1","record_date":"2025-09-03","daily_change":-15,"cumulative_stock":15},{"product_id":"P1","warehouse":"W1","record_date":"2025-09-04","daily_change":-10,"cumulative_stock":5},{"product_id":"P1","warehouse":"W1","record_date":"2025-09-05","daily_change":-8,"cumulative_stock":-3},{"product_id":"P1","warehouse":"W1","record_date":"2025-09-06","daily_change":5,"cumulative_stock":2},{"product_id":"P1","warehouse":"W1","record_date":"2025-09-07","daily_change":-30,"cumulative_stock":-28},{"product_id":"P1","warehouse":"W1","record_date":"2025-09-08","daily_change":40,"cumulative_stock":12},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-01","daily_change":200,"cumulative_stock":200},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-02","daily_change":-20,"cumulative_stock":180},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-03","daily_change":-20,"cumulative_stock":160},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-04","daily_change":-20,"cumulative_stock":140},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-05","daily_change":-20,"cumulative_stock":120},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-06","daily_change":-20,"cumulative_stock":100},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-07","daily_change":-20,"cumulative_stock":80},{"product_id":"P2","warehouse":"W1","record_date":"2025-09-08","daily_change":-20,"cumulative_stock":60}]'::jsonb, TRUE, 'daily = inventory.groupby([''product_id'', ''warehouse'', ''record_date''])[''delta_qty''].sum().reset_index()
 daily = daily.sort_values([''product_id'', ''warehouse'', ''record_date''])
@@ -979,6 +1017,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -991,8 +1031,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('out-of-stock-streaks', 'Out-of-Stock Streaks', 'sql', 'hard', '["gaps and islands","window functions"]'::jsonb, 'Supply chain wants every stretch of consecutive days a product sat at zero or negative stock — not just whether it ever happened — to prioritize which SKUs need safety-stock fixes first.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('out-of-stock-streaks', 'Out-of-Stock Streaks', 'sql', 'hard', '["gaps and islands","window functions"]'::jsonb, 13, 'The Stockout Audit', 'Supply chain wants every stretch of consecutive days a product sat at zero or negative stock — not just whether it ever happened — to prioritize which SKUs need safety-stock fixes first.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)`.
 
 For each product/warehouse, find every unbroken streak of consecutive days where the closing stock was ≤ 0. Return `product_id, warehouse, streak_start, streak_end, consecutive_oos_days`.', 'CREATE TABLE inventory (
   inventory_id INTEGER PRIMARY KEY,
@@ -1066,6 +1106,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -1078,8 +1120,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('out-of-stock-streaks-pandas', 'Out-of-Stock Streaks', 'python', 'hard', '["pandas","gaps and islands"]'::jsonb, 'Supply chain wants every stretch of consecutive days a product sat at zero or negative stock — not just whether it ever happened — to prioritize which SKUs need safety-stock fixes first.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('out-of-stock-streaks-pandas', 'Out-of-Stock Streaks', 'python', 'hard', '["pandas","gaps and islands"]'::jsonb, 13, 'The Stockout Audit — Python', 'Supply chain wants every stretch of consecutive days a product sat at zero or negative stock — not just whether it ever happened — to prioritize which SKUs need safety-stock fixes first.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)`.
 
 For each product/warehouse, find every unbroken streak of consecutive days where the closing stock was ≤ 0. Build `result` with columns `product_id, warehouse, streak_start, streak_end, consecutive_oos_days` (dates as plain strings).', NULL, NULL, '{"inventory":[{"product_id":"P1","record_date":"2025-09-01","delta_qty":50,"is_restock":1,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-03","delta_qty":-15,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-04","delta_qty":-10,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-05","delta_qty":-8,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-06","delta_qty":5,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-07","delta_qty":-30,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-08","delta_qty":40,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-01","delta_qty":200,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-03","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-04","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-05","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-06","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-07","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-08","delta_qty":-20,"is_restock":0,"warehouse":"W1"}]}'::jsonb, '[{"product_id":"P1","warehouse":"W1","streak_start":"2025-09-05","streak_end":"2025-09-05","consecutive_oos_days":1},{"product_id":"P1","warehouse":"W1","streak_start":"2025-09-07","streak_end":"2025-09-07","consecutive_oos_days":1}]'::jsonb, TRUE, 'daily = inventory.groupby([''product_id'', ''warehouse'', ''record_date''])[''delta_qty''].sum().reset_index()
 daily = daily.sort_values([''product_id'', ''warehouse'', ''record_date''])
@@ -1113,6 +1155,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -1125,8 +1169,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('reorder-trigger-date', 'Reorder Trigger Date', 'sql', 'medium', '["left join","running total"]'::jsonb, 'Purchasing wants an automated alert the moment any product/warehouse first crosses the 10-unit reorder threshold.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)`. Reorder threshold is 10 units.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('reorder-trigger-date', 'Reorder Trigger Date', 'sql', 'medium', '["left join","running total"]'::jsonb, 14, 'The Early Warning', 'Purchasing wants an automated alert the moment any product/warehouse first crosses the 10-unit reorder threshold.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)`. Reorder threshold is 10 units.
 
 For every product/warehouse combo, find the earliest date its closing stock dropped to ≤ 10 — `reorder_trigger_date`. If it never happened, show `NULL` rather than omitting the combo.', 'CREATE TABLE inventory (
   inventory_id INTEGER PRIMARY KEY,
@@ -1195,6 +1239,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -1207,8 +1253,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('reorder-trigger-date-pandas', 'Reorder Trigger Date', 'python', 'medium', '["pandas","merge","cumsum"]'::jsonb, 'Purchasing wants an automated alert the moment any product/warehouse first crosses the 10-unit reorder threshold.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)`. Reorder threshold is 10 units.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('reorder-trigger-date-pandas', 'Reorder Trigger Date', 'python', 'medium', '["pandas","merge","cumsum"]'::jsonb, 14, 'The Early Warning — Python', 'Purchasing wants an automated alert the moment any product/warehouse first crosses the 10-unit reorder threshold.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)`. Reorder threshold is 10 units.
 
 For every product/warehouse combo, find the earliest date its closing stock dropped to ≤ 10 — `reorder_trigger_date`. If it never happened, show a missing value rather than omitting the combo. Build `result` with columns `product_id, warehouse, reorder_trigger_date`.', NULL, NULL, '{"inventory":[{"product_id":"P1","record_date":"2025-09-01","delta_qty":50,"is_restock":1,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-03","delta_qty":-15,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-04","delta_qty":-10,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-05","delta_qty":-8,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-06","delta_qty":5,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-07","delta_qty":-30,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-08","delta_qty":40,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-01","delta_qty":200,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-03","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-04","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-05","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-06","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-07","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-08","delta_qty":-20,"is_restock":0,"warehouse":"W1"}]}'::jsonb, '[{"product_id":"P1","warehouse":"W1","reorder_trigger_date":"2025-09-04"},{"product_id":"P2","warehouse":"W1","reorder_trigger_date":null}]'::jsonb, TRUE, 'daily = inventory.groupby([''product_id'', ''warehouse'', ''record_date''])[''delta_qty''].sum().reset_index()
 daily = daily.sort_values([''product_id'', ''warehouse'', ''record_date''])
@@ -1231,6 +1277,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -1243,8 +1291,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('restock-scenario-modeling', 'Restock Scenario Modeling (+10%)', 'sql', 'very_hard', '["window functions","what-if analysis"]'::jsonb, 'Supply chain is proposing a blanket +10% restock buffer to cut stockouts, and wants to see exactly how that would have changed closing stock day by day for product P1 before committing budget to it.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('restock-scenario-modeling', 'Restock Scenario Modeling (+10%)', 'sql', 'very_hard', '["window functions","what-if analysis"]'::jsonb, 15, 'The Final Case', 'Supply chain is proposing a blanket +10% restock buffer to cut stockouts, and wants to see exactly how that would have changed closing stock day by day for product P1 before committing budget to it.', 'Table `inventory(inventory_id, product_id, record_date, delta_qty, is_restock, warehouse)`.
 
 Model a scenario where every restock event (`is_restock = 1`) is increased by 10%. For product `P1` / warehouse `W1`, return `record_date, closing_stock_actual, closing_stock_scenario, stock_diff` — the actual vs. scenario running stock and their difference, ordered by date.', 'CREATE TABLE inventory (
   inventory_id INTEGER PRIMARY KEY,
@@ -1323,6 +1371,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,
@@ -1335,8 +1385,8 @@ ON CONFLICT (slug) DO UPDATE SET
   solution_code = EXCLUDED.solution_code,
   sort_order = EXCLUDED.sort_order;
 
-INSERT INTO questions (slug, title, category, difficulty, topic_tags, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
-VALUES ('restock-scenario-modeling-pandas', 'Restock Scenario Modeling (+10%)', 'python', 'very_hard', '["pandas","what-if analysis","cumsum"]'::jsonb, 'Supply chain is proposing a blanket +10% restock buffer to cut stockouts, and wants to see exactly how that would have changed closing stock day by day for product P1 before committing budget to it.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)`.
+INSERT INTO questions (slug, title, category, difficulty, topic_tags, chapter_number, chapter_title, story, prompt, schema_sql, seed_sql, seed_data, expected_result, order_matters, starter_code, hints, solution_code, sort_order)
+VALUES ('restock-scenario-modeling-pandas', 'Restock Scenario Modeling (+10%)', 'python', 'very_hard', '["pandas","what-if analysis","cumsum"]'::jsonb, 15, 'The Final Case — Python', 'Supply chain is proposing a blanket +10% restock buffer to cut stockouts, and wants to see exactly how that would have changed closing stock day by day for product P1 before committing budget to it.', 'DataFrame `inventory(product_id, record_date, delta_qty, is_restock, warehouse)`.
 
 Model a scenario where every restock event (`is_restock == 1`) is increased by 10%. For product `P1` / warehouse `W1`, build `result` with `record_date, closing_stock_actual, closing_stock_scenario, stock_diff`, sorted by date.', NULL, NULL, '{"inventory":[{"product_id":"P1","record_date":"2025-09-01","delta_qty":50,"is_restock":1,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-03","delta_qty":-15,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-04","delta_qty":-10,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-05","delta_qty":-8,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-06","delta_qty":5,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-07","delta_qty":-30,"is_restock":0,"warehouse":"W1"},{"product_id":"P1","record_date":"2025-09-08","delta_qty":40,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-01","delta_qty":200,"is_restock":1,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-02","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-03","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-04","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-05","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-06","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-07","delta_qty":-20,"is_restock":0,"warehouse":"W1"},{"product_id":"P2","record_date":"2025-09-08","delta_qty":-20,"is_restock":0,"warehouse":"W1"}]}'::jsonb, '[{"record_date":"2025-09-01","closing_stock_actual":50,"closing_stock_scenario":55,"stock_diff":5},{"record_date":"2025-09-02","closing_stock_actual":30,"closing_stock_scenario":35,"stock_diff":5},{"record_date":"2025-09-03","closing_stock_actual":15,"closing_stock_scenario":20,"stock_diff":5},{"record_date":"2025-09-04","closing_stock_actual":5,"closing_stock_scenario":10,"stock_diff":5},{"record_date":"2025-09-05","closing_stock_actual":-3,"closing_stock_scenario":2,"stock_diff":5},{"record_date":"2025-09-06","closing_stock_actual":2,"closing_stock_scenario":7,"stock_diff":5},{"record_date":"2025-09-07","closing_stock_actual":-28,"closing_stock_scenario":-23,"stock_diff":5},{"record_date":"2025-09-08","closing_stock_actual":12,"closing_stock_scenario":21,"stock_diff":9}]'::jsonb, TRUE, 'scenario = inventory.copy()
 scenario[''delta_qty''] = np.where(scenario[''is_restock''] == 1, scenario[''delta_qty''] * 1.1, scenario[''delta_qty''])
@@ -1370,6 +1420,8 @@ ON CONFLICT (slug) DO UPDATE SET
   category = EXCLUDED.category,
   difficulty = EXCLUDED.difficulty,
   topic_tags = EXCLUDED.topic_tags,
+  chapter_number = EXCLUDED.chapter_number,
+  chapter_title = EXCLUDED.chapter_title,
   story = EXCLUDED.story,
   prompt = EXCLUDED.prompt,
   schema_sql = EXCLUDED.schema_sql,

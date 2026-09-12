@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS questions (
   difficulty    VARCHAR(20) NOT NULL,      -- easy | medium | hard | very_hard
   topic_tags    JSONB NOT NULL DEFAULT '[]',
 
+  chapter_number INTEGER,
+  chapter_title  VARCHAR(120),
   story         TEXT,
   prompt        TEXT NOT NULL,
 
@@ -36,11 +38,18 @@ CREATE TABLE IF NOT EXISTS submissions (
   language      VARCHAR(20) NOT NULL,
   code          TEXT NOT NULL,
   passed        BOOLEAN NOT NULL,
+  mode          VARCHAR(20) NOT NULL DEFAULT 'practice', -- 'practice' | 'test'
   submitted_at  TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE INDEX IF NOT EXISTS idx_submissions_session ON submissions(session_id);
 CREATE INDEX IF NOT EXISTS idx_questions_category ON questions(category);
+
+-- Safe to re-run against an existing database (e.g. after the first
+-- schema.sql run predates these columns being added).
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS chapter_number INTEGER;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS chapter_title VARCHAR(120);
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS mode VARCHAR(20) NOT NULL DEFAULT 'practice';
 
 -- The app talks to Supabase using the public anon/publishable key (safe to ship
 -- to the browser), so RLS is what actually keeps this safe:
@@ -53,8 +62,12 @@ CREATE INDEX IF NOT EXISTS idx_questions_category ON questions(category);
 ALTER TABLE questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE submissions ENABLE ROW LEVEL SECURITY;
 
+-- DROP + CREATE (not CREATE POLICY IF NOT EXISTS, which Postgres doesn't
+-- support) so this whole file stays safe to paste and re-run in full.
+DROP POLICY IF EXISTS questions_public_read ON questions;
 CREATE POLICY questions_public_read ON questions
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS submissions_public_insert ON submissions;
 CREATE POLICY submissions_public_insert ON submissions
   FOR INSERT WITH CHECK (true);
