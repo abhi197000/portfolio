@@ -265,6 +265,9 @@ function Agents() {
         <p className="agents-intro">
           Interactive AI tools I&apos;ve built for real-world data and analytics workflows. Try them live.
         </p>
+        <p className="agents-intro">
+          Also building a <Link href="/practice" style={{ color: "var(--accent, #38bdf8)" }}>SQL &amp; Python practice bank</Link> — write real queries against live sandboxed data and get instant feedback.
+        </p>
         <div className="card-grid">
           {agents.map((agent, i) => (
             <Reveal key={agent.id} delay={i * 100} direction="scale">
