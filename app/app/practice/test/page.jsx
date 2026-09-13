@@ -257,12 +257,12 @@ function Scorecard({ questions, answers, onRetake, warning }) {
             <svg className="cc-ring" viewBox="0 0 160 160">
               <defs>
                 <linearGradient id="cc-ring-grad" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#00f0ff" />
-                  <stop offset="60%" stopColor="#8b5cf6" />
-                  <stop offset="100%" stopColor="#ff3dbb" />
+                  <stop offset="0%" style={{ stopColor: "var(--v-cyan)" }} />
+                  <stop offset="60%" style={{ stopColor: "var(--v-violet)" }} />
+                  <stop offset="100%" style={{ stopColor: "var(--v-magenta)" }} />
                 </linearGradient>
               </defs>
-              <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(110,170,255,0.14)" strokeWidth="10" />
+              <circle cx="80" cy="80" r="70" fill="none" style={{ stroke: "rgba(var(--v-line-rgb), 0.2)" }} strokeWidth="10" />
               <circle
                 cx="80" cy="80" r="70" fill="none" stroke="url(#cc-ring-grad)" strokeWidth="10" strokeLinecap="round"
                 strokeDasharray={`${(pct / 100) * circumference} ${circumference}`}

@@ -2,8 +2,8 @@
 import { useEffect, useRef } from "react";
 
 // Immersive backdrop: a starfield drifting toward the viewer from a vanishing
-// point, over a receding neon grid floor. Fixed, non-interactive, and static
-// for users who prefer reduced motion.
+// point, over a receding neon grid floor under a dusk sky. Fixed,
+// non-interactive, and static for users who prefer reduced motion.
 export default function Scene() {
   const canvasRef = useRef(null);
 
@@ -24,7 +24,7 @@ export default function Scene() {
       x: Math.random() * 2 - 1,
       y: Math.random() * 2 - 1,
       z,
-      hue: Math.random() < 0.2 ? 280 : 188,
+      hue: Math.random() < 0.25 ? 262 : 188,
     });
 
     function resize() {
@@ -35,7 +35,7 @@ export default function Scene() {
       canvas.style.width = `${w}px`;
       canvas.style.height = `${h}px`;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = Math.min(260, Math.floor((w * h) / 5200));
+      const count = Math.min(200, Math.floor((w * h) / 7000));
       stars = Array.from({ length: count }, () => spawn(0.05 + Math.random() * 0.95));
     }
 
@@ -59,9 +59,10 @@ export default function Scene() {
           continue;
         }
         const depth = 1 - s.z;
+        // Near-white and softer than a night sky: bright specks read as noise on dusk.
         ctx.beginPath();
-        ctx.fillStyle = `hsla(${s.hue}, 100%, 78%, ${Math.min(1, depth * 1.3)})`;
-        ctx.arc(px, py, Math.max(0.3, depth * 2.1), 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${s.hue}, 100%, 94%, ${Math.min(0.8, depth * 1.05)})`;
+        ctx.arc(px, py, Math.max(0.3, depth * 1.9), 0, Math.PI * 2);
         ctx.fill();
       }
       if (!reduce) raf = requestAnimationFrame(frame);
@@ -86,6 +87,7 @@ export default function Scene() {
   return (
     <div className="cc-scene" aria-hidden="true">
       <div className="cc-scene-nebula" />
+      <div className="cc-scene-haze" />
       <canvas ref={canvasRef} className="cc-scene-canvas" />
       <div className="cc-scene-horizon" />
       <div className="cc-scene-grid" />
