@@ -70,6 +70,14 @@ export default function PracticeWorkbenchPage() {
         setAlreadyCompleted(true);
         const all = await listQuestions();
         if (isJourneyComplete(all.map((q) => q.slug))) setJourneyReady(true);
+
+        // Best-effort: record the daily task for a logged-in Career Comfort user.
+        // A 401 (not signed in) is expected and ignored.
+        fetch("/api/app/daily", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question_slug: question.slug, category: question.category }),
+        }).catch(() => {});
       }
 
       submitAttempt({
