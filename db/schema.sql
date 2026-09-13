@@ -50,6 +50,9 @@ CREATE INDEX IF NOT EXISTS idx_questions_category ON questions(category);
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS chapter_number INTEGER;
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS chapter_title VARCHAR(120);
 ALTER TABLE submissions ADD COLUMN IF NOT EXISTS mode VARCHAR(20) NOT NULL DEFAULT 'practice';
+-- Practice now runs inside the logged-in module, so attempts belong to a user.
+ALTER TABLE submissions ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL;
+CREATE INDEX IF NOT EXISTS idx_submissions_user ON submissions(user_id);
 
 -- The app talks to Supabase using the public anon/publishable key (safe to ship
 -- to the browser), so RLS is what actually keeps this safe:
@@ -57,11 +60,12 @@ ALTER TABLE submissions ADD COLUMN IF NOT EXISTS mode VARCHAR(20) NOT NULL DEFAU
 --  - NOBODY can write questions via the anon key (only via the SQL Editor / a
 --    service_role key you keep off the client) — so a visitor can't deface
 --    the question bank through the API
---  - anyone can INSERT a submission (logging their own attempt) but can't
---    read, edit, or delete submissions through the API. The "My Story" history
---    view reads submissions server-side with the service_role key (which
---    bypasses RLS and never reaches the browser) — so NO public SELECT policy
---    is added here, and the insert-only posture for the anon key is preserved.
+--  - a submission can only be inserted as yourself (user_id = your auth.uid(),
+--    or NULL for an anonymous attempt) — nobody can log attempts into another
+--    person's history
+--  - a signed-in user can read back ONLY their own submissions. There is still
+--    no public SELECT: anonymous callers have auth.uid() = NULL, which never
+--    matches, so the anon key reads nothing.
 ALTER TABLE questions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE submissions ENABLE ROW LEVEL SECURITY;
 
@@ -73,4 +77,8 @@ CREATE POLICY questions_public_read ON questions
 
 DROP POLICY IF EXISTS submissions_public_insert ON submissions;
 CREATE POLICY submissions_public_insert ON submissions
-  FOR INSERT WITH CHECK (true);
+  FOR INSERT WITH CHECK (user_id IS NULL OR user_id = auth.uid());
+
+DROP POLICY IF EXISTS submissions_own_read ON submissions;
+CREATE POLICY submissions_own_read ON submissions
+  FOR SELECT USING (user_id IS NOT NULL AND user_id = auth.uid());

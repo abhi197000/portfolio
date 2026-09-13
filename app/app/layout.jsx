@@ -1,32 +1,21 @@
-import "../career-theme.css";
-import Link from "next/link";
+import "../_module/theme.css";
+import "../_module/theme-content.css";
+import { fontVars } from "../_module/fonts";
+import { MODULE_NAME } from "../_module/brand";
+import Scene from "../_module/Scene";
+import Shell from "../_module/Shell";
 import { createClient } from "../../lib/supabase/server";
 
-export const metadata = { title: "Career Comfort — Dashboard" };
+export const metadata = { title: `${MODULE_NAME} — Command Center` };
 
-export default async function AppLayout({ children }) {
+export default async function ModuleLayout({ children }) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <div className="cc-page">
-      <nav className="cc-nav">
-        <div className="cc-nav-inner">
-          <Link href="/app" className="cc-brand" style={{ textDecoration: "none", color: "inherit" }}>
-            Career<span>Comfort</span>
-          </Link>
-          <div className="cc-nav-links">
-            <Link href="/app" className="cc-nav-link">Dashboard</Link>
-            <a href="/app#resume" className="cc-nav-link">Resume</a>
-            <Link href="/practice" className="cc-nav-link">Practice</Link>
-            {user && <span className="cc-nav-link" style={{ color: "var(--cc-muted)" }}>{user.email}</span>}
-            <form action="/auth/signout" method="post">
-              <button className="cc-btn cc-btn-secondary" style={{ padding: "6px 12px" }}>Sign out</button>
-            </form>
-          </div>
-        </div>
-      </nav>
-      {children}
+    <div className={`cc-page ${fontVars}`}>
+      <Scene />
+      <Shell email={user?.email}>{children}</Shell>
     </div>
   );
 }

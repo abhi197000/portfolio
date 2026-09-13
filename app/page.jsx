@@ -16,6 +16,7 @@ import {
   projects,
   agents,
 } from "../data/profile";
+import { MODULE_NAME, MODULE_TAGLINE } from "./_module/brand";
 
 function Nav() {
   return (
@@ -31,6 +32,7 @@ function Nav() {
           <a href="#milestones">Milestones</a>
           <a href="#projects">Projects</a>
           <a href="#agents">AI Agents</a>
+          <Link href="/app" className="nav-launch">{MODULE_NAME} ↗</Link>
           <a href="#contact">Contact</a>
         </div>
       </div>
@@ -101,6 +103,9 @@ function Hero() {
                 <a href="#agents" className="btn btn-outline">
                   Try my AI agents
                 </a>
+                <Link href="/app" className="btn btn-launch">
+                  Launch {MODULE_NAME} →
+                </Link>
               </div>
             </Reveal>
           </div>
@@ -110,6 +115,40 @@ function Hero() {
         </div>
       </div>
     </header>
+  );
+}
+
+function CareerOSLaunch() {
+  const features = [
+    ["Daily missions", "3 SQL + 3 Python a day, with streaks"],
+    ["Practice sim", "15 business cases graded live in your browser"],
+    ["Certification", "No hints, no reveals — one scorecard"],
+    ["Living resume", "A knowledge graph that rewrites itself"],
+  ];
+  return (
+    <section id="career-os">
+      <div className="container">
+        <Reveal direction="scale">
+          <div className="launch-portal">
+            <div className="launch-grid" aria-hidden="true" />
+            <div className="launch-content">
+              <div>
+                <p className="launch-eyebrow">New module · Agentic career training</p>
+                <h2 className="launch-title">{MODULE_NAME}</h2>
+                <p className="launch-tagline">{MODULE_TAGLINE}</p>
+                <ul className="launch-features">
+                  {features.map(([title, desc]) => (
+                    <li key={title}><strong>{title}</strong>{desc}</li>
+                  ))}
+                </ul>
+                <Link href="/app" className="btn btn-launch">Enter {MODULE_NAME} →</Link>
+              </div>
+              <div className="launch-orb" aria-hidden="true"><span /><span /><span /><i /></div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -266,7 +305,7 @@ function Agents() {
           Interactive AI tools I&apos;ve built for real-world data and analytics workflows. Try them live.
         </p>
         <p className="agents-intro">
-          Also building a <Link href="/practice" style={{ color: "var(--accent, #38bdf8)" }}>SQL &amp; Python practice bank</Link> — write real queries against live sandboxed data and get instant feedback.
+          The SQL &amp; Python practice sim now lives inside <Link href="/app/practice" style={{ color: "var(--accent, #38bdf8)" }}>{MODULE_NAME}</Link> — real queries against sandboxed data, graded instantly.
         </p>
         <div className="card-grid">
           {agents.map((agent, i) => (
@@ -335,6 +374,7 @@ export default function Home() {
     <>
       <Nav />
       <Hero />
+      <CareerOSLaunch />
       <About />
       <Experience />
       <Achievements />

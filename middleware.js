@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 // Refreshes the Supabase auth session on every matched request and guards the
 // "/app" product: unauthenticated visitors are redirected to /login. Public
-// pages (portfolio, /practice, /login, auth callback) are left untouched.
+// pages (portfolio, the question API) are left untouched.
 export async function middleware(request) {
   let response = NextResponse.next({ request });
 
@@ -41,6 +41,6 @@ export async function middleware(request) {
 
 export const config = {
   // Run on the app routes and the login/auth flow; skip static assets and the
-  // public portfolio/practice pages so their rendering is untouched.
+  // public portfolio pages so their rendering is untouched.
   matcher: ["/app/:path*", "/login", "/auth/:path*"],
 };

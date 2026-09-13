@@ -50,7 +50,25 @@ CREATE TABLE IF NOT EXISTS resume_versions (
 );
 CREATE INDEX IF NOT EXISTS idx_versions_user ON resume_versions(user_id, version_number DESC);
 
+-- 4. Certification test results (one row per completed test).
+CREATE TABLE IF NOT EXISTS test_attempts (
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id) ON DELETE CASCADE,
+  total      INTEGER NOT NULL,
+  correct    INTEGER NOT NULL,
+  skipped    INTEGER NOT NULL DEFAULT 0,
+  score_pct  INTEGER NOT NULL,
+  answers    JSONB NOT NULL DEFAULT '{}',            -- slug -> {passed, skipped}
+  taken_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS idx_tests_user ON test_attempts(user_id, taken_at DESC);
+
 -- ---- RLS: each user sees and writes only their own rows ----
+ALTER TABLE test_attempts     ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS tests_own ON test_attempts;
+CREATE POLICY tests_own ON test_attempts
+  FOR ALL USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+
 ALTER TABLE daily_completions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE resume_nodes      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE resume_edges      ENABLE ROW LEVEL SECURITY;

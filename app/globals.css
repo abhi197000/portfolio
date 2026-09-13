@@ -866,3 +866,175 @@ footer {
   text-decoration: none;
   box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
 }
+
+/* ---------- Career OS launch portal (homepage entry into the module) ---------- */
+.nav-links a.nav-launch {
+  color: #00f0ff;
+  font-weight: 600;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+}
+
+.btn-launch {
+  background: linear-gradient(90deg, #00f0ff, #8b5cf6);
+  color: #02030c;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 0 24px rgba(0, 240, 255, 0.35);
+}
+.btn-launch:hover {
+  color: #02030c;
+  text-decoration: none;
+  filter: brightness(1.12);
+}
+
+.launch-portal {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  background:
+    radial-gradient(80% 120% at 85% 20%, rgba(139, 92, 246, 0.28), transparent 60%),
+    radial-gradient(60% 80% at 10% 90%, rgba(0, 240, 255, 0.16), transparent 60%),
+    #04060f;
+  box-shadow: 0 0 60px rgba(0, 240, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.launch-grid {
+  position: absolute;
+  left: -40%;
+  right: -40%;
+  bottom: -30%;
+  height: 75%;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.35) 1px, transparent 1px);
+  background-size: 56px 56px;
+  transform: perspective(420px) rotateX(72deg);
+  transform-origin: center top;
+  -webkit-mask-image: linear-gradient(to top, #000, transparent 85%);
+  mask-image: linear-gradient(to top, #000, transparent 85%);
+  opacity: 0.35;
+  animation: launch-grid 3s linear infinite;
+}
+@keyframes launch-grid { to { background-position: 0 56px, 0 0; } }
+
+.launch-content {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  gap: 32px;
+  align-items: center;
+  padding: 48px;
+}
+
+.launch-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #00f0ff;
+  margin-bottom: 10px;
+}
+
+.launch-title {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  background: linear-gradient(90deg, #00f0ff, #8b5cf6 55%, #ff3dbb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.launch-tagline {
+  color: #cbd9f5;
+  font-size: 1.05rem;
+  max-width: 52ch;
+  margin-bottom: 22px;
+}
+
+.launch-features {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 20px;
+  margin-bottom: 28px;
+}
+.launch-features li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.launch-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00f0ff;
+  box-shadow: 0 0 8px #00f0ff;
+}
+.launch-features strong {
+  display: block;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.launch-orb {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  justify-self: center;
+  perspective: 600px;
+}
+.launch-orb span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 240, 255, 0.75);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  animation: launch-rx 6s linear infinite;
+}
+.launch-orb span:nth-child(2) {
+  inset: 12%;
+  border-color: rgba(139, 92, 246, 0.85);
+  border-left-color: transparent;
+  border-right-color: transparent;
+  animation: launch-ry 4.5s linear infinite;
+}
+.launch-orb span:nth-child(3) {
+  inset: 24%;
+  border-color: rgba(255, 61, 187, 0.7);
+  border-top-color: transparent;
+  animation: launch-rz 3s linear infinite reverse;
+}
+.launch-orb i {
+  position: absolute;
+  inset: 34%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #00f0ff 38%, #8b5cf6 80%);
+  box-shadow: 0 0 60px rgba(0, 240, 255, 0.8);
+  animation: launch-core 2.8s ease-in-out infinite;
+}
+@keyframes launch-rx { to { transform: rotateX(68deg) rotateZ(360deg); } }
+@keyframes launch-ry { to { transform: rotateY(68deg) rotateZ(360deg); } }
+@keyframes launch-rz { to { transform: rotateZ(360deg); } }
+@keyframes launch-core { 50% { transform: scale(0.84); } }
+
+@media (max-width: 768px) {
+  .launch-content { grid-template-columns: 1fr; padding: 28px; }
+  .launch-features { grid-template-columns: 1fr; }
+  .launch-orb { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .launch-grid, .launch-orb span, .launch-orb i { animation: none; }
+}

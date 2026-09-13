@@ -155,7 +155,7 @@ export default function ResumeWorkspace() {
       </div>
 
       {flash && (
-        <div className="cc-card" style={{ marginBottom: 20, borderColor: "var(--cc-green)" }}>
+        <div className="cc-card" style={{ marginBottom: 20, borderColor: "var(--v-green)" }}>
           <div className="cc-card-body" style={{ padding: "14px 20px", display: "flex", justifyContent: "space-between", gap: 12 }}>
             <span style={{ fontSize: 14 }}>✅ {flash}</span>
             <button className="cc-link-btn" onClick={() => setFlash("")}>Dismiss</button>

@@ -79,7 +79,7 @@ export default function ResumeOnboarding({
               {parsing ? "Reading your resume…" : "Choose a file"}
             </button>
             {parseError && (
-              <p style={{ color: "var(--cc-accent-ink)", fontSize: 13, marginBottom: 0 }}>{parseError}</p>
+              <p style={{ color: "var(--v-magenta)", fontSize: 13, marginBottom: 0 }}>{parseError}</p>
             )}
           </div>
         </div>
@@ -219,7 +219,7 @@ export default function ResumeOnboarding({
           <span className="cc-muted" style={{ fontSize: 13 }}>
             We&apos;ll turn this into a graph of your skills, projects and roles — then keep it updated.
           </span>
-          {saveError && <p style={{ color: "var(--cc-accent-ink)", fontSize: 13, margin: 0 }}>{saveError}</p>}
+          {saveError && <p style={{ color: "var(--v-magenta)", fontSize: 13, margin: 0 }}>{saveError}</p>}
         </div>
       </div>
     </div>

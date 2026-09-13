@@ -81,7 +81,7 @@ export default function AddUpdateForm({ knownSkills = [], onAdd, adding, error }
           <button className="cc-btn cc-btn-primary" onClick={submit} disabled={!canSubmit}>
             {adding ? "Updating your resume…" : "Add & update my resume"}
           </button>
-          {error && <span style={{ color: "var(--cc-accent-ink)", fontSize: 13 }}>{error}</span>}
+          {error && <span style={{ color: "var(--v-magenta)", fontSize: 13 }}>{error}</span>}
         </div>
       </div>
     </div>
