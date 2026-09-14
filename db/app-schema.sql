@@ -1,4 +1,4 @@
--- Career Comfort — authenticated product schema.
+-- Career OS — authenticated module schema.
 -- Run in the Supabase SQL Editor (safe to re-run). Separate from db/schema.sql
 -- (the public practice bank). Every table here is per-user and locked down by
 -- RLS to the logged-in user (auth.uid()); the anon key can only ever touch a
@@ -89,3 +89,51 @@ CREATE POLICY edges_own ON resume_edges
 DROP POLICY IF EXISTS versions_own ON resume_versions;
 CREATE POLICY versions_own ON resume_versions
   FOR ALL USING (user_id = auth.uid()) WITH CHECK (user_id = auth.uid());
+
+-- 5. Cohort skill benchmark — how the signed-in user compares with everyone else.
+-- Returns aggregates only (never another user's rows), is callable only by
+-- signed-in users, and withholds all comparison data until at least 3 OTHER
+-- users are active, so no single person's progress can be singled out.
+-- SECURITY DEFINER is what lets it count across users without loosening RLS.
+CREATE OR REPLACE FUNCTION cohort_skill_benchmark()
+RETURNS jsonb
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  WITH others AS (
+    SELECT user_id, COUNT(DISTINCT question_slug) AS solved
+    FROM daily_completions
+    WHERE auth.uid() IS NOT NULL AND user_id <> auth.uid()
+    GROUP BY user_id
+  ),
+  cohort AS (SELECT COUNT(*)::int AS size FROM others),
+  mine AS (
+    SELECT COUNT(DISTINCT question_slug) AS solved
+    FROM daily_completions
+    WHERE user_id = auth.uid()
+  ),
+  rates AS (
+    SELECT dc.question_slug,
+           COUNT(DISTINCT dc.user_id)::numeric / NULLIF((SELECT size FROM cohort), 0) AS rate
+    FROM daily_completions dc
+    JOIN others o ON o.user_id = dc.user_id
+    GROUP BY dc.question_slug
+  )
+  SELECT CASE
+    WHEN (SELECT size FROM cohort) < 3 THEN
+      jsonb_build_object('cohort_size', (SELECT size FROM cohort), 'min_cohort', 3, 'rates', '{}'::jsonb, 'beats_pct', NULL)
+    ELSE
+      jsonb_build_object(
+        'cohort_size', (SELECT size FROM cohort),
+        'min_cohort', 3,
+        'rates', COALESCE((SELECT jsonb_object_agg(question_slug, round(rate, 4)) FROM rates), '{}'::jsonb),
+        'beats_pct', round(100.0 * (SELECT COUNT(*) FROM others WHERE solved < (SELECT solved FROM mine)) / (SELECT size FROM cohort))
+      )
+  END;
+$$;
+
+REVOKE ALL ON FUNCTION cohort_skill_benchmark() FROM PUBLIC;
+REVOKE ALL ON FUNCTION cohort_skill_benchmark() FROM anon;
+GRANT EXECUTE ON FUNCTION cohort_skill_benchmark() TO authenticated;

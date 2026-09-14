@@ -177,3 +177,103 @@
 .cc-feature strong { display: block; margin-bottom: 4px; font-family: var(--font-display), sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--v-cyan); }
 .cc-feature span { font-size: 13px; color: var(--v-muted); }
 .cc-auth-card { width: 100%; max-width: 440px; justify-self: center; }
+
+/* ---------- Command Center (home) ---------- */
+.cc-hello { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 4px 0 24px; }
+.cc-hello-text { flex: 1; min-width: 240px; }
+.cc-hello-title { margin: 0; font-family: var(--font-body), system-ui, sans-serif; font-size: clamp(24px, 3vw, 30px); font-weight: 600; letter-spacing: -0.01em; }
+.cc-hello-name { text-transform: capitalize; }
+.cc-hello-sub { margin: 4px 0 0; color: var(--v-muted); font-size: 14px; }
+.cc-hello-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.cc-cmd-grid { display: grid; gap: 20px; align-items: start; }
+@media (min-width: 1100px) { .cc-cmd-grid { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); } }
+
+.cc-overview-head { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px 0; }
+.cc-overview-scope { font-size: 12.5px; color: var(--v-muted); }
+.cc-overview-body { position: relative; z-index: 1; display: grid; gap: 16px; padding: 14px 18px 18px; }
+.cc-overview-foot { margin: 0; font-size: 13px; color: var(--v-muted); }
+
+/* Segmented view switch (Overview / Languages) — a view toggle, not a filter. */
+.cc-seg { display: inline-flex; gap: 2px; padding: 3px; border-radius: 8px; border: 1px solid var(--v-line); background: var(--v-well); }
+.cc-seg-btn { border: none; background: transparent; cursor: pointer; padding: 6px 12px; border-radius: 6px; font-family: var(--font-body), system-ui, sans-serif; font-size: 13px; font-weight: 600; color: var(--v-muted); }
+.cc-seg-btn:hover { color: var(--v-text); }
+.cc-seg-btn.is-on { background: #fff; color: var(--v-text); box-shadow: 0 1px 2px rgba(var(--v-shadow-rgb), 0.12); }
+.cc-seg-btn:focus-visible { outline: 2px solid var(--v-cyan-bright); outline-offset: 1px; }
+
+/* Stat tiles: label, then the value in the UI sans with proportional figures. */
+.cc-tiles { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 640px) { .cc-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cc-tile { min-width: 0; padding: 10px 12px; border-radius: 8px; background: var(--v-well); }
+.cc-tile-label { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12.5px; color: var(--v-muted); }
+.cc-tile-soon { padding: 0 6px; font-size: 10px; }
+.cc-tile-value { margin-top: 2px; font-family: var(--font-body), system-ui, sans-serif; font-size: 19px; font-weight: 600; line-height: 1.25; color: var(--v-text); overflow-wrap: anywhere; }
+.cc-tile-sub { margin-top: 1px; font-size: 11.5px; line-height: 1.35; color: var(--v-muted); }
+
+/* Activity grid: empty cells one step off the surface, then the validated ramp. */
+.cc-activity { position: relative; }
+.cc-activity-grid { display: grid; grid-template-rows: repeat(7, auto); grid-auto-flow: column; gap: 3px; }
+.cc-activity-cell { display: block; aspect-ratio: 1; border-radius: 3px; background: rgba(var(--v-line-rgb), 0.1); }
+.cc-activity-cell[data-level="1"] { background: var(--v-heat-1); }
+.cc-activity-cell[data-level="2"] { background: var(--v-heat-2); }
+.cc-activity-cell[data-level="3"] { background: var(--v-heat-3); }
+.cc-activity-cell[data-level="4"] { background: var(--v-heat-4); }
+.cc-activity-cell[data-future] { background: transparent; }
+.cc-activity-grid .cc-activity-cell[data-level]:hover { outline: 2px solid var(--v-text); outline-offset: 1px; }
+.cc-activity-foot { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+.cc-activity-legend { display: inline-flex; align-items: center; gap: 3px; font-size: 11.5px; color: var(--v-muted); }
+.cc-activity-legend .cc-activity-cell { width: 11px; height: 11px; }
+.cc-activity-legend span:first-child { margin-right: 4px; }
+.cc-activity-legend span:last-child { margin-left: 4px; }
+
+/* Tooltip: value leads, label follows; line keys, not boxes. */
+.cc-tip {
+  position: absolute; z-index: 20; pointer-events: none;
+  transform: translate(-50%, calc(-100% - 8px));
+  display: grid; gap: 2px; padding: 8px 10px; border-radius: 8px;
+  background: #0f172a; color: #fff; font-size: 12px; white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(var(--v-shadow-rgb), 0.25);
+}
+.cc-tip strong { font-size: 13px; font-weight: 600; color: #fff; }
+.cc-tip > span { color: #cbd5e1; }
+.cc-tip .cc-tip-row { display: flex; align-items: center; gap: 6px; color: #e2e8f0; }
+.cc-tip-row i { display: inline-block; width: 12px; height: 2px; border-radius: 1px; }
+
+/* Skill radar */
+.cc-radar { position: relative; margin: 0; }
+.cc-radar svg { display: block; width: 100%; max-width: 340px; height: auto; margin: 0 auto; overflow: visible; }
+.cc-radar-legend { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 4px; font-size: 12.5px; color: var(--v-text-2); }
+.cc-radar-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.cc-radar-legend i { display: inline-block; width: 14px; height: 2px; border-radius: 1px; }
+.cc-radar-ring { fill: none; stroke: rgba(var(--v-line-rgb), 0.16); stroke-width: 1; }
+.cc-radar-spoke { stroke: rgba(var(--v-line-rgb), 0.16); stroke-width: 1; }
+.cc-radar-area { fill: var(--series); fill-opacity: 0.12; stroke: var(--series); stroke-width: 2; stroke-linejoin: round; }
+.cc-radar-dot { fill: var(--series); stroke: #fff; stroke-width: 2; }
+.cc-radar-hit { stroke: transparent; stroke-width: 28; stroke-linecap: round; pointer-events: stroke; }
+.cc-radar-label { font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; fill: var(--v-muted); }
+.cc-radar-axis { outline: none; }
+.cc-radar-axis.is-active .cc-radar-label { fill: var(--v-text); }
+.cc-radar-axis:focus-visible .cc-radar-hit { stroke: rgba(var(--v-cyan-rgb), 0.14); }
+
+.cc-skill-note { margin: 4px 0 12px; font-size: 12.5px; color: var(--v-muted); text-align: center; }
+.cc-skill-table { margin-top: 8px; }
+.cc-skill-code { display: inline-block; min-width: 42px; margin-right: 6px; font-family: var(--font-mono), monospace; font-size: 11px; font-weight: 700; color: var(--v-muted); }
+
+/* Table views (the accessible twin of each chart) */
+.cc-mini-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.cc-mini-table th { padding: 6px 8px; text-align: left; font-weight: 600; color: var(--v-muted); border-bottom: 1px solid var(--v-line); }
+.cc-mini-table td { padding: 6px 8px; color: var(--v-text-2); border-bottom: 1px solid rgba(var(--v-line-rgb), 0.08); }
+.cc-mini-table th:not(:first-child), .cc-mini-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.cc-table-view { flex: 1; min-width: 200px; }
+.cc-table-view summary { cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--v-cyan); }
+.cc-table-view[open] .cc-mini-table { margin-top: 8px; }
+
+/* Languages view */
+.cc-lang { display: grid; gap: 8px; padding: 14px; border-radius: 8px; background: var(--v-well); }
+.cc-lang-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.cc-lang-name { font-size: 15px; font-weight: 600; }
+.cc-lang-count { font-size: 13px; color: var(--v-muted); }
+.cc-meter { height: 8px; border-radius: 999px; background: var(--v-series-1-track); overflow: hidden; }
+.cc-meter-fill { height: 100%; border-radius: 999px; background: var(--v-series-1); transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.cc-lang-stats { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--v-muted); }
+.cc-lang-stats strong { font-weight: 600; color: var(--v-text); }
