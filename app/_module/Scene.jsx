@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-// Immersive backdrop: a starfield drifting toward the viewer from a vanishing
-// point, over a receding neon grid floor under a dusk sky. Fixed,
-// non-interactive, and static for users who prefer reduced motion.
+// Immersive backdrop: particles drifting toward the viewer from a vanishing
+// point, over a receding grid floor. Fixed, non-interactive, and static for
+// users who prefer reduced motion.
 export default function Scene() {
   const canvasRef = useRef(null);
 
@@ -24,7 +24,7 @@ export default function Scene() {
       x: Math.random() * 2 - 1,
       y: Math.random() * 2 - 1,
       z,
-      hue: Math.random() < 0.25 ? 262 : 188,
+      hue: Math.random() < 0.3 ? 262 : 190,
     });
 
     function resize() {
@@ -59,10 +59,10 @@ export default function Scene() {
           continue;
         }
         const depth = 1 - s.z;
-        // Near-white and softer than a night sky: bright specks read as noise on dusk.
+        // Tinted, semi-transparent particles: white "stars" vanish on a light sky.
         ctx.beginPath();
-        ctx.fillStyle = `hsla(${s.hue}, 100%, 94%, ${Math.min(0.8, depth * 1.05)})`;
-        ctx.arc(px, py, Math.max(0.3, depth * 1.9), 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${s.hue}, 75%, 52%, ${Math.min(0.5, depth * 0.65)})`;
+        ctx.arc(px, py, Math.max(0.4, depth * 2), 0, Math.PI * 2);
         ctx.fill();
       }
       if (!reduce) raf = requestAnimationFrame(frame);
