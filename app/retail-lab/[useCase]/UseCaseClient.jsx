@@ -11,6 +11,7 @@ import StoreDepthView from "../_views/StoreDepthView";
 import EndOfSeasonView from "../_views/EndOfSeasonView";
 import BullwhipView from "../_views/BullwhipView";
 import LeadTimeView from "../_views/LeadTimeView";
+import CrossDockView from "../_views/CrossDockView";
 
 const VIEWS = {
   "agentic-overview": OverviewView,
@@ -21,6 +22,7 @@ const VIEWS = {
   "end-of-season": EndOfSeasonView,
   bullwhip: BullwhipView,
   "lead-time": LeadTimeView,
+  "cross-dock": CrossDockView,
 };
 
 // Renders the server's first result, then re-runs the engine through the API
