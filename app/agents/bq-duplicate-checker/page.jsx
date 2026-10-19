@@ -461,8 +461,8 @@ export default function DuplicateCheckerPage() {
         {/* Demo Banner */}
         {demoMode && (
           <div style={{
-            padding: "12px 20px", background: "rgba(56,189,248,0.1)",
-            border: "1px solid rgba(56,189,248,0.25)", borderRadius: 8,
+            padding: "12px 20px", background: "rgba(123, 30, 43, $1)",
+            border: "1px solid rgba(123, 30, 43, $1)", borderRadius: 8,
             display: "flex", alignItems: "center", justifyContent: "space-between",
             flexWrap: "wrap", gap: 12,
           }}>
@@ -627,7 +627,7 @@ export default function DuplicateCheckerPage() {
                 ))}
               </div>
               <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginBottom: 16 }}>
-                The app will <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4 }}>
+                The app will <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4 }}>
                 GROUP BY</code> these columns and look for rows that appear more than once.
               </p>
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -670,7 +670,7 @@ export default function DuplicateCheckerPage() {
               <div className="sc-card">
                 <div className="sc-card-body" style={{ textAlign: "center", padding: "40px 24px" }}>
                   <div style={{ fontSize: "2.5rem", marginBottom: 12 }}>&#10003;</div>
-                  <h3 style={{ color: "#34d399", fontSize: "1.2rem", fontWeight: 700, marginBottom: 8 }}>
+                  <h3 style={{ color: "var(--good)", fontSize: "1.2rem", fontWeight: 700, marginBottom: 8 }}>
                     All Clear!
                   </h3>
                   <p style={{ color: "var(--text-muted)" }}>
@@ -682,11 +682,11 @@ export default function DuplicateCheckerPage() {
               <>
                 <div className="sc-stats" data-tour="dup-stats" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#ef4444" }}>{stats.groups}</div>
+                    <div className="sc-stat-value" style={{ color: "var(--bad)" }}>{stats.groups}</div>
                     <div className="sc-stat-label">Duplicate Groups</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#fbbf24" }}>{stats.extraRows}</div>
+                    <div className="sc-stat-value" style={{ color: "var(--warn)" }}>{stats.extraRows}</div>
                     <div className="sc-stat-label">Extra Rows</div>
                   </div>
                   <div className="sc-stat">
@@ -719,7 +719,7 @@ export default function DuplicateCheckerPage() {
                             {selectedCols.map((col) => (
                               <td key={col} className="sc-col-type">{row[col] ?? "NULL"}</td>
                             ))}
-                            <td style={{ textAlign: "right", fontWeight: 700, color: "#ef4444" }}>
+                            <td style={{ textAlign: "right", fontWeight: 700, color: "var(--bad)" }}>
                               {row.duplicate_count}
                             </td>
                           </tr>
@@ -785,7 +785,7 @@ export default function DuplicateCheckerPage() {
                         <p style={{ fontSize: "0.85rem", color: "var(--text-muted)", marginBottom: 16 }}>
                           Found <strong style={{ color: "var(--text)" }}>{parsedCTEs.length}</strong> CTE(s).
                           Click each to check for duplicates at grain:{" "}
-                          <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.82rem" }}>
+                          <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.82rem" }}>
                             {selectedCols.join(", ")}
                           </code>
                         </p>
@@ -802,9 +802,9 @@ export default function DuplicateCheckerPage() {
                             let icon = "⬜";
                             let borderColor = "var(--border)";
                             if (result) {
-                              if (result.status === "clean") { icon = "🟢"; borderColor = "#34d399"; }
-                              else if (result.status === "duplicates") { icon = "🔴"; borderColor = "#ef4444"; }
-                              else if (result.status === "error") { icon = "⚠️"; borderColor = "#fbbf24"; }
+                              if (result.status === "clean") { icon = "🟢"; borderColor = "var(--good)"; }
+                              else if (result.status === "duplicates") { icon = "🔴"; borderColor = "var(--bad)"; }
+                              else if (result.status === "error") { icon = "⚠️"; borderColor = "var(--warn)"; }
                             }
                             const isChecking = checkingCTE === idx;
 
@@ -839,7 +839,7 @@ export default function DuplicateCheckerPage() {
                                 <div key={idx} style={{
                                   padding: "10px 16px", borderRadius: 8,
                                   background: "rgba(52,211,153,0.08)", border: "1px solid rgba(52,211,153,0.2)",
-                                  fontSize: "0.85rem", color: "#34d399", fontWeight: 600,
+                                  fontSize: "0.85rem", color: "var(--good)", fontWeight: 600,
                                 }}>
                                   {name} &mdash; No duplicates found
                                 </div>
@@ -850,10 +850,10 @@ export default function DuplicateCheckerPage() {
                                 <div key={idx} style={{
                                   padding: "10px 16px", borderRadius: 8,
                                   background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)",
-                                  fontSize: "0.85rem", color: "#fca5a5", fontWeight: 600,
+                                  fontSize: "0.85rem", color: "var(--bad)", fontWeight: 600,
                                 }}>
-                                  {name} &mdash; <span style={{ color: "#ef4444" }}>{result.dupGroups}</span> duplicate group(s),{" "}
-                                  <span style={{ color: "#ef4444" }}>{result.extraRows}</span> extra row(s)
+                                  {name} &mdash; <span style={{ color: "var(--bad)" }}>{result.dupGroups}</span> duplicate group(s),{" "}
+                                  <span style={{ color: "var(--bad)" }}>{result.extraRows}</span> extra row(s)
                                 </div>
                               );
                             }

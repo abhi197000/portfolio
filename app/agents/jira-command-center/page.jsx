@@ -86,10 +86,10 @@ const DEMO_NL_QUERIES = [
 
 const DEMO_TEAM_SUMMARY = {
   statusBreakdown: [
-    { status: "Done", count: 18, color: "#34d399" },
-    { status: "In Progress", count: 3, color: "#38bdf8" },
-    { status: "In Review", count: 2, color: "#a78bfa" },
-    { status: "Spillover", count: 3, color: "#ef4444" },
+    { status: "Done", count: 18, color: "var(--good)" },
+    { status: "In Progress", count: 3, color: "var(--accent)" },
+    { status: "In Review", count: 2, color: "var(--accent-2)" },
+    { status: "Spillover", count: 3, color: "var(--bad)" },
     { status: "To Do", count: 4, color: "#6b7280" },
   ],
   ownerBreakdown: [
@@ -275,7 +275,7 @@ export default function JiraCommandCenterPage() {
   ];
 
   const codeStyle = {
-    color: "var(--accent)", background: "rgba(255,255,255,0.05)",
+    color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)",
     padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem",
   };
 
@@ -322,8 +322,8 @@ export default function JiraCommandCenterPage() {
         {/* Demo Banner */}
         {demoMode && (
           <div className="sc-demo-banner" style={{
-            padding: "12px 20px", background: "rgba(56,189,248,0.1)",
-            border: "1px solid rgba(56,189,248,0.25)", borderRadius: 8,
+            padding: "12px 20px", background: "rgba(123, 30, 43, $1)",
+            border: "1px solid rgba(123, 30, 43, $1)", borderRadius: 8,
             display: "flex", alignItems: "center", justifyContent: "space-between",
             flexWrap: "wrap", gap: 12,
           }}>
@@ -440,15 +440,15 @@ export default function JiraCommandCenterPage() {
                     <div className="sc-stat-label">Total Stories</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#34d399" }}>{sprintData.totals.completionPct}%</div>
+                    <div className="sc-stat-value" style={{ color: "var(--good)" }}>{sprintData.totals.completionPct}%</div>
                     <div className="sc-stat-label">Completion</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#fbbf24" }}>{sprintData.totals.bugCount}</div>
+                    <div className="sc-stat-value" style={{ color: "var(--warn)" }}>{sprintData.totals.bugCount}</div>
                     <div className="sc-stat-label">Bugs</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#ef4444" }}>{sprintData.totals.spillover}</div>
+                    <div className="sc-stat-value" style={{ color: "var(--bad)" }}>{sprintData.totals.spillover}</div>
                     <div className="sc-stat-label">Spillover</div>
                   </div>
                 </div>
@@ -460,11 +460,11 @@ export default function JiraCommandCenterPage() {
                     <div className="sc-stat-label">Total Points</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#34d399" }}>{sprintData.totals.completedPoints}</div>
+                    <div className="sc-stat-value" style={{ color: "var(--good)" }}>{sprintData.totals.completedPoints}</div>
                     <div className="sc-stat-label">Completed Points</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#34d399" }}>{sprintData.totals.bugsResolved}/{sprintData.totals.bugCount}</div>
+                    <div className="sc-stat-value" style={{ color: "var(--good)" }}>{sprintData.totals.bugsResolved}/{sprintData.totals.bugCount}</div>
                     <div className="sc-stat-label">Bugs Resolved</div>
                   </div>
                 </div>
@@ -546,7 +546,7 @@ export default function JiraCommandCenterPage() {
                             <td style={{ textAlign: "center" }}>{p.completedPoints}</td>
                             <td style={{
                               textAlign: "center", fontWeight: 800,
-                              color: p.score >= 85 ? "#34d399" : p.score >= 70 ? "#fbbf24" : "#ef4444",
+                              color: p.score >= 85 ? "var(--good)" : p.score >= 70 ? "var(--warn)" : "var(--bad)",
                             }}>{p.score}</td>
                           </tr>
                         ))}
@@ -607,7 +607,7 @@ export default function JiraCommandCenterPage() {
                         <pre style={{
                           padding: 16, background: "var(--bg)", borderRadius: 8,
                           border: "1px solid var(--border)", overflowX: "auto",
-                          fontSize: "0.82rem", lineHeight: 1.6, color: "#34d399",
+                          fontSize: "0.82rem", lineHeight: 1.6, color: "var(--good)",
                           fontFamily: "'Consolas','Monaco','Courier New',monospace",
                         }}>
                           <code>{nlResult.jql}</code>
@@ -641,7 +641,7 @@ export default function JiraCommandCenterPage() {
                         <pre style={{
                           padding: 12, background: "rgba(0,0,0,0.3)", borderRadius: 6,
                           overflowX: "auto", fontSize: "0.82rem", lineHeight: 1.5,
-                          color: "#34d399", margin: "8px 0",
+                          color: "var(--good)", margin: "8px 0",
                           fontFamily: "'Consolas','Monaco','Courier New',monospace",
                         }}>
                           <code>{q.jql}</code>
@@ -727,9 +727,9 @@ export default function JiraCommandCenterPage() {
                           <tr key={o.owner}>
                             <td style={{ fontWeight: 600 }}>{o.owner}</td>
                             <td style={{ textAlign: "center" }}>{o.total}</td>
-                            <td style={{ textAlign: "center", color: "#34d399" }}>{o.done}</td>
-                            <td style={{ textAlign: "center", color: "#38bdf8" }}>{o.inProgress}</td>
-                            <td style={{ textAlign: "center", color: "#fbbf24" }}>{o.total - o.done - o.inProgress}</td>
+                            <td style={{ textAlign: "center", color: "var(--good)" }}>{o.done}</td>
+                            <td style={{ textAlign: "center", color: "var(--accent)" }}>{o.inProgress}</td>
+                            <td style={{ textAlign: "center", color: "var(--warn)" }}>{o.total - o.done - o.inProgress}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -885,7 +885,7 @@ ${ticketOps.edit.result.message}`}</code>
                     }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
                         <span className="sc-badge" style={{
-                          background: "rgba(167,139,250,0.15)", color: "#a78bfa",
+                          background: "rgba(167,139,250,0.15)", color: "var(--accent-2)",
                         }}>CLONE</span>
                         <span style={{ fontWeight: 600 }}>Clone to multiple projects</span>
                       </div>
@@ -911,7 +911,7 @@ ${ticketOps.clone.result.message}`}</code>
                     }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
                         <span className="sc-badge" style={{
-                          background: "rgba(56,189,248,0.15)", color: "#38bdf8",
+                          background: "rgba(123, 30, 43, $1)", color: "var(--accent)",
                         }}>TRANSITION</span>
                         <span style={{ fontWeight: 600 }}>Move ticket status</span>
                       </div>

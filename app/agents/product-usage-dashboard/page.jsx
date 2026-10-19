@@ -234,8 +234,8 @@ export default function ProductUsageDashboardPage() {
         {/* Demo Banner */}
         {demoMode && (
           <div style={{
-            padding: "12px 20px", background: "rgba(56,189,248,0.1)",
-            border: "1px solid rgba(56,189,248,0.25)", borderRadius: 8,
+            padding: "12px 20px", background: "rgba(123, 30, 43, $1)",
+            border: "1px solid rgba(123, 30, 43, $1)", borderRadius: 8,
             display: "flex", alignItems: "center", justifyContent: "space-between",
             flexWrap: "wrap", gap: 12,
           }}>
@@ -278,7 +278,7 @@ export default function ProductUsageDashboardPage() {
                     style={{
                       padding: "20px 16px", borderRadius: 10,
                       border: isActive ? "2px solid var(--accent)" : "1px solid var(--border)",
-                      background: isActive ? "rgba(56,189,248,0.08)" : "var(--bg)",
+                      background: isActive ? "rgba(123, 30, 43, $1)" : "var(--bg)",
                       cursor: "pointer", textAlign: "center",
                       transition: "all 0.15s",
                     }}
@@ -356,7 +356,7 @@ export default function ProductUsageDashboardPage() {
               </div>
               <span style={{
                 padding: "6px 14px", borderRadius: 999, fontSize: "0.78rem", fontWeight: 700,
-                background: "rgba(56,189,248,0.1)", color: "var(--accent)", border: "1px solid rgba(56,189,248,0.25)",
+                background: "rgba(123, 30, 43, $1)", color: "var(--accent)", border: "1px solid rgba(123, 30, 43, $1)",
               }}>
                 {DEMO_WEEK.fiscalWeek}
               </span>
@@ -423,13 +423,13 @@ export default function ProductUsageDashboardPage() {
                 {/* KPI cards */}
                 <div className="sc-stats" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#34d399" }}>
+                    <div className="sc-stat-value" style={{ color: "var(--good)" }}>
                       {((DEMO_SUMMARY.approved.num_of_orders / DEMO_SUMMARY.recommended.num_of_orders) * 100).toFixed(1)}%
                     </div>
                     <div className="sc-stat-label">Approval Rate</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#fbbf24" }}>
+                    <div className="sc-stat-value" style={{ color: "var(--warn)" }}>
                       {((DEMO_SUMMARY.edited.num_of_orders / DEMO_SUMMARY.approved.num_of_orders) * 100).toFixed(1)}%
                     </div>
                     <div className="sc-stat-label">Edit Rate</div>
@@ -503,14 +503,14 @@ export default function ProductUsageDashboardPage() {
                       <div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                           <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text)" }}>Directly Approved</span>
-                          <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#34d399" }}>
+                          <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--good)" }}>
                             {fmt(DEMO_FUNNEL.directly_approved)} ({DEMO_FUNNEL.directly_approved_pct}%)
                           </span>
                         </div>
                         <div style={{ height: 28, background: "var(--bg)", borderRadius: 6, overflow: "hidden", border: "1px solid var(--border)" }}>
                           <div style={{
                             height: "100%", width: `${DEMO_FUNNEL.directly_approved_pct}%`,
-                            background: "linear-gradient(90deg, #34d399, #10b981)",
+                            background: "linear-gradient(90deg, var(--good), var(--good))",
                             borderRadius: 6, transition: "width 0.5s",
                           }} />
                         </div>
@@ -519,14 +519,14 @@ export default function ProductUsageDashboardPage() {
                       <div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                           <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text)" }}>Edited then Approved</span>
-                          <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#fbbf24" }}>
+                          <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--warn)" }}>
                             {fmt(DEMO_FUNNEL.edited_then_approved)} ({DEMO_FUNNEL.edited_then_approved_pct}%)
                           </span>
                         </div>
                         <div style={{ height: 28, background: "var(--bg)", borderRadius: 6, overflow: "hidden", border: "1px solid var(--border)" }}>
                           <div style={{
                             height: "100%", width: `${DEMO_FUNNEL.edited_then_approved_pct}%`,
-                            background: "linear-gradient(90deg, #fbbf24, #f59e0b)",
+                            background: "linear-gradient(90deg, var(--warn), var(--warn))",
                             borderRadius: 6, transition: "width 0.5s",
                           }} />
                         </div>
@@ -535,14 +535,14 @@ export default function ProductUsageDashboardPage() {
                       <div>
                         <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
                           <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text)" }}>Manual Orders</span>
-                          <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#ef4444" }}>
+                          <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--bad)" }}>
                             {fmt(DEMO_FUNNEL.manual_then_approved)} ({DEMO_FUNNEL.manual_then_approved_pct}%)
                           </span>
                         </div>
                         <div style={{ height: 28, background: "var(--bg)", borderRadius: 6, overflow: "hidden", border: "1px solid var(--border)" }}>
                           <div style={{
                             height: "100%", width: `${DEMO_FUNNEL.manual_then_approved_pct}%`,
-                            background: "linear-gradient(90deg, #ef4444, #dc2626)",
+                            background: "linear-gradient(90deg, var(--bad), var(--bad))",
                             borderRadius: 6, transition: "width 0.5s",
                           }} />
                         </div>
@@ -571,19 +571,19 @@ export default function ProductUsageDashboardPage() {
                 {/* KPI cards */}
                 <div className="sc-stats" style={{ gridTemplateColumns: "repeat(4, 1fr)" }}>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#34d399", fontSize: "1.4rem" }}>
+                    <div className="sc-stat-value" style={{ color: "var(--good)", fontSize: "1.4rem" }}>
                       {DEMO_FUNNEL.directly_approved_pct}%
                     </div>
                     <div className="sc-stat-label">Direct Approval</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#fbbf24", fontSize: "1.4rem" }}>
+                    <div className="sc-stat-value" style={{ color: "var(--warn)", fontSize: "1.4rem" }}>
                       {DEMO_FUNNEL.edited_then_approved_pct}%
                     </div>
                     <div className="sc-stat-label">Edited First</div>
                   </div>
                   <div className="sc-stat">
-                    <div className="sc-stat-value" style={{ color: "#ef4444", fontSize: "1.4rem" }}>
+                    <div className="sc-stat-value" style={{ color: "var(--bad)", fontSize: "1.4rem" }}>
                       {DEMO_FUNNEL.manual_then_approved_pct}%
                     </div>
                     <div className="sc-stat-label">Manual Orders</div>
@@ -642,7 +642,7 @@ export default function ProductUsageDashboardPage() {
                               {fmt(row.reconciled_qty)}
                               <span style={{
                                 marginLeft: 8, fontSize: "0.72rem", fontWeight: 600,
-                                color: parseFloat(fillRate) >= 90 ? "#34d399" : "#fbbf24",
+                                color: parseFloat(fillRate) >= 90 ? "var(--good)" : "var(--warn)",
                               }}>
                                 {fillRate}%
                               </span>
@@ -698,8 +698,8 @@ export default function ProductUsageDashboardPage() {
                                 {u.name}
                               </td>
                               <td style={{ textAlign: "right", fontFamily: "monospace" }}>{fmt(u.views)}</td>
-                              <td style={{ textAlign: "right", fontFamily: "monospace", color: "#fbbf24" }}>{fmt(u.edits)}</td>
-                              <td style={{ textAlign: "right", fontFamily: "monospace", color: "#34d399" }}>{fmt(u.approvals)}</td>
+                              <td style={{ textAlign: "right", fontFamily: "monospace", color: "var(--warn)" }}>{fmt(u.edits)}</td>
+                              <td style={{ textAlign: "right", fontFamily: "monospace", color: "var(--good)" }}>{fmt(u.approvals)}</td>
                               <td style={{ textAlign: "right", fontWeight: 700, color: "var(--accent)" }}>
                                 {fmt(u.views + u.edits + u.approvals)}
                               </td>

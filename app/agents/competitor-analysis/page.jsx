@@ -274,8 +274,8 @@ export default function CompetitorAnalysisPage() {
         {/* Demo Banner */}
         {demoMode && (
           <div style={{
-            padding: "12px 20px", background: "rgba(56,189,248,0.1)",
-            border: "1px solid rgba(56,189,248,0.25)", borderRadius: 8,
+            padding: "12px 20px", background: "rgba(123, 30, 43, $1)",
+            border: "1px solid rgba(123, 30, 43, $1)", borderRadius: 8,
             display: "flex", alignItems: "center", justifyContent: "space-between",
             flexWrap: "wrap", gap: 12,
           }}>
@@ -385,13 +385,13 @@ export default function CompetitorAnalysisPage() {
                 <div className="sc-stat-label">Market Size</div>
               </div>
               <div className="sc-stat">
-                <div className="sc-stat-value" style={{ color: "#34d399", fontSize: "1.1rem" }}>
+                <div className="sc-stat-value" style={{ color: "var(--good)", fontSize: "1.1rem" }}>
                   {result.growthRate}
                 </div>
                 <div className="sc-stat-label">Growth Rate</div>
               </div>
               <div className="sc-stat">
-                <div className="sc-stat-value" style={{ color: "#fbbf24", fontSize: "1.1rem" }}>
+                <div className="sc-stat-value" style={{ color: "var(--warn)", fontSize: "1.1rem" }}>
                   {result.competitors?.length || 0}
                 </div>
                 <div className="sc-stat-label">Competitors Mapped</div>
@@ -437,12 +437,12 @@ export default function CompetitorAnalysisPage() {
                         <td style={{ color: "var(--accent)", fontWeight: 600 }}>{comp.marketShare}</td>
                         <td className="sc-col-type">{comp.hq}</td>
                         <td>
-                          <ul style={{ margin: 0, paddingLeft: 16, fontSize: "0.82rem", color: "#34d399" }}>
+                          <ul style={{ margin: 0, paddingLeft: 16, fontSize: "0.82rem", color: "var(--good)" }}>
                             {comp.strengths?.map((s, j) => <li key={j}>{s}</li>)}
                           </ul>
                         </td>
                         <td>
-                          <ul style={{ margin: 0, paddingLeft: 16, fontSize: "0.82rem", color: "#fca5a5" }}>
+                          <ul style={{ margin: 0, paddingLeft: 16, fontSize: "0.82rem", color: "var(--bad)" }}>
                             {comp.weaknesses?.map((w, j) => <li key={j}>{w}</li>)}
                           </ul>
                         </td>
@@ -466,7 +466,7 @@ export default function CompetitorAnalysisPage() {
                   {result.positioning?.map((pos, i) => (
                     <div key={i} style={{
                       padding: "12px 16px", borderRadius: 8,
-                      background: "rgba(56,189,248,0.05)", border: "1px solid var(--border)",
+                      background: "rgba(123, 30, 43, $1)", border: "1px solid var(--border)",
                     }}>
                       <p style={{ fontWeight: 700, color: "var(--text)", marginBottom: 4, fontSize: "0.9rem" }}>
                         {pos.strategy}
@@ -502,7 +502,7 @@ export default function CompetitorAnalysisPage() {
               <div className="sc-card">
                 <div className="sc-card-header">
                   <div>
-                    <h2 style={{ color: "#34d399" }}>Opportunities</h2>
+                    <h2 style={{ color: "var(--good)" }}>Opportunities</h2>
                   </div>
                 </div>
                 <div className="sc-card-body">
@@ -516,7 +516,7 @@ export default function CompetitorAnalysisPage() {
               <div className="sc-card">
                 <div className="sc-card-header">
                   <div>
-                    <h2 style={{ color: "#ef4444" }}>Threats</h2>
+                    <h2 style={{ color: "var(--bad)" }}>Threats</h2>
                   </div>
                 </div>
                 <div className="sc-card-body">
@@ -548,7 +548,7 @@ export default function CompetitorAnalysisPage() {
                       <span style={{
                         width: 24, height: 24, borderRadius: "50%",
                         background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
-                        color: "#0a0e17", display: "flex", alignItems: "center",
+                        color: "var(--on-accent)", display: "flex", alignItems: "center",
                         justifyContent: "center", fontWeight: 800, fontSize: "0.75rem", flexShrink: 0,
                       }}>{i + 1}</span>
                       <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", lineHeight: 1.6 }}>{rec}</p>

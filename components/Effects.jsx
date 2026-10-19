@@ -71,7 +71,8 @@ export function Reveal({ children, className = "", delay = 0, direction = "up" }
 }
 
 /* ---------- Animated particle constellation background ---------- */
-export function ParticleField() {
+// maroon constellation for the light cream theme; pass colors to restyle it
+export function ParticleField({ lineRgb = "123, 30, 43", lineAlpha = 0.16, dotColor = "rgba(160, 64, 50, 0.45)" }) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -123,7 +124,7 @@ export function ParticleField() {
           const b = particles[j];
           const d = Math.hypot(a.x - b.x, a.y - b.y);
           if (d < 130) {
-            ctx.strokeStyle = `rgba(56, 189, 248, ${0.14 * (1 - d / 130)})`;
+            ctx.strokeStyle = `rgba(${lineRgb}, ${lineAlpha * (1 - d / 130)})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -134,7 +135,7 @@ export function ParticleField() {
       }
 
       particles.forEach((p) => {
-        ctx.fillStyle = "rgba(129, 140, 248, 0.55)";
+        ctx.fillStyle = dotColor;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fill();
@@ -164,7 +165,7 @@ export function ParticleField() {
       canvas.parentElement?.removeEventListener("mousemove", onMouse);
       canvas.parentElement?.removeEventListener("mouseleave", onLeave);
     };
-  }, []);
+  }, [lineRgb, lineAlpha, dotColor]);
 
   return <canvas ref={canvasRef} className="particle-field" aria-hidden="true" />;
 }
