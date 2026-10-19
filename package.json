@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "retail:check": "node --no-warnings scripts/retail/check.mjs",
+    "retail:seed": "node --no-warnings scripts/retail/build-seed.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
