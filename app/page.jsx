@@ -103,8 +103,8 @@ function Hero() {
                 <a href="#agents" className="btn btn-outline">
                   Try my AI agents
                 </a>
-                <Link href="/app" className="btn btn-launch">
-                  Launch {MODULE_NAME} →
+                <Link href="/retail-lab" className="btn btn-lab">
+                  Explore the Retail Lab →
                 </Link>
               </div>
             </Reveal>
