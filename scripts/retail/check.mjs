@@ -115,6 +115,26 @@ check("Lead time: Northline drifting with a 9–27 day spread; Baltic tight", ()
   assert.equal(lt.stockout_example.po_no, 4471);
 });
 
+const xd = results["cross-dock"];
+check("Cross-dock: Sola's truck sends white tees and socks straight out, oxfords and polos to reserve", () => {
+  const l = Object.fromEntries(xd.lines.map((x) => [x.style_id, x]));
+  assert.equal(l["WHITE-TEE"].decision, "cross_dock");
+  assert.equal(l["SOCKS-3PK"].decision, "cross_dock");
+  assert.ok(["top_up", "put_away"].includes(l.OXFORD.decision));
+  assert.ok(["top_up", "put_away"].includes(l["POLO-TEE"].decision));
+});
+check("…Store 14's socks land Oct 24 instead of Oct 31, and dock-to-store drops by 9+ days", () => {
+  assert.equal(xd.hero.store_no, 14);
+  assert.equal(xd.hero.style_id, "SOCKS-3PK");
+  assert.equal(xd.hero.via_cross_dock, "2026-10-24");
+  assert.equal(xd.hero.via_put_away, "2026-10-31");
+  assert.ok(xd.totals.dock_to_store_put_away - xd.totals.dock_to_store_cross_dock >= 9);
+});
+check("Overview offers Monday's truck for Store 14's socks", () => {
+  const s = ov.stockouts.find((x) => x.store_no === 14 && x.style_id === "SOCKS-3PK");
+  assert.ok(s?.options.some((o) => o.includes("ASN 30418")), "no cross-dock option");
+});
+
 console.log(`\n${checks.join("\n")}`);
 const failed = checks.filter((c) => c.startsWith("✗")).length;
 console.log(`\n${checks.length - failed}/${checks.length} story checks pass`);
