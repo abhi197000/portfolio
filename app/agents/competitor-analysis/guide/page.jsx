@@ -17,7 +17,7 @@ function CopyButton({ text }) {
         position: "absolute", top: 10, right: 10, padding: "4px 12px",
         borderRadius: 6, border: "1px solid var(--border)",
         background: copied ? "rgba(52,211,153,0.15)" : "var(--bg-card)",
-        color: copied ? "#34d399" : "var(--text-muted)",
+        color: copied ? "var(--good)" : "var(--text-muted)",
         fontSize: "0.75rem", fontWeight: 600, cursor: "pointer",
         transition: "all 0.15s", fontFamily: "inherit",
       }}
@@ -30,7 +30,7 @@ function CodeBlock({ filename, code }) {
     <div style={{ marginBottom: 24 }}>
       {filename && (
         <div style={{
-          padding: "8px 16px", background: "rgba(255,255,255,0.05)",
+          padding: "8px 16px", background: "rgba(123, 30, 43, 0.0$1)",
           borderRadius: "8px 8px 0 0", border: "1px solid var(--border)",
           borderBottom: "none", fontSize: "0.8rem", fontWeight: 700,
           color: "var(--accent)", fontFamily: "monospace",
@@ -57,14 +57,14 @@ function StepNumber({ n }) {
     <span style={{
       width: 28, height: 28, borderRadius: "50%",
       background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
-      color: "#0a0e17", display: "flex", alignItems: "center",
+      color: "var(--on-accent)", display: "flex", alignItems: "center",
       justifyContent: "center", fontWeight: 800, fontSize: "0.82rem", flexShrink: 0,
     }}>{n}</span>
   );
 }
 
 const codeStyle = {
-  color: "var(--accent)", background: "rgba(255,255,255,0.05)",
+  color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)",
   padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem",
 };
 
@@ -107,7 +107,7 @@ export default function GuidePage() {
 
             <div style={{
               padding: "16px 20px", borderRadius: 8, marginBottom: 16,
-              background: "rgba(56,189,248,0.05)", border: "1px solid rgba(56,189,248,0.15)",
+              background: "rgba(123, 30, 43, $1)", border: "1px solid rgba(123, 30, 43, $1)",
             }}>
               <p style={{ fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>
                 For Vercel (Production):
@@ -162,7 +162,7 @@ export default function GuidePage() {
                   </h3>
                   <span style={{
                     padding: "2px 10px", borderRadius: 12, fontSize: "0.75rem",
-                    background: "rgba(52,211,153,0.15)", color: "#34d399", fontWeight: 600,
+                    background: "rgba(52,211,153,0.15)", color: "var(--good)", fontWeight: 600,
                   }}>Best for this use case</span>
                 </div>
                 <ul style={{ paddingLeft: 20, color: "var(--text-muted)", lineHeight: 1.8, fontSize: "0.9rem" }}>
@@ -176,7 +176,7 @@ export default function GuidePage() {
 
               <div style={{
                 padding: "16px 20px", borderRadius: 8,
-                background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)",
+                background: "rgba(123, 30, 43, 0.0$1)", border: "1px solid var(--border)",
               }}>
                 <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>
                   OpenAI (GPT-4)
@@ -191,7 +191,7 @@ export default function GuidePage() {
 
               <div style={{
                 padding: "16px 20px", borderRadius: 8,
-                background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)",
+                background: "rgba(123, 30, 43, 0.0$1)", border: "1px solid var(--border)",
               }}>
                 <h3 style={{ fontSize: "1rem", fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>
                   Google Gemini

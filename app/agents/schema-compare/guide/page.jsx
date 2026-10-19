@@ -21,7 +21,7 @@ function CopyButton({ text }) {
         borderRadius: 6,
         border: "1px solid var(--border)",
         background: copied ? "rgba(52,211,153,0.15)" : "var(--bg-card)",
-        color: copied ? "#34d399" : "var(--text-muted)",
+        color: copied ? "var(--good)" : "var(--text-muted)",
         fontSize: "0.75rem",
         fontWeight: 600,
         cursor: "pointer",
@@ -41,7 +41,7 @@ function CodeBlock({ filename, language, code }) {
         <div
           style={{
             padding: "8px 16px",
-            background: "rgba(255,255,255,0.05)",
+            background: "rgba(123, 30, 43, 0.0$1)",
             borderRadius: "8px 8px 0 0",
             border: "1px solid var(--border)",
             borderBottom: "none",
@@ -343,7 +343,7 @@ export default function GuidePage() {
               </li>
               <li>
                 <strong style={{ color: "var(--text)" }}>Google Cloud SDK</strong>{" "}
-                (for <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>gcloud</code> CLI) &mdash;{" "}
+                (for <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>gcloud</code> CLI) &mdash;{" "}
                 <a href="https://cloud.google.com/sdk/docs/install" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>
                   Install guide
                 </a>
@@ -372,7 +372,7 @@ export default function GuidePage() {
                 <span style={{
                   width: 28, height: 28, borderRadius: "50%",
                   background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
-                  color: "#0a0e17", display: "flex", alignItems: "center",
+                  color: "var(--on-accent)", display: "flex", alignItems: "center",
                   justifyContent: "center", fontWeight: 800, fontSize: "0.82rem",
                   flexShrink: 0,
                 }}>1</span>
@@ -390,7 +390,7 @@ export default function GuidePage() {
                 <span style={{
                   width: 28, height: 28, borderRadius: "50%",
                   background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
-                  color: "#0a0e17", display: "flex", alignItems: "center",
+                  color: "var(--on-accent)", display: "flex", alignItems: "center",
                   justifyContent: "center", fontWeight: 800, fontSize: "0.82rem",
                   flexShrink: 0,
                 }}>2</span>
@@ -405,7 +405,7 @@ export default function GuidePage() {
                 <span style={{
                   width: 28, height: 28, borderRadius: "50%",
                   background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
-                  color: "#0a0e17", display: "flex", alignItems: "center",
+                  color: "var(--on-accent)", display: "flex", alignItems: "center",
                   justifyContent: "center", fontWeight: 800, fontSize: "0.82rem",
                   flexShrink: 0,
                 }}>3</span>
@@ -423,15 +423,15 @@ export default function GuidePage() {
                 <span style={{
                   width: 28, height: 28, borderRadius: "50%",
                   background: "linear-gradient(135deg, var(--accent), var(--accent-2))",
-                  color: "#0a0e17", display: "flex", alignItems: "center",
+                  color: "var(--on-accent)", display: "flex", alignItems: "center",
                   justifyContent: "center", fontWeight: 800, fontSize: "0.82rem",
                   flexShrink: 0,
                 }}>4</span>
                 <h3 style={{ fontSize: "1rem", fontWeight: 700 }}>Configure &amp; run</h3>
               </div>
               <p style={{ color: "var(--text-muted)", fontSize: "0.9rem", marginBottom: 12 }}>
-                Edit the <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>SOURCES</code> list
-                in <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>app.py</code> with
+                Edit the <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>SOURCES</code> list
+                in <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>app.py</code> with
                 your GCP project IDs and dataset IDs, then start the server:
               </p>
               <CodeBlock code={`python app.py\n# Open http://localhost:5000 in your browser`} />
@@ -465,18 +465,18 @@ export default function GuidePage() {
             <ul style={{ paddingLeft: 20, color: "var(--text-muted)" }}>
               <li>
                 <strong style={{ color: "var(--text)" }}>Finding your Project ID:</strong>{" "}
-                Run <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>gcloud projects list</code>{" "}
+                Run <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>gcloud projects list</code>{" "}
                 to see all projects you have access to.
               </li>
               <li>
                 <strong style={{ color: "var(--text)" }}>Finding Dataset IDs:</strong>{" "}
-                Run <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>bq ls --project_id=YOUR_PROJECT</code>{" "}
+                Run <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>bq ls --project_id=YOUR_PROJECT</code>{" "}
                 to list all datasets in a project.
               </li>
               <li>
                 <strong style={{ color: "var(--text)" }}>Suggested Tables:</strong>{" "}
                 Add table names you frequently compare to the{" "}
-                <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>SUGGESTED_TABLES</code>{" "}
+                <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>SUGGESTED_TABLES</code>{" "}
                 list for one-click selection in the UI.
               </li>
               <li>
@@ -507,7 +507,7 @@ export default function GuidePage() {
                 <strong style={{ color: "var(--text)" }}>
                   &ldquo;gcloud auth failed&rdquo;
                 </strong>{" "}
-                &mdash; Run <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>gcloud auth login</code>{" "}
+                &mdash; Run <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>gcloud auth login</code>{" "}
                 and make sure the Google Cloud SDK is installed and in your PATH.
               </li>
               <li>
@@ -522,7 +522,7 @@ export default function GuidePage() {
                   Port 5000 already in use
                 </strong>{" "}
                 &mdash; Change the port in the last line of app.py:{" "}
-                <code style={{ color: "var(--accent)", background: "rgba(255,255,255,0.05)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>app.run(port=5001)</code>
+                <code style={{ color: "var(--accent)", background: "rgba(123, 30, 43, 0.0$1)", padding: "2px 6px", borderRadius: 4, fontSize: "0.85rem" }}>app.run(port=5001)</code>
               </li>
               <li>
                 <strong style={{ color: "var(--text)" }}>

@@ -1,12 +1,22 @@
+/* Light cream + maroon theme, site-wide. Status colors are tokens too so pages
+   stay readable on the light background (the old literal greens/ambers were tuned
+   for a dark one). Career OS (.cc-page) and the Retail Lab (.lab) set their own. */
 :root {
-  --bg: #0a0e17;
-  --bg-card: #111726;
-  --bg-card-hover: #161e30;
-  --border: #1f2a40;
-  --text: #e6ebf4;
-  --text-muted: #94a3b8;
-  --accent: #38bdf8;
-  --accent-2: #818cf8;
+  --bg: #f6eee3;
+  --bg-card: #fffaf2;
+  --bg-card-hover: #fff3e3;
+  --border: #e6d2bd;
+  --text: #2a1316;
+  --text-muted: #6f5557;
+  --accent: #7b1e2b;
+  --accent-2: #b4532a;
+  --on-accent: #fff7ec;
+  --tint: rgba(123, 30, 43, 0.08);
+  --nav-bg: rgba(246, 238, 227, 0.86);
+  --good: #1f7a4d;
+  --warn: #a8650a;
+  --bad: #b3261e;
+  --shadow: 0 18px 44px rgba(74, 28, 20, 0.12);
   --max-width: 1080px;
 }
 
@@ -67,7 +77,7 @@ nav {
   top: 0;
   z-index: 50;
   backdrop-filter: blur(12px);
-  background: rgba(10, 14, 23, 0.8);
+  background: var(--nav-bg);
   border-bottom: 1px solid var(--border);
 }
 
@@ -117,7 +127,7 @@ nav {
   height: 600px;
   background: radial-gradient(
     circle,
-    rgba(56, 189, 248, 0.12),
+    rgba(123, 30, 43, 0.1),
     transparent 70%
   );
   pointer-events: none;
@@ -171,7 +181,12 @@ nav {
 
 .btn-primary {
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  color: #0a0e17;
+  color: var(--on-accent);
+  box-shadow: 0 8px 22px rgba(123, 30, 43, 0.22);
+}
+
+.btn-primary:hover {
+  color: var(--on-accent);
 }
 
 .btn-outline {
@@ -227,6 +242,7 @@ nav {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 26px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset, 0 10px 26px rgba(74, 28, 20, 0.06);
   transition: transform 0.15s ease, border-color 0.15s ease;
 }
 
@@ -264,7 +280,7 @@ nav {
   font-size: 0.75rem;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(56, 189, 248, 0.1);
+  background: var(--tint);
   color: var(--accent);
 }
 
@@ -446,7 +462,7 @@ footer {
   border-radius: inherit;
   background: radial-gradient(
     420px circle at var(--gx, 50%) var(--gy, 50%),
-    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.45),
     transparent 60%
   );
   pointer-events: none;
@@ -515,7 +531,7 @@ footer {
   height: 420px;
   top: -120px;
   right: -80px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.28), transparent 70%);
+  background: radial-gradient(circle, rgba(123, 30, 43, 0.2), transparent 70%);
   animation: orbFloat 11s ease-in-out infinite;
 }
 
@@ -524,7 +540,7 @@ footer {
   height: 360px;
   bottom: -140px;
   left: -120px;
-  background: radial-gradient(circle, rgba(129, 140, 248, 0.24), transparent 70%);
+  background: radial-gradient(circle, rgba(196, 134, 28, 0.22), transparent 70%);
   animation: orbFloat 14s ease-in-out infinite reverse;
 }
 
@@ -548,11 +564,11 @@ footer {
   position: relative;
   border-radius: 22px;
   overflow: hidden;
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  border: 1px solid rgba(123, 30, 43, 0.28);
   background: var(--bg-card);
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.55),
-    0 0 60px rgba(56, 189, 248, 0.12);
+    0 30px 70px rgba(74, 28, 20, 0.28),
+    0 0 50px rgba(123, 30, 43, 0.1);
   transform: translateZ(30px);
 }
 
@@ -585,8 +601,8 @@ footer {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--text);
-  background: rgba(10, 14, 23, 0.72);
-  border: 1px solid rgba(56, 189, 248, 0.4);
+  background: rgba(255, 248, 238, 0.88);
+  border: 1px solid rgba(123, 30, 43, 0.3);
   backdrop-filter: blur(8px);
   z-index: 3;
 }
@@ -637,20 +653,20 @@ footer {
   gap: 12px;
   padding: 12px 20px 12px 14px;
   border-radius: 16px;
-  border: 1px solid rgba(56, 189, 248, 0.45);
-  background: linear-gradient(135deg, rgba(17, 23, 38, 0.95), rgba(22, 30, 48, 0.95));
+  border: 1px solid rgba(123, 30, 43, 0.3);
+  background: linear-gradient(135deg, #fffaf2, #f7e9d8);
   color: var(--text);
   cursor: pointer;
   font: inherit;
   text-align: left;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 24px rgba(56, 189, 248, 0.15);
+  box-shadow: 0 12px 34px rgba(74, 28, 20, 0.2), 0 0 24px rgba(123, 30, 43, 0.1);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   animation: tourLaunchIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .tour-launch:hover {
   transform: translateY(-3px);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55), 0 0 34px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 16px 40px rgba(74, 28, 20, 0.26), 0 0 30px rgba(123, 30, 43, 0.18);
 }
 
 .tour-launch strong {
@@ -685,8 +701,8 @@ footer {
   border-radius: 14px;
   border: 2px solid var(--tour-accent, var(--accent));
   box-shadow:
-    0 0 0 9999px rgba(5, 8, 14, 0.62),
-    0 0 34px rgba(56, 189, 248, 0.45);
+    0 0 0 9999px rgba(42, 19, 22, 0.45),
+    0 0 34px rgba(123, 30, 43, 0.35);
   pointer-events: none;
   transition: top 0.45s cubic-bezier(0.16, 1, 0.3, 1),
     left 0.45s cubic-bezier(0.16, 1, 0.3, 1),
@@ -697,7 +713,7 @@ footer {
 
 @keyframes spotPulse {
   0%, 100% { border-color: var(--tour-accent, var(--accent)); }
-  50% { border-color: rgba(129, 140, 248, 0.9); }
+  50% { border-color: rgba(180, 83, 42, 0.9); }
 }
 
 .tour-bubble {
@@ -707,10 +723,10 @@ footer {
   z-index: 95;
   width: min(400px, calc(100vw - 44px));
   border-radius: 18px;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  background: linear-gradient(160deg, rgba(17, 23, 38, 0.97), rgba(13, 18, 30, 0.97));
+  border: 1px solid rgba(123, 30, 43, 0.28);
+  background: linear-gradient(160deg, rgba(255, 250, 242, 0.98), rgba(247, 234, 216, 0.98));
   backdrop-filter: blur(10px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.12);
+  box-shadow: 0 20px 50px rgba(74, 28, 20, 0.22), 0 0 30px rgba(123, 30, 43, 0.08);
   padding: 16px 18px 14px;
   animation: tourLaunchIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -729,8 +745,8 @@ footer {
   display: grid;
   place-items: center;
   border-radius: 12px;
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: var(--tint);
+  border: 1px solid rgba(123, 30, 43, 0.25);
   animation: botBounce 2.4s ease-in-out infinite;
 }
 
@@ -757,7 +773,7 @@ footer {
 
 .tour-close:hover {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--tint);
 }
 
 .tour-text {
@@ -775,7 +791,7 @@ footer {
 .tour-progress {
   height: 4px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(123, 30, 43, 0.1);
   margin: 12px 0 10px;
   overflow: hidden;
 }
@@ -798,7 +814,7 @@ footer {
   padding: 8px 10px;
   border-radius: 9px;
   border: 1px solid var(--border);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.6);
   color: var(--text);
   font-size: 0.82rem;
   font-weight: 600;
@@ -808,7 +824,7 @@ footer {
 
 .tour-controls button:hover:not(:disabled) {
   border-color: var(--accent);
-  background: rgba(56, 189, 248, 0.08);
+  background: var(--tint);
 }
 
 .tour-controls button:disabled {
@@ -837,8 +853,8 @@ footer {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  background: rgba(52, 211, 153, 0.15);
-  color: #34d399;
+  background: rgba(31, 122, 77, 0.12);
+  color: var(--good);
   margin-bottom: 12px;
 }
 
@@ -855,7 +871,7 @@ footer {
   padding: 10px 22px;
   border-radius: 8px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  color: #0a0e17;
+  color: var(--on-accent);
   font-weight: 600;
   font-size: 0.9rem;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -864,7 +880,8 @@ footer {
 .agent-cta:hover {
   transform: translateY(-2px);
   text-decoration: none;
-  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 6px 20px rgba(123, 30, 43, 0.25);
+  color: var(--on-accent);
 }
 
 /* ---------- Career OS launch portal (homepage entry into the module) ---------- */
@@ -884,9 +901,41 @@ footer {
 }
 
 .nav-links a.nav-launch {
-  color: #5ef3ff;
+  color: #0e7490;
   font-weight: 600;
-  text-shadow: 0 0 12px rgba(94, 243, 255, 0.45);
+}
+
+/* Hero entry into the Retail Lab: dark ink + gold, with a slow light sweep */
+.btn-lab {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2a1316, #4a1520);
+  color: #f6e2b8;
+  border: 1px solid rgba(196, 134, 28, 0.7);
+  box-shadow: 0 10px 26px rgba(42, 19, 22, 0.28);
+}
+.btn-lab::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(246, 226, 184, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: lab-sweep 3.6s ease-in-out infinite;
+}
+.btn-lab:hover {
+  color: #fff3d6;
+  text-decoration: none;
+  border-color: #c4861c;
+}
+@keyframes lab-sweep {
+  0%, 55% { left: -60%; }
+  100% { left: 130%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-lab::after { animation: none; }
 }
 
 .btn-launch {
@@ -911,7 +960,7 @@ footer {
     radial-gradient(80% 120% at 85% 15%, rgba(139, 92, 246, 0.14), transparent 60%),
     radial-gradient(60% 80% at 10% 95%, rgba(6, 182, 212, 0.14), transparent 60%),
     linear-gradient(160deg, #ffffff, #eef3fa);
-  box-shadow: 0 0 60px rgba(6, 182, 212, 0.18), 0 20px 50px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 60px rgba(6, 182, 212, 0.14), 0 20px 50px rgba(74, 28, 20, 0.16);
 }
 
 .launch-grid {

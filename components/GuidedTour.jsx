@@ -14,7 +14,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
  *   wait:    extra ms to hold after typing finishes (default 2600)
  * }]
  */
-export default function GuidedTour({ steps, agentName = "Agent Guide", accent = "#38bdf8" }) {
+export default function GuidedTour({ steps, agentName = "Agent Guide", accent = "var(--accent)" }) {
   const [playing, setPlaying] = useState(false);
   const [stepIdx, setStepIdx] = useState(0);
   const [typed, setTyped] = useState("");

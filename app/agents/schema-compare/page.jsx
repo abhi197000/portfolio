@@ -319,7 +319,7 @@ export default function SchemaComparePage() {
   function renderDetails(details) {
     if (!details?.length) {
       return (
-        <span style={{ color: "#34d399", fontWeight: 600, fontSize: "0.82rem" }}>
+        <span style={{ color: "var(--good)", fontWeight: 600, fontSize: "0.82rem" }}>
           Consistent
         </span>
       );
@@ -346,7 +346,7 @@ export default function SchemaComparePage() {
                 <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>
                   has
                 </span>
-                <code style={{ color: "#ef4444", fontWeight: 700, fontSize: "0.82rem" }}>
+                <code style={{ color: "var(--bad)", fontWeight: 700, fontSize: "0.82rem" }}>
                   {d.actual}
                 </code>
                 <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>
@@ -370,7 +370,7 @@ export default function SchemaComparePage() {
                   gap: 4,
                 }}
               >
-                <span style={{ color: "#fbbf24", fontSize: "0.78rem", fontWeight: 600 }}>
+                <span style={{ color: "var(--warn)", fontSize: "0.78rem", fontWeight: 600 }}>
                   Missing in
                 </span>
                 {d.sources.map((s) => (
@@ -433,8 +433,8 @@ export default function SchemaComparePage() {
           <div
             style={{
               padding: "12px 20px",
-              background: "rgba(56, 189, 248, 0.1)",
-              border: "1px solid rgba(56, 189, 248, 0.25)",
+              background: "rgba(123, 30, 43, $1)",
+              border: "1px solid rgba(123, 30, 43, $1)",
               borderRadius: 8,
               display: "flex",
               alignItems: "center",
@@ -741,13 +741,13 @@ export default function SchemaComparePage() {
                 <div className="sc-stat-label">Columns</div>
               </div>
               <div className="sc-stat">
-                <div className="sc-stat-value" style={{ color: "#34d399" }}>
+                <div className="sc-stat-value" style={{ color: "var(--good)" }}>
                   {stats.consistent}
                 </div>
                 <div className="sc-stat-label">Consistent</div>
               </div>
               <div className="sc-stat">
-                <div className="sc-stat-value" style={{ color: "#ef4444" }}>
+                <div className="sc-stat-value" style={{ color: "var(--bad)" }}>
                   {stats.mismatches}
                 </div>
                 <div className="sc-stat-label">Mismatches</div>
@@ -792,8 +792,8 @@ export default function SchemaComparePage() {
                     </div>
                     <div className="sc-result-stats">
                       <span style={{ color: "var(--accent)" }}>{result.rows.length} cols</span>
-                      <span style={{ color: "#34d399" }}>{result.rows.length - mismatches} ok</span>
-                      <span style={{ color: "#ef4444" }}>{mismatches} diff</span>
+                      <span style={{ color: "var(--good)" }}>{result.rows.length - mismatches} ok</span>
+                      <span style={{ color: "var(--bad)" }}>{mismatches} diff</span>
                     </div>
                   </div>
 
