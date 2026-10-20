@@ -6,6 +6,7 @@ import assert from "node:assert/strict";
 import { generateDataset } from "../../lib/retail/generate.js";
 import { runUseCase, useCases } from "../../lib/retail/engine/index.js";
 import { runPlanner } from "../../lib/retail/planner.js";
+import { buildStory } from "../../lib/retail/story.js";
 
 const ds = generateDataset();
 const source = { kind: "generated", meta: async () => ds.meta, get: async (name, f = {}) => ds[name].filter((r) => (!f.styles || f.styles.includes(r.style_id)) && (!f.vendors || f.vendors.includes(r.vendor_id))) };
@@ -159,6 +160,17 @@ check("…and colors diverge: a rising color is chased, fading ones marked down"
   assert.equal(tag("CREW-TEE-BLA"), "markdown");
   assert.equal(tag("POLO-TEE-COR"), "markdown");
   assert.notEqual(tag("POLO-TEE-WHI"), "markdown");
+});
+
+const story = buildStory(pl);
+check("Story: plays end to end with four decisions, every number filled in", () => {
+  assert.ok(story.steps.length >= 14, `${story.steps.length} steps`);
+  const decisions = story.steps.filter((s) => s.decision);
+  assert.equal(decisions.length, 4);
+  assert.ok(decisions.every((s) => s.decision.options.some((o) => o.recommended && o.value > 0)), "a decision has no value to unlock");
+  const text = JSON.stringify(story);
+  assert.ok(!/undefined|NaN|null days|\$NaN/.test(text), "a step has a missing number");
+  assert.ok(story.steps.every((s) => s.lines.length && s.screens.length), "a step has no narration or no screens");
 });
 
 console.log(`\n${checks.join("\n")}`);

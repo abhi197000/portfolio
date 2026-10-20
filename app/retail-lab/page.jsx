@@ -33,10 +33,10 @@ export default async function RetailLabHub() {
       </section>
 
       <Link href="/retail-lab/planner" className="lab-hub-story">
-        <span className="lab-hub-story-k">★ New · one story</span>
-        <strong>A planner&apos;s Monday: all nine decisions, {stores.length} stores, 56 articles</strong>
-        <span>Every style-color tagged with the action it needs most, the evidence behind the tag, and the video that explains it.</span>
-        <span className="lab-hub-go">Read the story →</span>
+        <span className="lab-hub-story-k">Start here · the story · about 3 minutes</span>
+        <strong>A planner&apos;s Monday, played end to end in VR</strong>
+        <span>Follow Jordan, a planner and allocator, through all nine decisions: what&apos;s happening with each article and why the agent recommends what it does. Pause any step, or make four calls that unlock value along the way.</span>
+        <span className="lab-hub-go">▶ Play the story</span>
       </Link>
 
       <div className="lab-hub-grid">
