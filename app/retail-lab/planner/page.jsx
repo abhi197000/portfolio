@@ -1,23 +1,24 @@
 import { getSource } from "../../../lib/retail/source";
 import { plannerData } from "../../../lib/retail/planner";
+import { buildStory } from "../../../lib/retail/story";
 import { LAB } from "../content";
 import { Shell } from "../_kit/ui";
-import PlannerStory from "./PlannerStory";
+import StoryPlayer from "./StoryPlayer";
 
 export const revalidate = 600;
 
 export const metadata = {
-  title: "A planner's Monday · Agentic Retail Lab",
-  description: "All nine decisions from the LinkedIn series in one story: 56 articles, each tagged with the action it needs and the data behind the tag.",
+  title: "The story: a planner's Monday · Agentic Retail Lab",
+  description: "A planner and allocator's Monday morning, played end to end in VR: what's happening with the articles, why the agent recommends each action, and four decisions you can make along the way.",
 };
 
-export default async function PlannerPage() {
-  const data = await plannerData(await getSource());
-  // the client only needs each use case's look and name, not its content functions
-  const looks = Object.fromEntries(Object.entries(LAB).map(([id, c]) => [id, { theme: c.theme, video: c.video, n: c.n, title: c.title.join("") }]));
+export default async function StoryPage() {
+  const story = buildStory(await plannerData(await getSource()));
+  // the client only needs each use case's name and number, not its content functions
+  const looks = Object.fromEntries(Object.entries(LAB).map(([id, c]) => [id, { video: c.video, n: c.n }]));
   return (
-    <Shell theme="t-hub" source={data.source} asOf={data.as_of} active="planner">
-      <PlannerStory data={data} looks={looks} />
+    <Shell theme="t-vr" source={story.source} asOf={story.as_of} active="planner">
+      <StoryPlayer story={story} looks={looks} />
     </Shell>
   );
 }
