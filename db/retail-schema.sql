@@ -170,6 +170,20 @@ CREATE TABLE IF NOT EXISTS retail_asn_lines (
   PRIMARY KEY (asn_no, line_no)
 );
 
+-- articles: the style-colors a planner allocates (the planner story). Each color splits
+-- its style's numbers: sales by sales_mix (tilted toward warm stores by warm_tilt and
+-- trending by trend a week), stock by stock_mix.
+CREATE TABLE IF NOT EXISTS retail_articles (
+  article_id TEXT PRIMARY KEY,
+  style_id   TEXT NOT NULL REFERENCES retail_products(style_id),
+  color      TEXT NOT NULL,
+  hex        TEXT NOT NULL,
+  sales_mix  NUMERIC(5, 3) NOT NULL,
+  stock_mix  NUMERIC(5, 3) NOT NULL,
+  trend      NUMERIC(5, 3) NOT NULL DEFAULT 0,
+  warm_tilt  NUMERIC(5, 3) NOT NULL DEFAULT 0
+);
+
 -- chain-level flow per week: shopper sales vs store orders vs DC orders (bullwhip)
 CREATE TABLE IF NOT EXISTS retail_replen_weekly (
   style_id          TEXT NOT NULL REFERENCES retail_products(style_id),
@@ -189,7 +203,7 @@ BEGIN
   FOREACH t IN ARRAY ARRAY[
     'retail_meta', 'retail_dcs', 'retail_stores', 'retail_vendors', 'retail_products',
     'retail_promotions', 'retail_sales_weekly', 'retail_sales_daily', 'retail_size_sales',
-    'retail_store_inventory', 'retail_dc_inventory', 'retail_purchase_orders', 'retail_asn_lines', 'retail_replen_weekly'
+    'retail_store_inventory', 'retail_dc_inventory', 'retail_purchase_orders', 'retail_asn_lines', 'retail_articles', 'retail_replen_weekly'
   ] LOOP
     EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', t);
     EXECUTE format('DROP POLICY IF EXISTS %I ON %I', t || '_public_read', t);

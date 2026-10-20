@@ -34,6 +34,9 @@ export function Shell({ theme, children, active, source, asOf }) {
 export function UseCaseNav({ active }) {
   return (
     <nav className="lab-nav" aria-label="Use cases">
+      <Link href="/retail-lab/planner" className={`lab-nav-story ${active === "planner" ? "on" : ""}`} aria-current={active === "planner" ? "page" : undefined}>
+        <b>★</b>A planner&apos;s Monday
+      </Link>
       {LAB_ORDER.map((id) => (
         <Link key={id} href={`/retail-lab/${id}`} className={id === active ? "on" : ""} aria-current={id === active ? "page" : undefined}>
           <b>{String(LAB[id].n).padStart(2, "0")}</b>

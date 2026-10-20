@@ -7584,5 +7584,5 @@ INSERT INTO retail_sales_weekly (store_no, style_id, week_start, units, on_hand_
 ON CONFLICT (store_no, style_id, week_start) DO NOTHING;
 
 -- Last: the marker row the app looks for before reading from Supabase.
-INSERT INTO retail_meta (key, value) VALUES ('retailer', '{"name":"Cobalt Lane Apparel","fictional":true,"currency":"USD","as_of":"2026-10-19","note":"Fictional retailer. All stores, vendors, products and numbers are generated demo data.","data_version":"v2","history_weeks":26,"history_from":"2026-04-20","history_to":"2026-10-18"}'::jsonb)
+INSERT INTO retail_meta (key, value) VALUES ('retailer', '{"name":"Cobalt Lane Apparel","fictional":true,"currency":"USD","as_of":"2026-10-19","note":"Fictional retailer. All stores, vendors, products and numbers are generated demo data.","data_version":"v3","history_weeks":26,"history_from":"2026-04-20","history_to":"2026-10-18"}'::jsonb)
 ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value;

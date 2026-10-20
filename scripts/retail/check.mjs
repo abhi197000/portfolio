@@ -5,6 +5,7 @@
 import assert from "node:assert/strict";
 import { generateDataset } from "../../lib/retail/generate.js";
 import { runUseCase, useCases } from "../../lib/retail/engine/index.js";
+import { runPlanner } from "../../lib/retail/planner.js";
 
 const ds = generateDataset();
 const source = { kind: "generated", meta: async () => ds.meta, get: async (name, f = {}) => ds[name].filter((r) => (!f.styles || f.styles.includes(r.style_id)) && (!f.vendors || f.vendors.includes(r.vendor_id))) };
@@ -133,6 +134,31 @@ check("…Store 14's socks land Oct 24 instead of Oct 31, and dock-to-store drop
 check("Overview offers Monday's truck for Store 14's socks", () => {
   const s = ov.stockouts.find((x) => x.store_no === 14 && x.style_id === "SOCKS-3PK");
   assert.ok(s?.options.some((o) => o.includes("ASN 30418")), "no cross-dock option");
+});
+
+const pl = await runPlanner(source);
+const tag = (id) => pl.articles.find((a) => a.article_id === id)?.action;
+check("Planner: 56 articles, each with a tag, evidence and the rule that fired", () => {
+  assert.equal(pl.articles.length, 56);
+  assert.ok(pl.articles.every((a) => a.action && a.why && a.evidence.length && a.rule));
+  assert.ok(pl.summary.need_action >= 30 && pl.summary.on_track >= 10, `${pl.summary.need_action} need action, ${pl.summary.on_track} on track`);
+});
+check("…the videos' cases land on their articles", () => {
+  assert.equal(tag("WHITE-TEE-WHI"), "cross_dock");
+  assert.equal(tag("HOODIE-CHA"), "trim_po");
+  assert.equal(tag("CHINO-KHK-KHA"), "store_depth");
+  assert.equal(tag("WOOL-COAT-CAM"), "flush");
+  assert.equal(tag("CHINO-BLK-BLA"), "hold");
+  assert.equal(tag("PRINT-SHIRT-PAI"), "off_price");
+  assert.equal(tag("FAIRISLE-CRERED"), "avg_per_store");
+  assert.equal(tag("PARKA-BLA"), "fixed_push");
+  assert.equal(tag("CREW-TEE-NAV"), "transfer");
+});
+check("…and colors diverge: a rising color is chased, fading ones marked down", () => {
+  assert.equal(tag("CREW-TEE-FOR"), "chase");
+  assert.equal(tag("CREW-TEE-BLA"), "markdown");
+  assert.equal(tag("POLO-TEE-COR"), "markdown");
+  assert.notEqual(tag("POLO-TEE-WHI"), "markdown");
 });
 
 console.log(`\n${checks.join("\n")}`);

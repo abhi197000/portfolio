@@ -2,7 +2,7 @@
 -- Retail demo seed, part 1 of 3: stores, products, vendors, POs, inventory, launch-week and size sales
 -- Paste into the Supabase SQL Editor after db/retail-schema.sql, parts in order.
 
-TRUNCATE retail_meta, retail_replen_weekly, retail_asn_lines, retail_purchase_orders, retail_dc_inventory, retail_store_inventory, retail_size_sales, retail_sales_daily, retail_sales_weekly, retail_promotions, retail_products, retail_vendors, retail_stores, retail_dcs;
+TRUNCATE retail_meta, retail_replen_weekly, retail_articles, retail_asn_lines, retail_purchase_orders, retail_dc_inventory, retail_store_inventory, retail_size_sales, retail_sales_daily, retail_sales_weekly, retail_promotions, retail_products, retail_vendors, retail_stores, retail_dcs;
 
 INSERT INTO retail_dcs (dc_id, name, city, state, serves) VALUES
 ('DC-E','Columbus DC','Columbus','OH','East, Midwest, South'),
@@ -1732,6 +1732,64 @@ INSERT INTO retail_asn_lines (asn_no, line_no, vendor_id, po_no, style_id, dc_id
 (30418,4,'SOLA',4506,'POLO-TEE','DC-E',600,50,'2026-10-17','2026-10-19','Truckload via Laredo · trailer 2218'),
 (30419,1,'KORA',4489,'CHELSEA-BOOT','DC-E',444,74,'2026-10-17','2026-10-21','Container from port, by rail'),
 (30420,1,'NORTHLINE',4495,'HOODIE','DC-W',1690,169,'2026-10-19','2026-10-23','Container from port, by rail');
+
+INSERT INTO retail_articles (article_id, style_id, color, hex, sales_mix, stock_mix, trend, warm_tilt) VALUES
+('CREW-TEE-NAV','CREW-TEE','Navy','#23314f',0.38,0.37,0,0),
+('CREW-TEE-HEAGRE','CREW-TEE','Heather Grey','#a3a7ab',0.3,0.29,0,0),
+('CREW-TEE-FOR','CREW-TEE','Forest','#2f5a3f',0.2,0.11,0.06,-0.15),
+('CREW-TEE-BLA','CREW-TEE','Black','#1b1b1d',0.12,0.23,-0.04,0),
+('WHITE-TEE-WHI','WHITE-TEE','White','#f4f3ee',1,1,0,0),
+('POLO-TEE-WHI','POLO-TEE','White','#f2f1ec',0.4,0.33,0,0.1),
+('POLO-TEE-NAV','POLO-TEE','Navy','#253556',0.36,0.3,0,0),
+('POLO-TEE-COR','POLO-TEE','Coral','#ef7b62',0.24,0.37,-0.07,0.25),
+('OXFORD-LIGBLU','OXFORD','Light Blue','#a9c4e2',0.56,0.55,0,0),
+('OXFORD-WHI','OXFORD','White','#f2f2ee',0.44,0.45,0,0),
+('SOCKS-3PK-BLA','SOCKS-3PK','Black','#1c1c1e',0.55,0.55,0,0),
+('SOCKS-3PK-WHI','SOCKS-3PK','White','#f1f1ee',0.45,0.45,0,0),
+('SLIM-DENIM-INDRIN','SLIM-DENIM','Indigo Rinse','#2b3a5c',0.64,0.62,0,0),
+('SLIM-DENIM-BLA','SLIM-DENIM','Black','#1d1d21',0.36,0.38,0,0),
+('CHINO-KHK-KHA','CHINO-KHK','Khaki','#c3a77a',1,1,0,0),
+('CHINO-BLK-BLA','CHINO-BLK','Black','#202024',1,1,0,0),
+('CARGO-PANT-OLI','CARGO-PANT','Olive','#5d6236',0.6,0.55,0.01,0),
+('CARGO-PANT-SAN','CARGO-PANT','Sand','#cdb995',0.4,0.45,-0.03,0.1),
+('CORD-JACKET-TOB','CORD-JACKET','Tobacco','#7a4f2a',0.6,0.58,0,0),
+('CORD-JACKET-NAV','CORD-JACKET','Navy','#26324c',0.4,0.42,0,0),
+('HOODIE-CHA','HOODIE','Charcoal','#3c3e42',0.45,0.45,0,0),
+('HOODIE-OAT','HOODIE','Oatmeal','#d9ccb4',0.3,0.3,0,0),
+('HOODIE-BLA','HOODIE','Black','#1a1a1c',0.25,0.25,0,0),
+('MERINO-CREW-NAV','MERINO-CREW','Navy','#26324f',0.42,0.46,0,0),
+('MERINO-CREW-CAM','MERINO-CREW','Camel','#b98a55',0.34,0.22,0.05,0),
+('MERINO-CREW-CHA','MERINO-CREW','Charcoal','#45474b',0.24,0.32,0,0),
+('KNIT-BEANIE-RUS','KNIT-BEANIE','Rust','#a4502b',0.4,0.26,0.05,0),
+('KNIT-BEANIE-CHA','KNIT-BEANIE','Charcoal','#44464a',0.35,0.4,0,0),
+('KNIT-BEANIE-CRE','KNIT-BEANIE','Cream','#ece2cf',0.25,0.34,-0.02,0),
+('PROMO-HOODIE-GRABLA','PROMO-HOODIE','Graphic Black','#18181a',0.6,0.6,0,0),
+('PROMO-HOODIE-GRAGRE','PROMO-HOODIE','Graphic Grey','#8e9196',0.4,0.4,0,0),
+('FAIRISLE-CRERED','FAIRISLE','Cream / Red','#e8dcc6',0.55,0.55,0,0),
+('FAIRISLE-NAVGRE','FAIRISLE','Navy / Green','#24344f',0.45,0.45,0,0),
+('WOOL-COAT-CAM','WOOL-COAT','Camel','#b88a57',0.55,0.5,0,0),
+('WOOL-COAT-CHA','WOOL-COAT','Charcoal','#3f4145',0.45,0.5,0,0),
+('PUFFER-VEST-BLA','PUFFER-VEST','Black','#19191b',0.5,0.48,0,0),
+('PUFFER-VEST-OLI','PUFFER-VEST','Olive','#59613a',0.3,0.3,0,0),
+('PUFFER-VEST-NAV','PUFFER-VEST','Navy','#253150',0.2,0.22,0,0),
+('PARKA-BLA','PARKA','Black','#18181b',0.45,0.42,0,0),
+('PARKA-NAV','PARKA','Navy','#232f4c',0.35,0.36,0,0),
+('PARKA-SAG','PARKA','Sage','#9aa98a',0.2,0.22,0,0),
+('RAIN-SHELL-NAV','RAIN-SHELL','Navy','#26334f',0.4,0.36,0,0),
+('RAIN-SHELL-BLA','RAIN-SHELL','Black','#1c1c1f',0.34,0.3,0,0),
+('RAIN-SHELL-YEL','RAIN-SHELL','Yellow','#e6c229',0.26,0.34,-0.045,0.1),
+('PRINT-SHIRT-PALPRI','PRINT-SHIRT','Palm Print','#3f7d6a',0.55,0.5,0,0.1),
+('PRINT-SHIRT-PAI','PRINT-SHIRT','Paisley','#7b3f5a',0.45,0.5,0,0),
+('LINEN-SHIRT-WHI','LINEN-SHIRT','White','#f3f1ea',0.45,0.45,0,0.1),
+('LINEN-SHIRT-SKY','LINEN-SHIRT','Sky','#a8cbe8',0.3,0.3,0,0.1),
+('LINEN-SHIRT-SAN','LINEN-SHIRT','Sand','#d4c3a3',0.25,0.25,0,0),
+('RETRO-RUNNER-WHIGUM','RETRO-RUNNER','White / Gum','#efe9dc',0.6,0.58,0,0),
+('RETRO-RUNNER-BLAWHI','RETRO-RUNNER','Black / White','#202022',0.4,0.42,0,0),
+('COLLAB-SNKR-VOL','COLLAB-SNKR','Volt','#c9e43a',1,1,0,0),
+('CHELSEA-BOOT-BRO','CHELSEA-BOOT','Brown','#6b4026',0.6,0.58,0,0),
+('CHELSEA-BOOT-BLA','CHELSEA-BOOT','Black','#1c1b1d',0.4,0.42,0,0),
+('LEATHER-BELT-BRO','LEATHER-BELT','Brown','#6e4428',0.55,0.55,0,0),
+('LEATHER-BELT-BLA','LEATHER-BELT','Black','#1d1c1e',0.45,0.45,0,0);
 
 INSERT INTO retail_replen_weekly (style_id, week_start, pos_units, store_order_units, dc_order_units) VALUES
 ('HOODIE','2026-04-20',465,452,0),
