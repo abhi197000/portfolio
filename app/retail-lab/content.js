@@ -129,6 +129,21 @@ export const LAB = {
       return { value: `${v.min}–${v.max} days`, label: `${v.name}'s real lead time (promised ${v.promised})` };
     },
   },
+  "cross-dock": {
+    n: 9,
+    theme: "t-xdock",
+    video: "Cross-dock at receipt",
+    kicker: "Vendor → DC · Cross-dock",
+    title: ["Don't park it. ", "Cross-dock what stores need."],
+    intro: "The ship notice arrives before the truck. The agent splits it then: units stores need before the next allocation run go straight from the inbound dock to store doors; the rest goes into reserve.",
+    how: [
+      "Route A (put away): receive, put away the next day, wait for the next Monday allocation run, pick and pack in 2 days, then the store's own truck.",
+      "Route B (cross-dock): sorted to the store's door the day it lands, on the store's next truck.",
+      "A store is cross-docked if, waiting for route A, it would dip under its display minimum plus a few days of sales; it's filled to 2 weeks of cover in whole case packs.",
+      "If the truck can't cover every gap, cartons are shared in proportion to need; everything else restocks reserve.",
+    ],
+    headline: (r) => ({ value: `${r.totals.dock_to_store_put_away} → ${r.totals.dock_to_store_cross_dock ?? "—"}`, label: `days dock to store for ${r.totals.cross_dock.toLocaleString("en-US")} cross-docked units` }),
+  },
 };
 
 export const LAB_ORDER = Object.keys(LAB);

@@ -154,6 +154,22 @@ CREATE TABLE IF NOT EXISTS retail_purchase_orders (
 );
 CREATE INDEX IF NOT EXISTS idx_retail_po_vendor ON retail_purchase_orders(vendor_id, order_date);
 
+-- advance ship notices: what's on each truck heading for a DC this week (cross-dock)
+CREATE TABLE IF NOT EXISTS retail_asn_lines (
+  asn_no     INTEGER NOT NULL,
+  line_no    SMALLINT NOT NULL,
+  vendor_id  TEXT NOT NULL REFERENCES retail_vendors(vendor_id),
+  po_no      INTEGER NOT NULL REFERENCES retail_purchase_orders(po_no),
+  style_id   TEXT NOT NULL REFERENCES retail_products(style_id),
+  dc_id      TEXT NOT NULL REFERENCES retail_dcs(dc_id),
+  units      INTEGER NOT NULL,
+  cartons    INTEGER NOT NULL,
+  shipped_on DATE NOT NULL,
+  eta        DATE NOT NULL,
+  carrier    TEXT,
+  PRIMARY KEY (asn_no, line_no)
+);
+
 -- chain-level flow per week: shopper sales vs store orders vs DC orders (bullwhip)
 CREATE TABLE IF NOT EXISTS retail_replen_weekly (
   style_id          TEXT NOT NULL REFERENCES retail_products(style_id),
@@ -173,7 +189,7 @@ BEGIN
   FOREACH t IN ARRAY ARRAY[
     'retail_meta', 'retail_dcs', 'retail_stores', 'retail_vendors', 'retail_products',
     'retail_promotions', 'retail_sales_weekly', 'retail_sales_daily', 'retail_size_sales',
-    'retail_store_inventory', 'retail_dc_inventory', 'retail_purchase_orders', 'retail_replen_weekly'
+    'retail_store_inventory', 'retail_dc_inventory', 'retail_purchase_orders', 'retail_asn_lines', 'retail_replen_weekly'
   ] LOOP
     EXECUTE format('ALTER TABLE %I ENABLE ROW LEVEL SECURITY', t);
     EXECUTE format('DROP POLICY IF EXISTS %I ON %I', t || '_public_read', t);

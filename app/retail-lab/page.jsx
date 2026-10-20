@@ -21,7 +21,7 @@ export default async function RetailLabHub() {
     <Shell theme="t-hub" source={source.kind} asOf={meta.as_of}>
       <section className="lab-hero hub">
         <p className="lab-kicker">
-          <span>08</span>LinkedIn series · live
+          <span>{String(results.length).padStart(2, "0")}</span>LinkedIn series · live
         </p>
         <h1>
           The decisions from the videos, <em>running on real-looking data.</em>
@@ -65,7 +65,7 @@ export default async function RetailLabHub() {
             <b>The agents</b> are deterministic decision rules. Every recommendation can be traced back to a number on the page.
           </li>
           <li>
-            <b>Every case from the videos</b> is in the data: Store 14&apos;s Thursday stockout, Denver&apos;s &ldquo;zero demand&rdquo;, PO 4471&apos;s 27-day crossing.
+            <b>Every case from the videos</b> is in the data: Store 14&apos;s Thursday stockout, Denver&apos;s &ldquo;zero demand&rdquo;, PO 4471&apos;s 27-day crossing, Monday&apos;s Sola truck into Columbus.
           </li>
         </ul>
       </section>
