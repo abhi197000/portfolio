@@ -32,6 +32,13 @@ export default async function RetailLabHub() {
         </p>
       </section>
 
+      <Link href="/retail-lab/planner" className="lab-hub-story">
+        <span className="lab-hub-story-k">★ New · one story</span>
+        <strong>A planner&apos;s Monday: all nine decisions, {stores.length} stores, 56 articles</strong>
+        <span>Every style-color tagged with the action it needs most, the evidence behind the tag, and the video that explains it.</span>
+        <span className="lab-hub-go">Read the story →</span>
+      </Link>
+
       <div className="lab-hub-grid">
         {results.map((r) => {
           const c = LAB[r.use_case.id];
